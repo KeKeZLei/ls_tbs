@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lionsource.tbs.comm.dao.NewsMapper" >
+  <resultMap id="BaseResultMap" type="com.lionsource.tbs.comm.model.News" >
+    <id column="news_id" property="newsId" jdbcType="INTEGER" />
+    <result column="news_title" property="newsTitle" jdbcType="VARCHAR" />
+    <result column="news_subtitle" property="newsSubtitle" jdbcType="VARCHAR" />
+    <result column="news_thumb" property="newsThumb" jdbcType="VARCHAR" />
+    <result column="news_cover" property="newsCover" jdbcType="VARCHAR" />
+    <result column="news_state" property="newsState" jdbcType="INTEGER" />
+    <result column="news_createtime" property="newsCreatetime" jdbcType="TIMESTAMP" />
+    <result column="news_content" property="newsContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from news
+    where news_id = #{newsId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lionsource.tbs.comm.model.News" >
+    insert into news (news_id, news_title, news_subtitle, 
+      news_thumb, news_cover, news_state, 
+      news_createtime, news_content)
+    values (#{newsId,jdbcType=INTEGER}, #{newsTitle,jdbcType=VARCHAR}, #{newsSubtitle,jdbcType=VARCHAR}, 
+      #{newsThumb,jdbcType=VARCHAR}, #{newsCover,jdbcType=VARCHAR}, 1,
+      now(), #{newsContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.lionsource.tbs.comm.model.News" >
+    update news
+    set news_title = #{newsTitle,jdbcType=VARCHAR},
+      news_subtitle = #{newsSubtitle,jdbcType=VARCHAR},
+      news_thumb = #{newsThumb,jdbcType=VARCHAR},
+      news_cover = #{newsCover,jdbcType=VARCHAR},
+      news_state = #{newsState,jdbcType=INTEGER},
+      news_createtime = #{newsCreatetime,jdbcType=TIMESTAMP},
+      news_content = #{newsContent,jdbcType=LONGVARCHAR}
+    where news_id = #{newsId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select news_id, news_title, news_subtitle, news_thumb, news_cover, news_state, news_createtime, 
+    news_content
+    from news
+    where news_id = #{newsId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select news_id, news_title, news_subtitle, news_thumb, news_cover, news_state, news_createtime, 
+    news_content
+    from news
+  </select>
+  <!--根据参数查询所有新闻-->
+  <select id="selectAllByParam" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select news_id, nc_id, news_title, news_thumb, news_cover, news_state, news_createtime, news_subtitle,
+    news_content
+    from news
+    where 1=1
+    <if test="newsTitle != null and newsTitle != ''">and news_title like '%${newsTitle}%'</if>
+    <if test="startTime!=null and startTime != ''">and TO_DAYS(news_createtime) >= TO_DAYS(str_to_date(#{startTime}, '%Y-%m-%d'))</if>
+    <if test="endTime!=null and endTime != ''">and TO_DAYS(news_createtime) &lt;= TO_DAYS(str_to_date(#{endTime}, '%Y-%m-%d'))</if>
+    order by news_createtime desc
+  </select>
+  <!--修改新闻状态-->
+  <update id="updateState" parameterType="com.lionsource.tbs.comm.model.News" >
+    update news
+    set
+      news_state = #{newsState}
+    where news_id = #{newsId}
+  </update>
+  <!--根据标题查询新闻-->
+  <select id="selectByTitle" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select news_id, news_title, news_subtitle, news_thumb, news_cover, news_state, news_createtime,
+    news_content
+    from news
+    where news_title = #{newsTitle}
+  </select>
+  <!--批量删除新闻-->
+  <delete id="batchDelete" parameterType="java.lang.String" >
+    delete from news
+    where FIND_IN_SET(news_id,#{newsIds}) > 0
+  </delete>
+</mapper>

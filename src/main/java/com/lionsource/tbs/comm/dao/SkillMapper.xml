@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lionsource.tbs.comm.dao.SkillMapper" >
+  <resultMap id="BaseResultMap" type="com.lionsource.tbs.comm.model.Skill" >
+    <id column="skill_id" property="skillId" jdbcType="INTEGER" />
+    <result column="skill_name" property="skillName" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from skill
+    where skill_id = #{skillId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lionsource.tbs.comm.model.Skill" >
+    insert into skill (skill_id, skill_name)
+    values (#{skillId,jdbcType=INTEGER}, #{skillName,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.lionsource.tbs.comm.model.Skill" >
+    update skill
+    set skill_name = #{skillName,jdbcType=VARCHAR}
+    where skill_id = #{skillId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select skill_id, skill_name
+    from skill
+    where skill_id = #{skillId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select skill_id, skill_name
+    from skill
+  </select>
+  <!--根据技能名称查询技能-->
+  <select id="selectBySkillName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select skill_id, skill_name
+    from skill
+    where skill_name = #{skillName}
+  </select>
+</mapper>

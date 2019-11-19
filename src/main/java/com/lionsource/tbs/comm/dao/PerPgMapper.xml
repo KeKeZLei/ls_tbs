@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lionsource.tbs.comm.dao.PerPgMapper" >
+  <resultMap id="BaseResultMap" type="com.lionsource.tbs.comm.model.PerPg" >
+    <id column="pp_id" property="ppId" jdbcType="INTEGER" />
+    <result column="per_id" property="perId" jdbcType="INTEGER" />
+    <result column="perg_id" property="pergId" jdbcType="INTEGER" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from per_pg
+    where pp_id = #{ppId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lionsource.tbs.comm.model.PerPg" >
+    insert into per_pg (pp_id, per_id, perg_id
+      )
+    values (#{ppId,jdbcType=INTEGER}, #{perId,jdbcType=INTEGER}, #{pergId,jdbcType=INTEGER}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.lionsource.tbs.comm.model.PerPg" >
+    update per_pg
+    set per_id = #{perId,jdbcType=INTEGER},
+      perg_id = #{pergId,jdbcType=INTEGER}
+    where pp_id = #{ppId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select pp_id, per_id, perg_id
+    from per_pg
+    where pp_id = #{ppId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select pp_id, per_id, perg_id
+    from per_pg
+  </select>
+</mapper>

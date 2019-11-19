@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="utf-8">
+    <title>预订运营平台 - 编辑商品</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" th:href="@{/static/lib/layui-v2.5.4/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/static/css/public.css}" media="all">
+</head>
+<body class="layui-dialog-body">
+<form class="layui-form layui-form-pane" action="" lay-filter="formdata">
+    <div class="layui-row layui-col-space5">
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+            <div class="layui-form-item text-center">
+                <div class="layui-upload-drag" id="fileUpload1">
+                    <i class="layui-icon layui-icon-upload"></i>
+                    <p>商品缩略图</p>
+                </div>
+                <p class="msg-red">标准尺寸：175px * 175px</p>
+            </div>
+        </div>
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+            <div class="layui-form-item text-center">
+                <div class="layui-upload-drag" id="fileUpload2">
+                    <i class="layui-icon layui-icon-upload"></i>
+                    <p>商品封图</p>
+                </div>
+                <p class="msg-red">标准尺寸：750px * 360px</p>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space5">
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+            <div class="layui-form-item">
+                <label class="layui-form-label">商品名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="proName" lay-verify="required" autocomplete="off" placeholder="请输入商品名称"
+                           class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+            <div class="layui-form-item">
+                <label class="layui-form-label">商品类型</label>
+                <div class="layui-input-block">
+                    <select name="pcId" id="pcId" lay-filter="pcId" lay-verify="required" lay-search>
+                        <option value="">直接选择或搜索选择</option>
+                        <option th:each="list:${proClass}" th:value="${list.pcId}" th:text="${list.pcName}"/>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space5">
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+            <div class="layui-form-item">
+                <label class="layui-form-label">结算价格</label>
+                <div class="layui-input-block">
+                    <input type="text" name="proSaleprice" lay-verify="number" autocomplete="off"
+                           placeholder="请输入计算价格"
+                           class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+            <div class="layui-form-item">
+                <label class="layui-form-label">显示价格</label>
+                <div class="layui-input-block">
+                    <input type="text" name="proShowprice" lay-verify="number" autocomplete="off"
+                           placeholder="请输入显示价格"
+                           class="layui-input">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space5">
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+            <div class="layui-form-item">
+                <label class="layui-form-label">市场价格</label>
+                <div class="layui-input-block">
+                    <input type="text" name="proMarketprice" lay-verify="number" autocomplete="off"
+                           placeholder="请输入市场价格"
+                           class="layui-input">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row">
+        <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">商品简介</label>
+                <div class="layui-input-block">
+                    <textarea name="proDescribe" placeholder="请输入简介内容" class="layui-textarea"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space5">
+        <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">商品详情</label>
+                <div class="layui-input-block">
+                    <div id="editor">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block layui-align-right">
+            <button class="layui-btn" lay-submit="" lay-filter="submit">立即提交</button>
+        </div>
+    </div>
+    <input type="hidden" name="proId" id="proId"/>
+</form>
+<script th:src="@{/static/lib/jquery-3.4.1/jquery-3.4.1.min.js}" charset="utf-8"></script>
+<script th:src="@{/static/lib/layui-v2.5.4/layui.js}" charset="utf-8"></script>
+<script th:src="@{/static/js/lay-config.js?v=1.0.4}" charset="utf-8"></script>
+<script th:src="@{/static/js/public.js}" charset="utf-8"></script>
+<script>
+    var editor;
+    var proCover = "",proThumb = "";	 	//图片地址
+
+    layui.use(['form', 'wangEditor', 'upload'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            wangEditor = layui.wangEditor,
+            upload = layui.upload;
+
+        var posterWidth = 750,thumbWidth=175;	//图片宽度上限
+        var posterHeight = 360,thumbHeight=175;	//图片高度上限
+
+        var count = 0;	//提交次数
+
+        //上传缩略图片
+        upload.render({
+            elem: '#fileUpload1',
+            url: "uploadImage",
+            multiple: true,
+            auto: false,
+            data: {"type": 1},
+            choose: function (obj) {
+                obj.preview(function (index, file, result) {
+                    var img = new Image();
+                    img.onload = function () {
+                        if (thumbWidth <= img.width && thumbHeight <= img.height) {
+                            obj.upload(index, file);
+                        } else {
+                            layer.msg('图片标准尺寸为：' + thumbWidth + 'px * ' + thumbHeight + 'px');
+                        }
+                    };
+                    img.src = result;
+                });
+            },
+            before: function (obj) {
+                layer.msg('图片上传中...', {
+                    icon: 16,
+                    shade: 0.01,
+                    time: 0
+                });
+            },
+            done: function (res) {
+                //关闭上传提示窗口
+                layer.close(layer.msg());
+                //图片回显
+                var fileObj = res.data;
+                //删除之前图片
+                if (proThumb != null && proThumb != "") {
+                    $.ajax({
+                        url: "deleteFile", //请求接口
+                        type: "get",   //请求方式
+                        data: {     //参数列表
+                            "fileName": proThumb,
+                            "type": 1
+                        },
+                        dataType: "json",
+                        async: false
+                    });
+                }
+                proThumb = fileObj.uuid + fileObj.suffix;
+                var str = "<img src='showImage?imgName=" + proThumb + "&type=1' class='img-thumb'>";
+                $('#fileUpload1').html(str);
+            }
+        });
+
+        //上传封面图片
+        upload.render({
+            elem: '#fileUpload2',
+            url: "uploadImage",
+            multiple: true,
+            auto: false,
+            data: {"type": 1},
+            choose: function (obj) {
+                obj.preview(function (index, file, result) {
+                    var img = new Image();
+                    img.onload = function () {
+                        if (posterWidth <= img.width && posterHeight <= img.height) {
+                            obj.upload(index, file);
+                        } else {
+                            layer.msg('图片标准尺寸为：' + posterWidth + 'px * ' + posterHeight + 'px');
+                        }
+                    };
+                    img.src = result;
+                });
+            },
+            before: function (obj) {
+                layer.msg('图片上传中...', {
+                    icon: 16,
+                    shade: 0.01,
+                    time: 0
+                });
+            },
+            done: function (res) {
+                //关闭上传提示窗口
+                layer.close(layer.msg());
+                //图片回显
+                var fileObj = res.data;
+                //删除之前图片
+                if (proCover != null && proCover != "") {
+                    $.ajax({
+                        url: "deleteFile", //请求接口
+                        type: "get",   //请求方式
+                        data: {     //参数列表
+                            "fileName": proCover,
+                            "type": 1
+                        },
+                        dataType: "json",
+                        async: false
+                    });
+                }
+                proCover = fileObj.uuid + fileObj.suffix;
+                var str = "<img src='showImage?imgName=" + proCover + "&type=1' class='img-cover'>";
+                $('#fileUpload2').html(str);
+            }
+        });
+
+        // 监听提交操作
+        form.on('submit(submit)', function (data) {
+            if (proThumb == "") {
+                layer.msg("请上传商品缩略图");
+                return false;
+            }
+            if (proCover == "") {
+                layer.msg("请上传商品封图");
+                return false;
+            }
+            data.field["proThumb"] = proThumb;
+            data.field["proCover"] = proCover;
+            data.field["proDetails"] = editor.txt.html();
+            //次数控制，点击多次也只提交一次
+            if (count > 0) {
+                return false;
+            } else {
+                $.ajax({
+                    url: "manager/editProduct", //请求接口
+                    type: "post",   //请求方式
+                    data: data.field,
+                    dataType: "json",
+                    async: false,
+                    success: function (result) {
+                        if (result.code == 200) { //成功
+                            location.reload();
+                            parent.layer.closeAll();
+                            parent.layer.msg(result.msg);
+                        } else { //失败
+                            parent.layer.msg(result.msg);
+                        }
+                    }
+                });
+            }
+            //点击次数累加
+            count++;
+        });
+    });
+
+    //显示数据
+    function renderData(data) {
+        layui.use(['form', 'wangEditor', 'upload'], function () {
+            var $ = layui.jquery,
+                form = layui.form,
+                wangEditor = layui.wangEditor;
+
+            //初始化富文本
+            editor = initEditor();
+
+            form.val("formdata", {
+                "proId": data.proId,
+                "proName": data.proName,
+                "pcId": data.pcId,
+                "proDescribe": data.proDescribe,
+                "proSaleprice": data.proSaleprice,
+                "proShowprice": data.proShowprice,
+                "proMarketprice": data.proMarketprice
+            });
+            if (data.proThumb != null && data.proThumb != undefined && data.proThumb != '') {
+                //填充图片
+                proThumb = data.proThumb;
+                $('#fileUpload1').html("<img src='" + data.tagThumb + "' class='img-thumb'>");
+            }
+            if (data.proCover != null && data.proCover != undefined && data.proCover != '') {
+                //填充图片
+                proCover = data.proCover;
+                $('#fileUpload2').html("<img src='" + data.tagCover + "' class='img-cover'>");
+            }
+            if (data.proDetails != null && data.proDetails != undefined && data.proDetails != '') {
+                //填充富文本
+                editor.txt.html(data.proDetails);
+            }
+        });
+    }
+</script>
+</body>
+</html>

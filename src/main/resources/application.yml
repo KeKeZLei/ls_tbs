@@ -1,0 +1,87 @@
+  #系统上下文路径
+server:
+  servlet:
+    context-path: /ls_tbs
+  port: 8082
+
+spring:
+  jmx:
+    enabled: false
+  #数据库连接池配置
+  datasource:
+    name: DruidDataSource
+    type: com.alibaba.druid.pool.DruidDataSource
+#    url: jdbc:mysql://192.168.1.103:3306/tbs?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&autoReconnect=true&allowMultiQueries=true
+#    username: developer
+#    password: developer
+    url: jdbc:mysql://localhost:3306/tbs?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&autoReconnect=true&allowMultiQueries=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+    filters: stat
+    initialSize: 1
+    minIdle: 50
+    maxActive: 100
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    logSlowSql: true
+  #Thymeleaf模板引擎配置
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    servlet:
+      content-type: text/html
+    encoding: utf-8
+    mode: HTML5
+    check-template: true
+    check-template-location: true
+    cache: false
+  #Redis配置
+  application:
+    name: spring-boot-redis
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 0
+    password:
+    ssl: false #启动ssl支持
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1ms
+        max-idle: 8
+        min-idle: 0
+    timeout: 20000ms
+  #Springboot文件上传配置
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 500MB
+      max-request-size: 500MB
+      file-size-threshold: 0
+  #Mybatis配置
+  mybatis:
+    mapper-locations: classpath*:com/lionsource/tbs/comm/dao/**/*.xml
+    type-aliases-package: com.lionsource.tbs.comm.model
+    configuration:
+      log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+  #Pagehelper分页插件配置
+  pagehelper:
+    helper-dialect: mysql
+    reasonable: true
+    support-methods-arguments: true
+    offset-as-page-num: true
+    row-bounds-with-count: true
+    page-size-zero: true
+    params: count=countSql;pageNum=pageHelperStart;pageSize=pageHelperRows;
+
+  #国际化资源
+  messages:
+    basename: i18n.message

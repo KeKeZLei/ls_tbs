@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lionsource.tbs.comm.dao.CollectionMapper">
+
+    <resultMap id="BaseResultMap" type="com.lionsource.tbs.comm.model.Collection">
+        <id column="coll_id" property="collId" jdbcType="INTEGER"/>
+        <result column="ste_id" property="steId" jdbcType="INTEGER"/>
+        <result column="mem_id" property="memId" jdbcType="INTEGER"/>
+        <result column="coll_createtime" property="collCreatetime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from collection
+    where coll_id = #{collId,jdbcType=INTEGER}
+    </delete>
+
+    <insert id="insert" parameterType="com.lionsource.tbs.comm.model.Collection">
+      insert into collection (coll_id, ste_id, mem_id,
+        coll_createtime)
+      values (#{collId,jdbcType=INTEGER}, #{steId,jdbcType=INTEGER}, #{memId,jdbcType=INTEGER},
+        #{collCreatetime,jdbcType=TIMESTAMP})
+   </insert>
+
+    <update id="updateByPrimaryKey" parameterType="com.lionsource.tbs.comm.model.Collection">
+    update collection
+      set ste_id = #{steId,jdbcType=INTEGER},
+        mem_id = #{memId,jdbcType=INTEGER},
+        coll_createtime = #{collCreatetime,jdbcType=TIMESTAMP}
+      where coll_id = #{collId,jdbcType=INTEGER}
+  </update>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select coll_id, ste_id, mem_id, coll_createtime
+        from collection
+        where coll_id = #{collId,jdbcType=INTEGER}
+   </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+      select coll_id, ste_id, mem_id, coll_createtime
+      from collection
+    </select>
+</mapper>

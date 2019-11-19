@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lionsource.tbs.comm.dao.ReferrerMapper" >
+  <resultMap id="BaseResultMap" type="com.lionsource.tbs.comm.model.Referrer" >
+    <id column="ref_id" property="refId" jdbcType="INTEGER" />
+    <result column="ref_openid" property="refOpenid" jdbcType="VARCHAR" />
+    <result column="ref_head" property="refHead" jdbcType="VARCHAR" />
+    <result column="ref_name" property="refName" jdbcType="VARCHAR" />
+    <result column="ref_tel" property="refTel" jdbcType="VARCHAR" />
+    <result column="ref_idcardnum" property="refIdcardnum" jdbcType="VARCHAR" />
+    <result column="ref_idcardfront" property="refIdcardfront" jdbcType="VARCHAR" />
+    <result column="ref_idcardreverse" property="refIdcardreverse" jdbcType="VARCHAR" />
+    <result column="ref_idcardreason" property="refIdcardreason" jdbcType="VARCHAR" />
+    <result column="ref_banknum" property="refBanknum" jdbcType="VARCHAR" />
+    <result column="ref_bankdeposit" property="refBankdeposit" jdbcType="VARCHAR" />
+    <result column="ref_bankfront" property="refBankfront" jdbcType="VARCHAR" />
+    <result column="ref_bankaudit" property="refBankaudit" jdbcType="VARCHAR" />
+    <result column="ref_bankreason" property="refBankreason" jdbcType="VARCHAR" />
+    <result column="ref_province" property="refProvince" jdbcType="INTEGER" />
+    <result column="ref_city" property="refCity" jdbcType="INTEGER" />
+    <result column="ref_county" property="refCounty" jdbcType="INTEGER" />
+    <result column="ref_address" property="refAddress" jdbcType="VARCHAR" />
+    <result column="ref_realnamestate" property="refRealnamestate" jdbcType="VARCHAR" />
+    <result column="ref_createtime" property="refCreatetime" jdbcType="TIMESTAMP" />
+    <result column="ref_coopterm" property="refCoopterm" jdbcType="DATE" />
+    <result column="ref_state" property="refState" jdbcType="INTEGER" />
+    <result column="ref_nickname" property="refNickname" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from referrer
+    where ref_id = #{refId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lionsource.tbs.comm.model.Referrer" >
+    insert into referrer (ref_id, ref_openid, ref_head, 
+      ref_name, ref_tel, ref_idcardnum, 
+      ref_idcardfront, ref_idcardreverse, ref_idcardreason, 
+      ref_banknum, ref_bankdeposit, ref_bankfront, 
+      ref_bankaudit, ref_bankreason, ref_province, 
+      ref_city, ref_county, ref_address, 
+      ref_realnamestate, ref_createtime, ref_coopterm, 
+      ref_state, ref_nickname)
+    values (#{refId,jdbcType=INTEGER}, #{refOpenid,jdbcType=VARCHAR}, #{refHead,jdbcType=VARCHAR}, 
+      #{refName,jdbcType=VARCHAR}, #{refTel,jdbcType=VARCHAR}, #{refIdcardnum,jdbcType=VARCHAR}, 
+      #{refIdcardfront,jdbcType=VARCHAR}, #{refIdcardreverse,jdbcType=VARCHAR}, #{refIdcardreason,jdbcType=VARCHAR}, 
+      #{refBanknum,jdbcType=VARCHAR}, #{refBankdeposit,jdbcType=VARCHAR}, #{refBankfront,jdbcType=VARCHAR}, 
+      #{refBankaudit,jdbcType=VARCHAR}, #{refBankreason,jdbcType=VARCHAR}, #{refProvince,jdbcType=INTEGER}, 
+      #{refCity,jdbcType=INTEGER}, #{refCounty,jdbcType=INTEGER}, #{refAddress,jdbcType=VARCHAR}, 
+      #{refRealnamestate,jdbcType=VARCHAR}, #{refCreatetime,jdbcType=TIMESTAMP}, #{refCoopterm,jdbcType=DATE}, 
+      #{refState,jdbcType=INTEGER}, #{refNickname,jdbcType=LONGVARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.lionsource.tbs.comm.model.Referrer" >
+    update referrer
+    set ref_openid = #{refOpenid,jdbcType=VARCHAR},
+      ref_head = #{refHead,jdbcType=VARCHAR},
+      ref_name = #{refName,jdbcType=VARCHAR},
+      ref_tel = #{refTel,jdbcType=VARCHAR},
+      ref_idcardnum = #{refIdcardnum,jdbcType=VARCHAR},
+      ref_idcardfront = #{refIdcardfront,jdbcType=VARCHAR},
+      ref_idcardreverse = #{refIdcardreverse,jdbcType=VARCHAR},
+      ref_idcardreason = #{refIdcardreason,jdbcType=VARCHAR},
+      ref_banknum = #{refBanknum,jdbcType=VARCHAR},
+      ref_bankdeposit = #{refBankdeposit,jdbcType=VARCHAR},
+      ref_bankfront = #{refBankfront,jdbcType=VARCHAR},
+      ref_bankaudit = #{refBankaudit,jdbcType=VARCHAR},
+      ref_bankreason = #{refBankreason,jdbcType=VARCHAR},
+      ref_province = #{refProvince,jdbcType=INTEGER},
+      ref_city = #{refCity,jdbcType=INTEGER},
+      ref_county = #{refCounty,jdbcType=INTEGER},
+      ref_address = #{refAddress,jdbcType=VARCHAR},
+      ref_realnamestate = #{refRealnamestate,jdbcType=VARCHAR},
+      ref_createtime = #{refCreatetime,jdbcType=TIMESTAMP},
+      ref_coopterm = #{refCoopterm,jdbcType=DATE},
+      ref_state = #{refState,jdbcType=INTEGER},
+      ref_nickname = #{refNickname,jdbcType=LONGVARCHAR}
+    where ref_id = #{refId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select ref_id, ref_openid, ref_head, ref_name, ref_tel, ref_idcardnum, ref_idcardfront, 
+    ref_idcardreverse, ref_idcardreason, ref_banknum, ref_bankdeposit, ref_bankfront, 
+    ref_bankaudit, ref_bankreason, ref_province, ref_city, ref_county, ref_address, ref_realnamestate, 
+    ref_createtime, ref_coopterm, ref_state, ref_nickname
+    from referrer
+    where ref_id = #{refId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select ref_id, ref_openid, ref_head, ref_name, ref_tel, ref_idcardnum, ref_idcardfront, 
+    ref_idcardreverse, ref_idcardreason, ref_banknum, ref_bankdeposit, ref_bankfront, 
+    ref_bankaudit, ref_bankreason, ref_province, ref_city, ref_county, ref_address, ref_realnamestate, 
+    ref_createtime, ref_coopterm, ref_state, ref_nickname
+    from referrer
+  </select>
+</mapper>

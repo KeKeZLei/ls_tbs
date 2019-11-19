@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lionsource.tbs.comm.dao.EmprelationMapper" >
+  <resultMap id="BaseResultMap" type="com.lionsource.tbs.comm.model.Emprelation" >
+    <id column="emprel_id" property="emprelId" jdbcType="INTEGER" />
+    <result column="mem_id" property="memId" jdbcType="INTEGER" />
+    <result column="ste_id" property="steId" jdbcType="INTEGER" />
+    <result column="emprel_state" property="emprelState" jdbcType="VARCHAR" />
+    <result column="emprel_starttime" property="emprelStarttime" jdbcType="TIMESTAMP" />
+    <result column="emprel_endtime" property="emprelEndtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from emprelation
+    where emprel_id = #{emprelId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lionsource.tbs.comm.model.Emprelation" >
+    insert into emprelation (emprel_id, mem_id, ste_id, 
+      emprel_state, emprel_starttime, emprel_endtime
+      )
+    values (#{emprelId,jdbcType=INTEGER}, #{memId,jdbcType=INTEGER}, #{steId,jdbcType=INTEGER}, 
+      #{emprelState,jdbcType=VARCHAR}, #{emprelStarttime,jdbcType=TIMESTAMP}, #{emprelEndtime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.lionsource.tbs.comm.model.Emprelation" >
+    update emprelation
+    set mem_id = #{memId,jdbcType=INTEGER},
+      ste_id = #{steId,jdbcType=INTEGER},
+      emprel_state = #{emprelState,jdbcType=VARCHAR},
+      emprel_starttime = #{emprelStarttime,jdbcType=TIMESTAMP},
+      emprel_endtime = #{emprelEndtime,jdbcType=TIMESTAMP}
+    where emprel_id = #{emprelId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select emprel_id, mem_id, ste_id, emprel_state, emprel_starttime, emprel_endtime
+    from emprelation
+    where emprel_id = #{emprelId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select emprel_id, mem_id, ste_id, emprel_state, emprel_starttime, emprel_endtime
+    from emprelation
+  </select>
+  <!--通过会员编号查询相关管家信息-->
+  <select id="selectBySteId" resultType="java.util.Map">
+    select emprel_id, mem_id, e.ste_id, emprel_state, emprel_starttime, emprel_endtime,
+    from emprelation e left join steward s on e.ste_id = s.ste_id
+  </select>
+</mapper>

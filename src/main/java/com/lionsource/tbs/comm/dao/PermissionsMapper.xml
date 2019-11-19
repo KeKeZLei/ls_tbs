@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lionsource.tbs.comm.dao.PermissionsMapper" >
+  <resultMap id="BaseResultMap" type="com.lionsource.tbs.comm.model.Permissions" >
+    <id column="per_id" property="perId" jdbcType="INTEGER" />
+    <result column="per_name" property="perName" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from permissions
+    where per_id = #{perId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lionsource.tbs.comm.model.Permissions" >
+    insert into permissions (per_id, per_name)
+    values (#{perId,jdbcType=INTEGER}, #{perName,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.lionsource.tbs.comm.model.Permissions" >
+    update permissions
+    set per_name = #{perName,jdbcType=VARCHAR}
+    where per_id = #{perId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select per_id, per_name
+    from permissions
+    where per_id = #{perId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select per_id, per_name
+    from permissions
+  </select>
+  <!--根据角色编号查询权限-->
+  <select id="selectByRoleId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select rp.per_id, per_name
+    from role_per rp,permissions p
+    where rp.per_id = p.per_id and role_id = #{roleId}
+  </select>
+  <!--根据权限组编号和角色编号查询权限-->
+  <select id="selectByParam" resultType="java.util.Map">
+    select pp.per_id id,per_name title from per_pg pp,permissions p,role_per rp
+    where pp.per_id = p.per_id and rp.per_id = p.per_id and pp.perg_id = #{pergId} and role_id = #{mroleId}
+  </select>
+</mapper>

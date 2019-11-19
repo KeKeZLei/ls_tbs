@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lionsource.tbs.comm.dao.PergroupMapper" >
+  <resultMap id="BaseResultMap" type="com.lionsource.tbs.comm.model.Pergroup" >
+    <id column="perg_id" property="pergId" jdbcType="INTEGER" />
+    <result column="perg_name" property="pergName" jdbcType="VARCHAR" />
+    <result column="perg_parentid" property="pergParentid" jdbcType="INTEGER" />
+    <result column="perg_url" property="pergUrl" jdbcType="VARCHAR" />
+    <result column="perg_icon" property="pergIcon" jdbcType="VARCHAR" />
+    <result column="perg_page" property="pergPage" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from pergroup
+    where perg_id = #{pergId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lionsource.tbs.comm.model.Pergroup" >
+    insert into pergroup (perg_id, perg_name, perg_parentid, 
+      perg_url,perg_icon,perg_page)
+    values (#{pergId,jdbcType=INTEGER}, #{pergName,jdbcType=VARCHAR}, #{pergParentid,jdbcType=INTEGER}, 
+      #{pergUrl,jdbcType=VARCHAR},#{pergIcon,jdbcType=VARCHAR},#{pergPage,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.lionsource.tbs.comm.model.Pergroup" >
+    update pergroup
+    set perg_name = #{pergName,jdbcType=VARCHAR},
+      perg_parentid = #{pergParentid,jdbcType=INTEGER},
+      perg_url = #{pergUrl,jdbcType=VARCHAR},
+      perg_icon = #{pergIcon,jdbcType=VARCHAR},
+      perg_page = #{pergPage,jdbcType=VARCHAR}
+    where perg_id = #{pergId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select perg_id, perg_name, perg_parentid, perg_url,perg_icon,perg_page
+    from pergroup
+    where perg_id = #{pergId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select perg_id, perg_name, perg_parentid, perg_url,perg_icon,perg_page
+    from pergroup
+  </select>
+  <!--根据角色编号查询权限组-->
+  <select id="selectByRoleId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select rpg.perg_id, perg_name, perg_parentid, perg_url,perg_icon,perg_page
+    from role_pg rpg,pergroup pg
+    where rpg.perg_id = pg.perg_id and role_id = #{roleId}
+  </select>
+</mapper>

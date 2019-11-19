@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="utf-8">
+    <title>预订运营平台 - 添加广告</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" th:href="@{/static/lib/layui-v2.5.4/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/static/css/public.css}" media="all">
+</head>
+<body class="layui-dialog-body">
+<form class="layui-form layui-form-pane" action="">
+    <div class="layui-form-item text-center">
+        <div class="layui-upload-drag" id="fileUpload">
+            <i class="layui-icon layui-icon-upload"></i>
+            <p>广告图</p>
+        </div>
+        <p class="msg-red">标准尺寸：750px * 360px</p>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">标题</label>
+        <div class="layui-input-block">
+            <input type="text" name="banTitle" id="banTitle" autocomplete="off" required lay-verify="content"
+                   placeholder="请输入标题" class="layui-input">
+            <div id="valList">
+                <ul id="ulContent">
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">链接地址</label>
+        <div id="inputBanUrl" class="layui-input-block">
+            <input type="text" id="banUrl" name="banUrl" autocomplete="off" disabled placeholder="请输入链接地址" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block layui-align-right">
+            <button class="layui-btn" lay-submit="" lay-filter="submit">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<script th:src="@{/static/lib/jquery-3.4.1/jquery-3.4.1.min.js}" charset="utf-8"></script>
+<script th:src="@{/static/lib/layui-v2.5.4/layui.js}" charset="utf-8"></script>
+<script th:src="@{/static/js/lay-config.js?v=1.0.4}" charset="utf-8"></script>
+<script th:src="@{/static/js/public.js}" charset="utf-8"></script>
+<script>
+    layui.use(['form', 'upload'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            upload = layui.upload;
+        var advertImg;
+        var width = 750;
+        var height = 360;
+        var count = 0;	//提交次数
+
+        //上传图片
+        upload.render({
+            elem: '#fileUpload',
+            url: "uploadImage",
+            multiple: true,
+            auto: false,
+            data: {"type": 4},
+            choose: function (obj) {
+                obj.preview(function (index, file, result) {
+                    var img = new Image();
+                    img.onload = function () {
+                        if (width <= img.width && height <= img.height) {
+                            obj.upload(index, file);
+                        } else {
+                            layer.msg('图片尺寸，必须为' + width + 'px X ' + height + 'px。');
+                        }
+                    };
+                    img.src = result;
+                });
+            },
+            before: function (obj) {
+                layer.msg('图片上传中...', {
+                    icon: 16,
+                    shade: 0.01,
+                    time: 0
+                });
+            },
+            done: function (res) {
+                //关闭上传提示窗口
+                layer.close(layer.msg());
+                //照片回显
+                var fileObj = res.data;
+                //删除之前照片
+                if (advertImg != null && advertImg != "") {
+                    $.ajax({
+                        url: "deleteFile", //请求接口
+                        type: "get",   //请求方式
+                        data: {     //参数列表
+                            "fileName": advertImg,
+                            "type": 1
+                        },
+                        dataType: "json",
+                        async: false
+                    });
+                }
+                advertImg = fileObj.uuid + fileObj.suffix;
+                var str = "<img src='showImage?imgName=" + advertImg + "&type=4' class='img-cover'>";
+                $('#fileUpload').html(str);
+            }
+        });
+
+        //站内链接资源
+        $("#banTitle").bind("input propertychange change", function (event) {
+            var content = $(this).val();
+            $("#ulContent").html('');
+            var str = '';
+            if (content != '') {
+                $.ajax({
+                    url: "manager/getData",
+                    data: {"content": content},
+                    type: "POST",
+                    async: false,
+                    success: function (dataJSON) {
+                        if (dataJSON != null && dataJSON != undefined && dataJSON.length != 0) {
+                            var data = JSON.parse(dataJSON);
+                            for (var i = 0; i < data.length; i++) {
+                                str += '<li onclick="addDate(' + JSON.stringify(data[i]).replace(/"/g, '&quot;') + ')">' + data[i].title + ' - ' + data[i].type + '</li>'
+                            }
+                            if (str == '') {
+                                $("#valList").hide();
+                            } else {
+                                $("#ulContent").html(str);
+                                $("#valList").show();
+                            }
+                        }
+                    }
+                });
+            }
+            if (content) {
+                $("#valList").find("ul > li").each(function (index, item) {
+                    $(item).click(function () {
+                        $("#valList").hide();
+                    })
+                });
+            } else {
+                $("#valList").hide();
+            }
+        });
+        // 监听提交操作
+        form.on('submit(submit)', function (data) {
+            var url = $("#banUrl").val();
+            if (url == null || url == undefined || url == '') {
+                layer.msg("请选择有效的标题");
+                return false;
+            }
+            if (advertImg == null || advertImg == undefined || advertImg == '') {
+                layer.msg("请上传广告封图");
+                return false;
+            }
+            //次数控制，点击多次也只提交一次
+            if (count > 0) {
+                return false;
+            } else {
+                $.ajax({
+                    url: "manager/addBanner",
+                    type: "POST",
+                    data: {
+                        "banTitle": $("#banTitle").val(),
+                        "banCover": advertImg,
+                        "banUrltype": 1,
+                        "banUrl": url,
+                    },
+                    dataType: "json",
+                    async: false,
+                    success: function (data) {
+                        if (data) {
+                            var index = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(index);
+                            parent.layer.msg("添加成功");
+                        } else {
+                            parent.layer.msg("添加失败");
+                        }
+                    }
+                });
+            }
+            //点击次数累加
+            count++;
+        });
+    });
+
+    //生成链接地址
+    function addDate(obj) {
+        if (obj.type == '产品') {
+            $("#banUrl").val("/pages/gooddetail/gooddetail?type=1&proid="+obj.id);
+        } else {
+            $("#banUrl").val("/pages/newsdetail/newsdetail?type=2&newsid="+obj.id);
+        }
+    }
+</script>
+</body>
+</html>

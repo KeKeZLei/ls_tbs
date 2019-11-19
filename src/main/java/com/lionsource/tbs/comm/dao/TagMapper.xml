@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lionsource.tbs.comm.dao.TagMapper" >
+  <resultMap id="BaseResultMap" type="com.lionsource.tbs.comm.model.Tag" >
+    <id column="tag_id" property="tagId" jdbcType="INTEGER" />
+    <result column="tag_name" property="tagName" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tag
+    where tag_id = #{tagId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lionsource.tbs.comm.model.Tag" >
+    insert into tag (tag_id, tag_name)
+    values (#{tagId,jdbcType=INTEGER}, #{tagName,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.lionsource.tbs.comm.model.Tag" >
+    update tag
+    set tag_name = #{tagName,jdbcType=VARCHAR}
+    where tag_id = #{tagId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select tag_id, tag_name
+    from tag
+    where tag_id = #{tagId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select tag_id, tag_name
+    from tag
+  </select>
+  <!--根据标签名称查询标签-->
+  <select id="selectByTagName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select tag_id, tag_name
+    from tag
+    where tag_name = #{tagName}
+  </select>
+</mapper>

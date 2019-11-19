@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="utf-8">
+    <title>预订运营平台 - 联卡管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" th:href="@{/static/lib/layui-v2.5.4/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/static/css/public.css}" media="all">
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <fieldset class="layui-elem-field layuimini-search">
+            <legend>搜索信息</legend>
+            <div class="layui-margin-10">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">卡号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" class="layui-input" id="cardCode" name="cardCode" >
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">批次号</label>
+                            <div class="layui-input-block">
+                                <select name="cardBatchno" id="cardBatchno" lay-search lay-filter="cardBatchno">
+                                    <option value="">直接选择或搜索选择</option>
+                                    <option th:each="list:${batchno}" th:value="${list}" th:text="${list}"/>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">生成时间</label>
+                            <div class="layui-input-inline" style="width: 295px;">
+                                <input type="text" class="layui-input" id="dataTime" name="dataTime" placeholder="开始 到 结束">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">会员手机号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" class="layui-input" id="memTel" name="memTel" >
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">兑换状态</label>
+                            <div class="layui-input-block">
+                                <select name="cardConvertstate" id="cardConvertstate" lay-search lay-filter="cardConvertstate">
+                                    <option value="">直接选择或搜索选择</option>
+                                    <option value="未兑换">未兑换</option>
+                                    <option value="已兑换">已兑换</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">兑换码</label>
+                            <div class="layui-input-inline">
+                                <input type="text" class="layui-input" id="cardConvertcode" name="cardConvertcode" >
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <a class="layui-btn" lay-submit="" lay-filter="dataSearch">搜索</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+
+        <div class="layui-row layui-col-space5">
+            <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                <script type="text/html" id="tableOperBar">
+                    <div class="layui-btn-container">
+                        <button shiro:hasPermission="2" class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="deleMul">批量禁用</button>
+                        <button shiro:hasPermission="1" class="layui-btn layui-btn-sm data-add-btn" lay-event="add">生成新卡</button>
+                        <button shiro:hasPermission="66" class="layui-btn layui-btn-sm data-add-btn" lay-event="batchedit">批量编辑</button>
+                        <button shiro:hasPermission="6" class="layui-btn layui-btn-sm data-add-btn" lay-event="export">导出所有卡</button>
+                    </div>
+                </script>
+                <table class="layui-hide" id="dataTable" lay-filter="dataTable"></table>
+                <script type="text/html" id="tableDataBar">
+                    <input shiro:hasPermission="3" type="checkbox" name="cardState" value="{{d.cardId}}" lay-skin="switch" lay-filter="isEnable"
+                           lay-text="启用|禁用" {{ d.cardState== 1 ? 'checked' : '' }}/>
+                    <a shiro:hasPermission="4" class="layui-btn layui-btn-xs data-count-edit" lay-event="detail">详情</a>
+                    <a shiro:hasPermission="5" class="layui-btn layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
+                </script>
+                <!--日期处理-->
+                <script type="text/html" id="dateFormat">
+                    {{# if(d.cardExpireddate != null && d.cardExpireddate != undefined && d.cardExpireddate != ''){ }}
+                    <div>{{formatDate(d.cardExpireddate, 'yyyy-MM-dd')}}</div>
+                    {{# } }}
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/static/lib/layui-v2.5.4/layui.js}" charset="utf-8"></script>
+<script th:src="@{/static/js/public.js}" charset="utf-8"></script>
+<script type="text/javascript">
+    layui.use(['form', 'table', 'tree', 'util', 'laydate'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table,
+            tree = layui.tree,
+            util = layui.util,
+            laydate = layui.laydate;
+
+        var pageNow = 0,dataLength = 0;
+        var exportData = " ";			//定义全局变量
+
+        laydate.render({
+            elem: '#dataTime'
+            ,type: 'datetime'
+            ,range: '~'
+            ,format: 'yyyy-MM-dd HH:mm:ss'
+            ,trigger: 'click'
+        });
+
+        //数据表格
+        var tableObj = table.render({
+            elem: '#dataTable',
+            url: 'manager/getAllCard',
+            toolbar: '#tableOperBar',
+            even: true,
+            title: '卡表',
+            cellMinWidth: 120,
+            cols: [
+                [
+                    {type: "checkbox", width: 50, fixed: "left"},
+                    {type: 'numbers', title: 'ID', width: 80, fixed: 'left', align: 'center'},
+                    {field: 'cardCode',title: '卡号', sort: true, fixed: 'left', align: 'center'},
+                    {field: 'cardName', title: '名称', sort: true, width: 200, align: 'center'},
+                    {field: 'cardSaleprice', title: '销售价格', sort: true, align: 'center'},
+                    {field: 'cardFaceprice', title: '卡面值', sort: true, align: 'center'},
+                    {field: 'cardBatchno', title: '批次号', align: 'center'},
+                    {field: 'cardConvertcode', title: '兑换码', width: 310, align: 'center'},
+                    {field: 'cardConvertstate', title: '兑换状态', align: 'center'},
+                    {field: 'cardCreatetime', title: '生成时间', sort: true, width: 180, align: 'center'},
+                    {field: 'cardExpireddate', title: '过期时间', sort: true, align: 'center', templet: '#dateFormat'},
+                    {field: 'cardUrl', title: '二维码地址', width: 600, align: 'center'},
+                    {field: 'cardRemark', title: '备注', align: 'center'},
+                    {field: 'memNickname', title: '会员昵称', width: 140, align: 'center'},
+                    {field: 'memTel', title: '会员手机号', align: 'center'},
+                    {title: '操作', toolbar: '#tableDataBar', fixed: 'right', align: 'center', width: 200}
+                ]
+            ],
+            limits: [10, 15, 20, 25, 50, 100],
+            limit: 10,
+            page: true,
+            done: function(res, curr, count){
+                pageNow = curr;
+                dataLength = res.data.length;
+                exportData = res.data;
+            }
+        });
+
+        //监听批次号下拉框
+        form.on('select(cardBatchno)', function (obj) {
+            if ($("#cardCode").val() != "" && (!(/^(\+|-)?\d+$/.test($("#cardCode").val())) || $("#cardCode").val() <= 0)) {
+                layer.msg("卡号只能为大于0的整数");
+                return false;
+            }
+            var dataTime = $("#dataTime").val();
+            var startTime = "";
+            var endTime = "";
+            if(dataTime != ''){
+                startTime = dataTime.split("~")[0];
+                endTime = dataTime.split("~")[1];
+            }
+            //执行搜索重载
+            table.reload('dataTable', {
+                page: {
+                    curr: 1
+                },
+                where: {
+                    cardCode: $("#cardCode").val(),
+                    memTel: $("#memTel").val(),
+                    cardBatchno: obj.value,
+                    cardConvertstate: $("#cardConvertstate").val(),
+                    cardConvertcode: $("#cardConvertcode").val(),
+                    startTime: startTime,
+                    endTime: endTime
+                }
+            }, 'data');
+        });
+
+        //监听兑换状态下拉框
+        form.on('select(cardConvertstate)', function (obj) {
+            if ($("#cardCode").val() != "" && (!(/^(\+|-)?\d+$/.test($("#cardCode").val())) || $("#cardCode").val() <= 0)) {
+                layer.msg("卡号只能为大于0的整数");
+                return false;
+            }
+            var dataTime = $("#dataTime").val();
+            var startTime = "";
+            var endTime = "";
+            if(dataTime != ''){
+                startTime = dataTime.split("~")[0];
+                endTime = dataTime.split("~")[1];
+            }
+            //执行搜索重载
+            table.reload('dataTable', {
+                page: {
+                    curr: 1
+                },
+                where: {
+                    cardCode: $("#cardCode").val(),
+                    memTel: $("#memTel").val(),
+                    cardBatchno: $("#cardBatchno").val(),
+                    cardConvertstate: obj.value,
+                    cardConvertcode: $("#cardConvertcode").val(),
+                    startTime: startTime,
+                    endTime: endTime
+                }
+            }, 'data');
+        });
+
+        //监听搜索操作
+        form.on('submit(dataSearch)', function (data) {
+            if ($("#cardCode").val() != "" && (!(/^(\+|-)?\d+$/.test($("#cardCode").val())) || $("#cardCode").val() <= 0)) {
+                layer.msg("卡号只能为大于0的整数");
+                return false;
+            }
+            var dataTime = $("#dataTime").val();
+            var startTime = "";
+            var endTime = "";
+            if(dataTime != ''){
+                startTime = dataTime.split("~")[0];
+                endTime = dataTime.split("~")[1];
+            }
+            //执行搜索重载
+            table.reload('dataTable', {
+                page: {
+                    curr: 1
+                },
+                where: {
+                    cardCode: $("#cardCode").val(),
+                    memTel: $("#memTel").val(),
+                    cardBatchno: $("#cardBatchno").val(),
+                    cardConvertstate: $("#cardConvertstate").val(),
+                    cardConvertcode: $("#cardConvertcode").val(),
+                    startTime: startTime,
+                    endTime: endTime
+                }
+            }, 'data');
+        });
+
+        //监听表格头工具栏操作
+        table.on('toolbar(dataTable)', function (obj) {
+            if (obj.event === 'deleMul'){
+                var checkStatus = table.checkStatus(obj.config.id);
+                //待禁用的卡编号
+                var cardIds = "";
+                //已勾选的数据
+                var checkData = checkStatus.data;
+                //判断有无勾选数据
+                if (checkData.length == 0) {
+                    layer.msg("请选择要禁用的数据项");
+                    return;
+                }
+                //组装卡编号
+                for (var i = 0; i < checkData.length; i++) {
+                    cardIds += checkData[i].cardId;
+                    //判断是否为最后一个数据，为最后一个时不加分号
+                    if (i != checkData.length - 1) {
+                        cardIds += ";";
+                    }
+                }
+
+                layer.confirm('确定要禁用吗？', function (index) {
+                    $.ajax({
+                        url: "manager/batchSetCard",
+                        dataType: "json",
+                        type: "get",
+                        data: {"cardIds": cardIds},
+                        success: function (result) {
+                            table.reload('dataTable');
+                            layer.msg(result.msg);
+                        }
+                    });
+                });
+            }else if (obj.event === 'add') {
+                top.layer.open({
+                    type: 2 //此处以iframe举例
+                    , title: '生成新卡'
+                    , area: ['1000px', '600px']
+                    , shade: 0.8
+                    , maxmin: true
+                    , content: 'card-add'
+                    , zIndex: layer.zIndex //重点1
+                    , success: function (layero, index) {
+                        top.layer.setTop(layero); //重点2
+                    }
+                    , end: function () {
+                        tableObj.reload();
+                        //刷新批次号列表
+                        $.ajax({
+                            url: "manager/getBatchno", //请求接口
+                            type: "get",   //请求方式
+                            dataType: "json",
+                            async: false,
+                            success: function (result) {
+                                var str = '<option value="">直接选择或搜索选择</option>';
+                                for(var i = 0; i < result.length; i++){
+                                    var data = result[i];
+                                    str += '<option value="' + data+ '">' + data+ '</option>';
+                                }
+                                $("#cardBatchno").html(str);
+                                form.render('select');
+                            }
+                        });
+                    }
+                });
+            }else if (obj.event === 'export') {
+                layer.confirm('确定要导出吗？', function (index) {
+                    var dataTime = $("#dataTime").val();
+                    var startTime = "";
+                    var endTime = "";
+                    if(dataTime != ''){
+                        startTime = dataTime.split("~")[0];
+                        endTime = dataTime.split("~")[1];
+                    }
+                    var param = {
+                            cardCode: $("#cardCode").val(),
+                            memTel: $("#memTel").val(),
+                            cardBatchno: $("#cardBatchno").val(),
+                            cardConvertstate: $("#cardConvertstate").val(),
+                            cardConvertcode: $("#cardConvertcode").val(),
+                            startTime: startTime,
+                            endTime: endTime
+                    };
+                    var str = JSON.stringify(param);
+                    window.location = "manager/expAllCard?param=" + encodeURI(encodeURI(str));
+                    layer.close(layer.index);
+                });
+            }else if (obj.event === 'batchedit') {
+                modalDialog(tableObj,'批量编辑卡','card-batchedit','1000px','600px',null);
+            }
+        });
+
+        //监听是否禁用开关
+        form.on('switch(isEnable)', function (obj) {
+            var isChecked = obj.elem.checked;
+            $.ajax({
+                url: "manager/setCard",
+                type: "post",
+                data: {"cardId": obj.value, "cardState": isChecked == true ? 1 : 0},
+                dataType: "json",
+                async: false,
+                success: function (result) {
+                    if (result.code == 200) { //成功
+                        table.reload('dataTable');
+                    }
+                    layer.msg(result.msg);
+                }
+            });
+        });
+
+        //监听表格行操作
+        table.on('tool(dataTable)', function (obj) {
+            var data = obj.data;
+            if(obj.event === 'detail'){
+                modalDialog(tableObj,'卡详情','card-detail','1000px','600px',data);
+            }else if (obj.event === 'edit') {
+                modalDialog(tableObj,'编辑卡','card-edit','1000px','600px',data);
+            }
+        });
+    });
+</script>
+</body>
+</html>

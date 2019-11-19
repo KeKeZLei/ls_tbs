@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lionsource.tbs.comm.dao.HelpinfoMapper" >
+  <resultMap id="BaseResultMap" type="com.lionsource.tbs.comm.model.Helpinfo" >
+    <id column="hi_id" property="hiId" jdbcType="INTEGER" />
+    <result column="hi_type" property="hiType" jdbcType="VARCHAR" />
+    <result column="hi_question" property="hiQuestion" jdbcType="VARCHAR" />
+    <result column="hi_answer" property="hiAnswer" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from helpinfo
+    where hi_id = #{hiId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lionsource.tbs.comm.model.Helpinfo" >
+    insert into helpinfo (hi_id, hi_type, hi_question, 
+      hi_answer)
+    values (#{hiId,jdbcType=INTEGER}, #{hiType,jdbcType=VARCHAR}, #{hiQuestion,jdbcType=VARCHAR}, 
+      #{hiAnswer,jdbcType=LONGVARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.lionsource.tbs.comm.model.Helpinfo" >
+    update helpinfo
+    set hi_type = #{hiType,jdbcType=VARCHAR},
+      hi_question = #{hiQuestion,jdbcType=VARCHAR},
+      hi_answer = #{hiAnswer,jdbcType=LONGVARCHAR}
+    where hi_id = #{hiId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select hi_id, hi_type, hi_question, hi_answer
+    from helpinfo
+    where hi_id = #{hiId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select hi_id, hi_type, hi_question, hi_answer
+    from helpinfo
+  </select>
+  <!--根据问题查询帮助信息-->
+  <select id="selectByQuestion" resultMap="BaseResultMap" >
+    select hi_id, hi_type, hi_question, hi_answer
+    from helpinfo where hi_question = #{question} and hi_type = #{type}
+  </select>
+  <!--批量删除帮助信息-->
+  <delete id="batchDelete" parameterType="java.lang.String" >
+    delete from helpinfo
+    where FIND_IN_SET(hi_id,#{hiIds}) > 0
+  </delete>
+</mapper>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="utf-8">
+    <title>预订运营平台 - 编辑酒店</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" th:href="@{/static/lib/layui-v2.5.4/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/static/css/public.css}" media="all">
+</head>
+<body class="layui-dialog-body">
+<form class="layui-form layui-form-pane" action="" lay-filter="formdata">
+    <div class="layui-form-item">
+        <label class="layui-form-label">商户</label>
+        <div class="layui-input-block">
+            <select name="merId" id="merId" lay-filter="merId" lay-verify="required" lay-search>
+                <option value="">直接选择或搜索选择</option>
+                <option th:each="list:${merList}" th:value="${list.merId}" th:text="${list.merName}"/>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">酒店名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="hotName" lay-verify="required" autocomplete="off" placeholder="请输入酒店名称"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">酒店地址</label>
+        <div class="layui-input-block">
+            <input type="text" name="hotAddress" lay-verify="required" autocomplete="off" placeholder="请输入酒店地址"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block layui-align-right">
+            <button class="layui-btn" lay-submit="" lay-filter="submit">立即提交</button>
+        </div>
+    </div>
+    <input type="hidden" name="hotId" id="hotId"/>
+</form>
+<script th:src="@{/static/lib/layui-v2.5.4/layui.js}" charset="utf-8"></script>
+<script>
+    layui.use(['form'], function () {
+        var $ = layui.jquery,
+            form = layui.form;
+        var count = 0;	//提交次数
+
+        // 监听提交操作
+        form.on('submit(submit)', function (data) {
+            //次数控制，点击多次也只提交一次
+            if (count > 0) {
+                return false;
+            } else {
+                $.ajax({
+                    url: "manager/editHotel", //请求接口
+                    type: "post",   //请求方式
+                    data: data.field,
+                    dataType: "json",
+                    async: false,
+                    success: function (result) {
+                        if (result.code == 200) { //成功
+                            location.reload();
+                            parent.layer.closeAll();
+                            parent.layer.msg(result.msg);
+                        } else { //失败
+                            parent.layer.msg(result.msg);
+                        }
+                    }
+                });
+            }
+            //点击次数累加
+            count++;
+        });
+    });
+
+    //显示数据
+    function renderData(data) {
+        layui.use(['form'], function () {
+            var form = layui.form;
+
+            form.val("formdata", {
+                "hotId": data.hotId,
+                "merId": data.merId,
+                "hotName": data.hotName,
+                "hotAddress": data.hotAddress
+            });
+        });
+    }
+</script>
+</body>
+</html>

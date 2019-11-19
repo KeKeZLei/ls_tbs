@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="utf-8">
+    <title>预订运营平台 - 编辑服务商员工</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" th:href="@{/static/lib/layui-v2.5.4/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/static/css/public.css}" media="all">
+</head>
+<body class="layui-dialog-body">
+<form class="layui-form layui-form-pane" action="" lay-filter="formdata">
+    <div class="layui-form-item">
+        <label class="layui-form-label">商户</label>
+        <div class="layui-input-block">
+            <select name="merId" id="merId" lay-filter="merId" lay-verify="required" lay-search>
+                <option value="">直接选择或搜索选择</option>
+                <option th:each="list:${merList}" th:value="${list.tagMerId}" th:text="${list.merName}"/>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item" style="display: none" id="hotel">
+        <label class="layui-form-label">酒店</label>
+        <div class="layui-input-block">
+            <select name="hotId" id="hotId" lay-filter="hotId" lay-search>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">登录帐号</label>
+        <div class="layui-input-block">
+            <input disabled type="text" name="empLoginname" lay-verify="required" autocomplete="off" placeholder="请输入帐号"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">登录密码</label>
+        <div class="layui-input-block">
+            <input type="password" name="empPassword" lay-verify="empPassword" autocomplete="off" placeholder="请输入密码"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">姓名</label>
+        <div class="layui-input-block">
+            <input type="text" name="empName" lay-verify="required" autocomplete="off" placeholder="请输入姓名"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">手机号码</label>
+        <div class="layui-input-block">
+            <input type="text" name="empTel" lay-verify="empTel" autocomplete="off" placeholder="请输入手机号码"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block layui-align-right">
+            <button class="layui-btn" lay-submit="" lay-filter="submit">立即提交</button>
+        </div>
+    </div>
+    <input type="hidden" name="empId" id="empId"/>
+    <input type="hidden" name="pcId" id="pcId"/>
+</form>
+<script th:src="@{/static/lib/layui-v2.5.4/layui.js}" charset="utf-8"></script>
+<script>
+    var pcId = "";  //商户类型编号
+    var merId = "";  //商户编号
+    layui.use(['form'], function () {
+        var $ = layui.jquery,
+            form = layui.form;
+        var count = 0;	//提交次数
+
+        //自定义验证规则
+        form.verify({
+            empPassword: [
+                /^(\w){6,}$/
+                , '密码必须6位以上，且不能出现空格'
+            ],
+            empTel: [
+                /^1[3456789]\d{9}$/
+                , '手机号码格式错误'
+            ]
+        });
+
+        //商户下拉框监听
+        form.on('select(merId)', function (data) {
+            pcId = "";
+            merId = "";
+            var value = data.value;
+            if(value == ""){
+                $("#hotId").html("");
+                form.render('select');
+                return false;
+            }
+            merId = value.split(";")[0];
+            pcId = value.split(";")[1];
+            //判断是否有酒店类型的商户
+            if(parseInt(pcId) == 3){
+                //根据商户查询酒店
+                $.ajax({
+                    url: "manager/getHotelByMerId", //请求接口
+                    type: "get",   //请求方式
+                    data: {
+                        "merId": merId
+                    },
+                    dataType: "json",
+                    async: false,
+                    success: function (result) {
+                        var str = '<option value="">直接选择或搜索选择</option>';
+                        for (var i in result) {
+                            str += '<option value = "' + result[i].hotId + '" >' + result[i].hotName + '</option>'
+                        }
+                        $("#hotId").html(str);
+                        form.render('select');
+                        $("#hotel").show();
+                    }
+                });
+            }else{
+                $("#hotId").html("");
+                form.render('select');
+                $("#hotel").hide();
+            }
+        });
+
+        // 监听提交操作
+        form.on('submit(submit)', function (data) {
+            if(parseInt(pcId) == 3 && data.field.hotId == ""){
+                layer.msg("请选择酒店");
+                return false;
+            }
+            //次数控制，点击多次也只提交一次
+            if (count > 0) {
+                return false;
+            } else {
+                data.field["merId"] = merId;
+                $.ajax({
+                    url: "manager/editEmployees", //请求接口
+                    type: "post",   //请求方式
+                    data: data.field,
+                    dataType: "json",
+                    async: false,
+                    success: function (result) {
+                        if (result.code == 200) { //成功
+                            location.reload();
+                            parent.layer.closeAll();
+                            parent.layer.msg(result.msg);
+                        } else { //失败
+                            parent.layer.msg(result.msg);
+                        }
+                    }
+                });
+            }
+            //点击次数累加
+            count++;
+        });
+
+    });
+
+    //显示数据
+    function renderData(data) {
+        layui.use(['form'], function () {
+            var $ = layui.jquery,
+                form = layui.form;
+            pcId = data.pcId;
+            merId = data.merId;
+            form.val("formdata", {
+                "merId": data.merId + ";" + data.pcId,
+                "empLoginname": data.empLoginname,
+                "empPassword": data.empPassword,
+                "empName": data.empName,
+                "empTel": data.empTel,
+                "empId": data.empId
+            });
+            if(data.pcId == 3){
+                //根据商户查询酒店
+                $.ajax({
+                    url: "manager/getHotelByMerId", //请求接口
+                    type: "get",   //请求方式
+                    data: {
+                        "merId": data.merId
+                    },
+                    dataType: "json",
+                    async: false,
+                    success: function (result) {
+                        var str = '<option value="">直接选择或搜索选择</option>';
+                        for (var i in result) {
+                            str += '<option value = "' + result[i].hotId + '" >' + result[i].hotName + '</option>'
+                        }
+                        $("#hotId").html(str);
+                        $("#hotId").val(data.hotId);
+                        form.render('select');
+                        $("#hotel").show();
+                    }
+                });
+            }
+        });
+    }
+</script>
+</body>
+</html>

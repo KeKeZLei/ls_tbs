@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="utf-8">
+    <title>预订运营平台 - 财务对账</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" th:href="@{/static/lib/layui-v2.5.4/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/static/css/public.css}" media="all">
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <fieldset class="layui-elem-field layuimini-search">
+            <legend>搜索信息</legend>
+            <div class="layui-margin-10">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">统计时间</label>
+                            <div class="layui-input-inline" style="width: 180px;">
+                                <input type="text" class="layui-input" id="dataTime" name="dataTime"
+                                       placeholder="开始 到 结束">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <a class="layui-btn" lay-submit="" lay-filter="dataSearch">搜索</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+
+        <table class="layui-hide" id="dataTable" lay-filter="dataTable"></table>
+
+        <fieldset class="layui-elem-field layuimini-search">
+            <legend>对账汇总</legend>
+            <div class="layui-margin-10" style="text-align: right">
+                <div class="layui-inline">
+                    <label class="layui-form-label">预约总量</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" id="totalCount" name="totalCount" th:value="${ar.arSumNum}" disabled>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">完成总量</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" id="overCount" name="overCount" th:value="${ar.arNum}" disabled>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+    <input type="hidden" id="hotId" th:value="${session.employee.hotId}" />
+</div>
+<script th:src="@{/static/lib/layui-v2.5.4/layui.js}" charset="utf-8"></script>
+<script th:src="@{/static/js/public.js}" charset="utf-8"></script>
+<script type="text/javascript">
+    layui.use(['form', 'table', 'laydate'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table,
+            laydate = layui.laydate;
+
+        laydate.render({
+            elem: '#dataTime'
+            ,type: 'date'
+            ,range: '~'
+            ,format: 'yyyy-MM-dd'
+            ,trigger: 'click'
+        });
+
+        //数据表格
+        table.render({
+            elem: '#dataTable',
+            url: 'getReconciliation',
+            toolbar: true,
+            even: true,
+            cellMinWidth: 120,
+            where: {"hotId" : $("#hotId").val()},
+            cols: [
+                [
+                    {field: 'merName', title: '供应商', align: 'center'},
+                    {field: 'arSumNum', title: '预约总量', align: 'center', sort: true},
+                    {field: 'arNum', title: '完成总量', align: 'center', sort: true},
+                    {field: 'payCount', title: '补差价预约量', align: 'center', sort: true},
+                    {field: 'payMoney', title: '补差价总金额', align: 'center', sort: true}
+                ]
+            ],
+            limits: [10, 15, 20, 25, 50, 100],
+            limit: 10,
+            page: true
+        });
+
+        //监听搜索操作
+        form.on('submit(dataSearch)', function (data) {
+            var dataTime = $("#dataTime").val();
+            var startTime = "";
+            var endTime = "";
+            if(dataTime != ''){
+                startTime = dataTime.split("~")[0];
+                endTime = dataTime.split("~")[1];
+            }
+            //执行搜索重载
+            table.reload('dataTable', {
+                page: {
+                    curr: 1
+                },
+                where: {
+                    startTime: startTime,
+                    endTime: endTime,
+                    "hotId" : $("#hotId").val()
+                }
+            }, 'data');
+        });
+    });
+</script>
+</body>
+</html>

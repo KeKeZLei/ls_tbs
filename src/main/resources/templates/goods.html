@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="utf-8">
+    <title>预订运营平台 - 商品管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" th:href="@{/static/lib/layui-v2.5.4/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/static/css/public.css}" media="all">
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <fieldset class="layui-elem-field layuimini-search">
+            <legend>搜索信息</legend>
+            <div class="layui-margin-10">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">商品类别</label>
+                            <div class="layui-input-block">
+                                <select name="pcId" id="pcId" lay-filter="pcId" lay-search>
+                                    <option value="">直接选择或搜索选择</option>
+                                    <option th:each="list:${proClass}" th:value="${list.pcId}" th:text="${list.pcName}"/>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">商品名称</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="proName" id="proNameExt" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <a class="layui-btn" lay-submit="" lay-filter="dataSearch">搜索</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+
+        <div class="layui-row layui-col-space5">
+            <div class="layui-col-xs2 layui-col-sm2 layui-col-md2">
+                <fieldset class="layui-elem-field layuimini-search">
+                    <legend>商品类别</legend>
+                    <div class="layui-margin-10">
+                        <div id="typeTree" class="demo-tree-more" style="height: 120px;overflow-y: auto;"></div>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="layui-col-xs10 layui-col-sm10 layui-col-md10">
+                <script type="text/html" id="tableOperBar">
+                    <div class="layui-btn-container">
+                        <button shiro:hasPermission="23" class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="deleMul">批量删除</button>
+                        <button shiro:hasPermission="20" class="layui-btn layui-btn-sm data-add-btn" lay-event="add">新品上架</button>
+                    </div>
+                </script>
+                <table class="layui-hide" id="dataTable" lay-filter="dataTable"></table>
+                <script type="text/html" id="tableDataBar">
+                    <input shiro:hasPermission="24" type="checkbox" name="proState" value="{{d.proId}}" lay-skin="switch"
+                           lay-filter="isEnable"
+                           lay-text="在架|下架" {{ d.proState== 1 ? 'checked' : '' }}/>
+                    <a shiro:hasPermission="25" class="layui-btn layui-btn-xs data-count-edit" lay-event="detail">详情</a>
+                    <a shiro:hasPermission="21" class="layui-btn layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
+                    <a shiro:hasPermission="22" class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="dele">删除</a>
+                </script>
+                <!--自定义模板-->
+                <script type="text/html" id="tableThumbImage">
+                    {{# if(d.proThumb != null && d.proThumb != undefined && d.proThumb != ''){ }}
+                    <div><img style="width: 32%;" src="{{d.tagThumb}}"></div>
+                    {{# }else { }}
+                    <div>无</div>
+                    {{# } }}
+                </script>
+                <script type="text/html" id="tableCoverImage">
+                    {{# if(d.proCover != null && d.proCover != undefined && d.proCover != ''){ }}
+                    <div><img style="width: 58%;" src="{{d.tagCover}}"></div>
+                    {{# }else { }}
+                    <div>无</div>
+                    {{# } }}
+                </script>
+                <script type="text/html" id="tableState">
+                    {{# if(d.proState == 1){ }}
+                    <div>在架</div>
+                    {{# }else { }}
+                    <div>下架</div>
+                    {{# } }}
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/static/lib/layui-v2.5.4/layui.js}" charset="utf-8"></script>
+<script th:src="@{/static/js/public.js}" charset="utf-8"></script>
+<script type="text/javascript">
+    var tree;
+    var $;
+    var form;
+    layui.use(['form', 'table', 'tree', 'util'], function () {
+        var table = layui.table,
+            util = layui.util;
+        tree = layui.tree;
+        $ = layui.jquery;
+        form = layui.form;
+
+        var pageNow = 0,dataLength = 0;
+
+        //获取商品类别树
+        getProclassTree();
+
+        //数据表格
+        var tableObj = table.render({
+            elem: '#dataTable',
+            url: 'manager/getAllProduct',
+            toolbar: '#tableOperBar',
+            even: true,
+            title: '商品表',
+            cellMinWidth: 120,
+            cols: [
+                [
+                    {type: "checkbox", width: 50, fixed: "left"},
+                    {type: 'numbers', title: 'ID', width: 80, fixed: 'left', align: 'center'},
+                    {field: 'proName', title: '名称', width: 200, sort: true, align: 'center'},
+                    {field: 'pcName', title: '商品类别', align: 'center'},
+                    {field: 'proState', title: '商品状态',templet: '#tableState',  align: 'center'},
+                    {field: 'proThumb', title: '缩略图', templet: '#tableThumbImage', align: 'center'},
+                    {field: 'proCover', title: '封面图', templet: '#tableCoverImage', align: 'center'},
+                    {field: 'proDescribe', title: '简介', align: 'center'},
+                    {field: 'proSaleprice', title: '结算价格', align: 'center', sort: true},
+                    {field: 'proShowprice', title: '显示价格', align: 'center', sort: true},
+                    {field: 'proMarketprice', title: '市场价格', align: 'center', sort: true},
+                    {field: 'proDetails', title: '详情', align: 'center'},
+                    {title: '操作', toolbar: '#tableDataBar', fixed: 'right', width: 240, align: 'center'}
+                ]
+            ],
+            limits: [10, 15, 20, 25, 50, 100],
+            limit: 10,
+            page: true,
+            done: function(res, curr, count){
+                pageNow = curr;
+                dataLength = res.data.length;
+            }
+        });
+
+        //监听商品类型下拉框
+        form.on('select(pcId)', function (obj) {
+            //执行搜索重载
+            table.reload('dataTable', {
+                page: {
+                    curr: 1
+                },
+                where: {
+                    pcId: obj.value,
+                    proName: $("#proNameExt").val()
+                }
+            }, 'data');
+        });
+
+        //监听搜索操作
+        form.on('submit(dataSearch)', function () {
+            //执行搜索重载
+            table.reload('dataTable', {
+                page: {
+                    curr: 1
+                },
+                where: {
+                    pcId: $("#pcId").val(),
+                    proName: $("#proNameExt").val()
+                }
+            }, 'data');
+        });
+
+        //监听表格头工具栏操作
+        table.on('toolbar(dataTable)', function (obj) {
+            if (obj.event === 'deleMul') {
+                var checkStatus = table.checkStatus(obj.config.id);
+                //待删除的商品编号
+                var proIds = "";
+                //已勾选的数据
+                var checkData = checkStatus.data;
+                //判断有无勾选数据
+                if (checkData.length == 0) {
+                    layer.msg("请选择要删除的数据项");
+                    return;
+                }
+                //组装商品编号
+                for (var i = 0; i < checkData.length; i++) {
+                    proIds += checkData[i].proId;
+                    //判断是否为最后一个数据，为最后一个时不加分号
+                    if (i != checkData.length - 1) {
+                        proIds += ";";
+                    }
+                }
+
+                layer.confirm('确定要删除吗？', function (index) {
+                    $.ajax({
+                        url: "manager/batchDelProduct",
+                        dataType: "json",
+                        type: "get",
+                        data: {"proIds": proIds},
+                        success: function (result) {
+                            if (result.code == 200) { //成功
+                                //处理一页只有一行，删除后表格数据不出来的问题
+                                if(dataLength == checkData.length){
+                                    table.reload('dataTable', {  page: { curr: pageNow > 1 ? (pageNow-1) : 1 } });
+                                }else{
+                                    table.reload('dataTable', {  page: { curr: pageNow  }  });
+                                }
+                            }
+                            layer.msg(result.msg);
+                        }
+                    });
+                });
+            }else if (obj.event === 'add') {
+                modalDialog(tableObj,'新品上架','goods-add','1000px','600px');
+            }
+        });
+
+        //监听是否禁用开关
+        form.on('switch(isEnable)', function (obj) {
+            var isChecked = obj.elem.checked;
+            $.ajax({
+                url: "manager/setProduct",
+                type: "post",
+                data: {"proId": obj.value, "proState": isChecked == true ? 1 : 0},
+                dataType: "json",
+                async: false,
+                success: function (result) {
+                    if (result.code == 200) { //成功
+                        table.reload('dataTable');
+                    }
+                    layer.msg(result.msg);
+                }
+            });
+        });
+
+        //监听表格行操作
+        table.on('tool(dataTable)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'edit') {
+                modalDialog(tableObj,'编辑商品','goods-edit','1000px','600px',data);
+            } else if (obj.event === 'detail') {
+                modalDialog(tableObj,'商品详情','goods-detail','800px','600px',data);
+            } else if (obj.event === 'dele') {
+                layer.confirm('确定要删除吗？', function (index) {
+                    $.ajax({
+                        url: "manager/delProduct",
+                        dataType: "json",
+                        type: "get",
+                        data: {"proId": data.proId},
+                        success: function (result) {
+                            if (result.code == 200) { //成功
+                                //处理一页只有一行，删除后表格数据不出来的问题
+                                if(dataLength == 1){
+                                    table.reload('dataTable', {  page: { curr: pageNow > 1 ? (pageNow-1) : 1 } });
+                                }else{
+                                    table.reload('dataTable', {  page: { curr: pageNow  }  });
+                                }
+                            }
+                            layer.msg(result.msg);
+                        }
+                    });
+                });
+            }
+        });
+    });
+
+    //获取商品类别树
+    function getProclassTree() {
+        $.ajax({
+            url: "manager/getProclassTree", //请求接口
+            type: "get",   //请求方式
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                tree.render({
+                    elem: '#typeTree',
+                    showLine: false,  //是否开启连接线
+                    data: data,
+                    edit: ['update'], //操作节点的图标
+                    operate: function(obj){
+                        var type = obj.type; //得到操作类型：add、edit、del
+                        var data = obj.data; //得到当前节点的数据
+                        if(type === 'update'){ //增加节点
+                            $.ajax({
+                                url: "manager/editProclass", //请求接口
+                                type: "post",   //请求方式
+                                dataType: "json",
+                                async: false,
+                                data: {"pcId":data.id, "pcName":data.title},
+                                success: function (result) {
+                                    layer.msg(result.msg);
+                                    getProclassTree();
+                                    getProclassList();
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    //获取商品类别下拉框
+    function getProclassList() {
+        $.ajax({
+            url: "manager/getProclassList", //请求接口
+            type: "get",   //请求方式
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                var str = '<option value="">直接选择或搜索选择</option>';
+                for(var i = 0; i < data.length; i++){
+                    var list = data[i];
+                    str += '<option value="' + list.pcId + '">' + list.pcName + '</option>';
+                }
+                $("#pcId").html(str);
+                form.render('select');
+            }
+        });
+    }
+</script>
+</body>
+</html>

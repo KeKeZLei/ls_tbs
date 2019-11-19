@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lionsource.tbs.comm.dao.NoticeMapper" >
+  <resultMap id="BaseResultMap" type="com.lionsource.tbs.comm.model.Notice" >
+    <id column="not_id" property="notId" jdbcType="INTEGER" />
+    <result column="not_type" property="notType" jdbcType="VARCHAR" />
+    <result column="not_title" property="notTitle" jdbcType="VARCHAR" />
+    <result column="not_createtime" property="notCreatetime" jdbcType="TIMESTAMP" />
+    <result column="ref_id" property="refId" jdbcType="INTEGER" />
+    <result column="mem_id" property="memId" jdbcType="INTEGER" />
+    <result column="ste_id" property="steId" jdbcType="INTEGER" />
+    <result column="not_content" property="notContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from notice
+    where not_id = #{notId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lionsource.tbs.comm.model.Notice" >
+    insert into notice (not_id, not_type, not_title, 
+      not_createtime, ref_id, mem_id, 
+      ste_id, not_content)
+    values (#{notId,jdbcType=INTEGER}, #{notType,jdbcType=VARCHAR}, #{notTitle,jdbcType=VARCHAR}, 
+      #{notCreatetime,jdbcType=TIMESTAMP}, #{refId,jdbcType=INTEGER}, #{memId,jdbcType=INTEGER}, 
+      #{steId,jdbcType=INTEGER}, #{notContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.lionsource.tbs.comm.model.Notice" >
+    update notice
+    set not_type = #{notType,jdbcType=VARCHAR},
+      not_title = #{notTitle,jdbcType=VARCHAR},
+      not_createtime = #{notCreatetime,jdbcType=TIMESTAMP},
+      ref_id = #{refId,jdbcType=INTEGER},
+      mem_id = #{memId,jdbcType=INTEGER},
+      ste_id = #{steId,jdbcType=INTEGER},
+      not_content = #{notContent,jdbcType=LONGVARCHAR}
+    where not_id = #{notId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select not_id, not_type, not_title, not_createtime, ref_id, mem_id, ste_id, not_content
+    from notice
+    where not_id = #{notId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select not_id, not_type, not_title, not_createtime, ref_id, mem_id, ste_id, not_content
+    from notice
+  </select>
+</mapper>

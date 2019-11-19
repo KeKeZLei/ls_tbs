@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lionsource.tbs.comm.dao.ServiceMapper" >
+  <resultMap id="BaseResultMap" type="com.lionsource.tbs.comm.model.Service" >
+    <id column="ser_id" property="serId" jdbcType="INTEGER" />
+    <result column="ser_name" property="serName" jdbcType="VARCHAR" />
+    <result column="ser_head" property="serHead" jdbcType="VARCHAR" />
+    <result column="ser_tel" property="serTel" jdbcType="VARCHAR" />
+    <result column="ser_qrcode" property="serQrcode" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from service
+    where ser_id = #{serId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lionsource.tbs.comm.model.Service" >
+    insert into service (ser_id, ser_name, ser_head, 
+      ser_tel, ser_qrcode)
+    values (#{serId,jdbcType=INTEGER}, #{serName,jdbcType=VARCHAR}, #{serHead,jdbcType=VARCHAR}, 
+      #{serTel,jdbcType=VARCHAR}, #{serQrcode,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.lionsource.tbs.comm.model.Service" >
+    update service
+    set ser_name = #{serName,jdbcType=VARCHAR},
+      ser_head = #{serHead,jdbcType=VARCHAR},
+      ser_tel = #{serTel,jdbcType=VARCHAR},
+      ser_qrcode = #{serQrcode,jdbcType=VARCHAR}
+    where ser_id = #{serId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select ser_id, ser_name, ser_head, ser_tel, ser_qrcode
+    from service
+    where ser_id = #{serId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select ser_id, ser_name, ser_head, ser_tel, ser_qrcode
+    from service
+  </select>
+</mapper>

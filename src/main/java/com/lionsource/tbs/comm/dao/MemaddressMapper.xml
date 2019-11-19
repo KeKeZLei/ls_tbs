@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lionsource.tbs.comm.dao.MemaddressMapper" >
+  <resultMap id="BaseResultMap" type="com.lionsource.tbs.comm.model.Memaddress" >
+    <id column="ma_id" property="maId" jdbcType="INTEGER" />
+    <result column="mem_id" property="memId" jdbcType="INTEGER" />
+    <result column="ma_province" property="maProvince" jdbcType="INTEGER" />
+    <result column="ma_city" property="maCity" jdbcType="INTEGER" />
+    <result column="ma_county" property="maCounty" jdbcType="INTEGER" />
+    <result column="ma_address" property="maAddress" jdbcType="VARCHAR" />
+    <result column="ma_contact" property="maContact" jdbcType="VARCHAR" />
+    <result column="ma_tel" property="maTel" jdbcType="VARCHAR" />
+    <result column="ma_isdefault" property="maIsdefault" jdbcType="INTEGER" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from memaddress
+    where ma_id = #{maId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lionsource.tbs.comm.model.Memaddress" >
+    insert into memaddress (ma_id, mem_id, ma_province, 
+      ma_city, ma_county, ma_address, 
+      ma_contact, ma_tel, ma_isdefault
+      )
+    values (#{maId,jdbcType=INTEGER}, #{memId,jdbcType=INTEGER}, #{maProvince,jdbcType=INTEGER}, 
+      #{maCity,jdbcType=INTEGER}, #{maCounty,jdbcType=INTEGER}, #{maAddress,jdbcType=VARCHAR}, 
+      #{maContact,jdbcType=VARCHAR}, #{maTel,jdbcType=VARCHAR}, #{maIsdefault,jdbcType=INTEGER}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.lionsource.tbs.comm.model.Memaddress" >
+    update memaddress
+    set mem_id = #{memId,jdbcType=INTEGER},
+      ma_province = #{maProvince,jdbcType=INTEGER},
+      ma_city = #{maCity,jdbcType=INTEGER},
+      ma_county = #{maCounty,jdbcType=INTEGER},
+      ma_address = #{maAddress,jdbcType=VARCHAR},
+      ma_contact = #{maContact,jdbcType=VARCHAR},
+      ma_tel = #{maTel,jdbcType=VARCHAR},
+      ma_isdefault = #{maIsdefault,jdbcType=INTEGER}
+    where ma_id = #{maId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select ma_id, mem_id, ma_province, ma_city, ma_county, ma_address, ma_contact, ma_tel, 
+    ma_isdefault
+    from memaddress
+    where ma_id = #{maId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select ma_id, mem_id, ma_province, ma_city, ma_county, ma_address, ma_contact, ma_tel, 
+    ma_isdefault
+    from memaddress
+  </select>
+</mapper>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lionsource.tbs.comm.dao.AdvertisingMapper" >
+  <resultMap id="BaseResultMap" type="com.lionsource.tbs.comm.model.Advertising" >
+    <id column="adv_id" property="advId" jdbcType="INTEGER" />
+    <result column="adv_local" property="advLocal" jdbcType="VARCHAR" />
+    <result column="adv_titel" property="advTitel" jdbcType="VARCHAR" />
+    <result column="adv_picture" property="advPicture" jdbcType="VARCHAR" />
+    <result column="adv_url" property="advUrl" jdbcType="VARCHAR" />
+    <result column="adv_sort" property="advSort" jdbcType="INTEGER" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from advertising
+    where adv_id = #{advId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lionsource.tbs.comm.model.Advertising" >
+    insert into advertising (adv_id, adv_local, adv_titel, 
+      adv_picture, adv_url, adv_sort
+      )
+    values (#{advId,jdbcType=INTEGER}, #{advLocal,jdbcType=VARCHAR}, #{advTitel,jdbcType=VARCHAR}, 
+      #{advPicture,jdbcType=VARCHAR}, #{advUrl,jdbcType=VARCHAR}, #{advSort,jdbcType=INTEGER}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.lionsource.tbs.comm.model.Advertising" >
+    update advertising
+    set adv_local = #{advLocal,jdbcType=VARCHAR},
+      adv_titel = #{advTitel,jdbcType=VARCHAR},
+      adv_picture = #{advPicture,jdbcType=VARCHAR},
+      adv_url = #{advUrl,jdbcType=VARCHAR},
+      adv_sort = #{advSort,jdbcType=INTEGER}
+    where adv_id = #{advId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select adv_id, adv_local, adv_titel, adv_picture, adv_url, adv_sort
+    from advertising
+    where adv_id = #{advId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select adv_id, adv_local, adv_titel, adv_picture, adv_url, adv_sort
+    from advertising
+  </select>
+
+</mapper>

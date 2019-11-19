@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lionsource.tbs.comm.dao.StewardMapper" >
+  <resultMap id="BaseResultMap" type="com.lionsource.tbs.comm.model.Steward" >
+    <id column="ste_id" property="steId" jdbcType="INTEGER" />
+    <result column="ref_id" property="refId" jdbcType="INTEGER" />
+    <result column="ste_openid" property="steOpenid" jdbcType="VARCHAR" />
+    <result column="ste_whead" property="steWhead" jdbcType="VARCHAR" />
+    <result column="ste_chead" property="steChead" jdbcType="VARCHAR" />
+    <result column="ste_name" property="steName" jdbcType="VARCHAR" />
+    <result column="ste_tel" property="steTel" jdbcType="VARCHAR" />
+    <result column="ste_idcardnum" property="steIdcardnum" jdbcType="VARCHAR" />
+    <result column="ste_idcardfront" property="steIdcardfront" jdbcType="VARCHAR" />
+    <result column="ste_idcardreverse" property="steIdcardreverse" jdbcType="VARCHAR" />
+    <result column="ste_idcardreason" property="steIdcardreason" jdbcType="VARCHAR" />
+    <result column="ste_sex" property="steSex" jdbcType="INTEGER" />
+    <result column="ste_age" property="steAge" jdbcType="INTEGER" />
+    <result column="ste_native" property="steNative" jdbcType="VARCHAR" />
+    <result column="ste_address" property="steAddress" jdbcType="VARCHAR" />
+    <result column="ste_workstate" property="steWorkstate" jdbcType="VARCHAR" />
+    <result column="ste_realnamestate" property="steRealnamestate" jdbcType="VARCHAR" />
+    <result column="ste_contracttype" property="steContracttype" jdbcType="INTEGER" />
+    <result column="ste_workyear" property="steWorkyear" jdbcType="INTEGER" />
+    <result column="ste_expsalary" property="steExpsalary" jdbcType="INTEGER" />
+    <result column="ste_workform" property="steWorkform" jdbcType="VARCHAR" />
+    <result column="ste_cerstate" property="steCerstate" jdbcType="VARCHAR" />
+    <result column="ste_createtime" property="steCreatetime" jdbcType="TIMESTAMP" />
+    <result column="ste_state" property="steState" jdbcType="INTEGER" />
+    <result column="ste_province" property="steProvince" jdbcType="INTEGER" />
+    <result column="ste_city" property="steCity" jdbcType="INTEGER" />
+    <result column="ste_nickname" property="steNickname" jdbcType="LONGVARCHAR" />
+    <result column="ste_worktype" property="steWorktype" jdbcType="LONGVARCHAR" />
+    <result column="ste_skill" property="steSkill" jdbcType="VARCHAR" />
+    <result column="ste_tag" property="steTag" jdbcType="VARCHAR" />
+    <result column="ste_describe" property="steDescribe" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from steward
+    where ste_id = #{steId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lionsource.tbs.comm.model.Steward" >
+    insert into steward (ste_id, ref_id, ste_openid, 
+      ste_whead, ste_chead, ste_name, 
+      ste_tel, ste_idcardnum, ste_idcardfront, 
+      ste_idcardreverse, ste_idcardreason, ste_sex, 
+      ste_age, ste_native, ste_address, 
+      ste_workstate, ste_realnamestate, ste_contracttype, 
+      ste_workyear, ste_expsalary, ste_workform, 
+      ste_cerstate, ste_createtime, ste_state, 
+      ste_province, ste_city, ste_nickname, 
+      ste_worktype, ste_skill, ste_tag, 
+      ste_describe)
+    values (#{steId,jdbcType=INTEGER}, #{refId,jdbcType=INTEGER}, #{steOpenid,jdbcType=VARCHAR}, 
+      #{steWhead,jdbcType=VARCHAR}, #{steChead,jdbcType=VARCHAR}, #{steName,jdbcType=VARCHAR}, 
+      #{steTel,jdbcType=VARCHAR}, #{steIdcardnum,jdbcType=VARCHAR}, #{steIdcardfront,jdbcType=VARCHAR}, 
+      #{steIdcardreverse,jdbcType=VARCHAR}, #{steIdcardreason,jdbcType=VARCHAR}, #{steSex,jdbcType=INTEGER}, 
+      #{steAge,jdbcType=INTEGER}, #{steNative,jdbcType=VARCHAR}, #{steAddress,jdbcType=VARCHAR}, 
+      #{steWorkstate,jdbcType=VARCHAR}, #{steRealnamestate,jdbcType=VARCHAR}, #{steContracttype,jdbcType=INTEGER}, 
+      #{steWorkyear,jdbcType=INTEGER}, #{steExpsalary,jdbcType=INTEGER}, #{steWorkform,jdbcType=VARCHAR}, 
+      #{steCerstate,jdbcType=VARCHAR}, #{steCreatetime,jdbcType=TIMESTAMP}, #{steState,jdbcType=INTEGER}, 
+      #{steProvince,jdbcType=INTEGER}, #{steCity,jdbcType=INTEGER}, #{steNickname,jdbcType=LONGVARCHAR}, 
+      #{steWorktype,jdbcType=LONGVARCHAR}, #{steSkill,jdbcType=VARCHAR}, #{steTag,jdbcType=VARCHAR},
+      #{steDescribe,jdbcType=LONGVARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.lionsource.tbs.comm.model.Steward" >
+    update steward
+    set ref_id = #{refId,jdbcType=INTEGER},
+      ste_openid = #{steOpenid,jdbcType=VARCHAR},
+      ste_whead = #{steWhead,jdbcType=VARCHAR},
+      ste_chead = #{steChead,jdbcType=VARCHAR},
+      ste_name = #{steName,jdbcType=VARCHAR},
+      ste_tel = #{steTel,jdbcType=VARCHAR},
+      ste_idcardnum = #{steIdcardnum,jdbcType=VARCHAR},
+      ste_idcardfront = #{steIdcardfront,jdbcType=VARCHAR},
+      ste_idcardreverse = #{steIdcardreverse,jdbcType=VARCHAR},
+      ste_idcardreason = #{steIdcardreason,jdbcType=VARCHAR},
+      ste_sex = #{steSex,jdbcType=INTEGER},
+      ste_age = #{steAge,jdbcType=INTEGER},
+      ste_native = #{steNative,jdbcType=VARCHAR},
+      ste_address = #{steAddress,jdbcType=VARCHAR},
+      ste_workstate = #{steWorkstate,jdbcType=VARCHAR},
+      ste_realnamestate = #{steRealnamestate,jdbcType=VARCHAR},
+      ste_contracttype = #{steContracttype,jdbcType=INTEGER},
+      ste_workyear = #{steWorkyear,jdbcType=INTEGER},
+      ste_expsalary = #{steExpsalary,jdbcType=INTEGER},
+      ste_workform = #{steWorkform,jdbcType=VARCHAR},
+      ste_cerstate = #{steCerstate,jdbcType=VARCHAR},
+      ste_createtime = #{steCreatetime,jdbcType=TIMESTAMP},
+      ste_state = #{steState,jdbcType=INTEGER},
+      ste_province = #{steProvince,jdbcType=INTEGER},
+      ste_city = #{steCity,jdbcType=INTEGER},
+      ste_nickname = #{steNickname,jdbcType=LONGVARCHAR},
+      ste_worktype = #{steWorktype,jdbcType=LONGVARCHAR},
+      ste_skill = #{steSkill,jdbcType=VARCHAR},
+      ste_tag = #{steTag,jdbcType=VARCHAR},
+      ste_describe = #{steDescribe,jdbcType=LONGVARCHAR}
+    where ste_id = #{steId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select ste_id, ref_id, ste_openid, ste_whead, ste_chead, ste_name, ste_tel, ste_idcardnum, 
+    ste_idcardfront, ste_idcardreverse, ste_idcardreason, ste_sex, ste_age, ste_native, 
+    ste_address, ste_workstate, ste_realnamestate, ste_contracttype, ste_workyear, ste_expsalary, 
+    ste_workform, ste_cerstate, ste_createtime, ste_state, ste_province, ste_city, ste_nickname, 
+    ste_worktype, ste_skill, ste_tag, ste_describe
+    from steward
+    where ste_id = #{steId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select ste_id, ref_id, ste_openid, ste_whead, ste_chead, ste_name, ste_tel, ste_idcardnum, 
+    ste_idcardfront, ste_idcardreverse, ste_idcardreason, ste_sex, ste_age, ste_native, 
+    ste_address, ste_workstate, ste_realnamestate, ste_contracttype, ste_workyear, ste_expsalary, 
+    ste_workform, ste_cerstate, ste_createtime, ste_state, ste_province, ste_city, ste_nickname, 
+    ste_worktype, ste_skill, ste_tag, ste_describe
+    from steward
+  </select>
+  <!--根据管家类型编号查询管家-->
+  <select id="selectAllByStId" resultMap="BaseResultMap" >
+    select ste_id, ref_id, ste_openid, ste_whead, ste_chead, ste_name, ste_tel, ste_idcardnum,
+    ste_idcardfront, ste_idcardreverse, ste_idcardreason, ste_sex, ste_age, ste_native,
+    ste_address, ste_workstate, ste_realnamestate, ste_contracttype, ste_workyear, ste_expsalary,
+    ste_workform, ste_cerstate, ste_createtime, ste_state, ste_province, ste_city, ste_nickname,
+    ste_worktype, ste_skill, ste_tag, ste_describe
+    from steward where ste_worktype like '%${stId}%'
+  </select>
+  <!--根据技能编号查询管家-->
+  <select id="selectAllBySkillId" resultMap="BaseResultMap" >
+    select ste_id, ref_id, ste_openid, ste_whead, ste_chead, ste_name, ste_tel, ste_idcardnum,
+    ste_idcardfront, ste_idcardreverse, ste_idcardreason, ste_sex, ste_age, ste_native,
+    ste_address, ste_workstate, ste_realnamestate, ste_contracttype, ste_workyear, ste_expsalary,
+    ste_workform, ste_cerstate, ste_createtime, ste_state, ste_province, ste_city, ste_nickname,
+    ste_worktype, ste_skill, ste_tag, ste_describe
+    from steward where ste_skill like '%${skillId}%'
+  </select>
+  <!--根据标签编号查询管家-->
+  <select id="selectAllByTagId" resultMap="BaseResultMap" >
+    select ste_id, ref_id, ste_openid, ste_whead, ste_chead, ste_name, ste_tel, ste_idcardnum,
+    ste_idcardfront, ste_idcardreverse, ste_idcardreason, ste_sex, ste_age, ste_native,
+    ste_address, ste_workstate, ste_realnamestate, ste_contracttype, ste_workyear, ste_expsalary,
+    ste_workform, ste_cerstate, ste_createtime, ste_state, ste_province, ste_city, ste_nickname,
+    ste_worktype, ste_skill, ste_tag, ste_describe
+    from steward where ste_tag like '%${tagId}%'
+  </select>
+</mapper>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lionsource.tbs.comm.dao.RolePerMapper" >
+  <resultMap id="BaseResultMap" type="com.lionsource.tbs.comm.model.RolePer" >
+    <id column="rp_id" property="rpId" jdbcType="INTEGER" />
+    <result column="role_id" property="roleId" jdbcType="INTEGER" />
+    <result column="per_id" property="perId" jdbcType="INTEGER" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from role_per
+    where rp_id = #{rpId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lionsource.tbs.comm.model.RolePer" >
+    insert into role_per (rp_id, role_id, per_id
+      )
+    values (#{rpId,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER}, #{perId,jdbcType=INTEGER}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.lionsource.tbs.comm.model.RolePer" >
+    update role_per
+    set role_id = #{roleId,jdbcType=INTEGER},
+      per_id = #{perId,jdbcType=INTEGER}
+    where rp_id = #{rpId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select rp_id, role_id, per_id
+    from role_per
+    where rp_id = #{rpId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select rp_id, role_id, per_id
+    from role_per
+  </select>
+  <!--批量插入角色权限关系-->
+  <insert id="batchInsert" parameterType="java.util.List" >
+    insert into role_per (role_id, per_id)
+    values
+    <foreach collection="list" item="item" index="index" separator=",">
+    (#{item.roleId,jdbcType=INTEGER}, #{item.perId,jdbcType=INTEGER})
+    </foreach>
+  </insert>
+  <!--根据角色编号删除角色权限-->
+  <delete id="deleteByRoleId" parameterType="java.lang.Integer" >
+    delete from role_per
+    where role_id = #{roleId}
+  </delete>
+</mapper>

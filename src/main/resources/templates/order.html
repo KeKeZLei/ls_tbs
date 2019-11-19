@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="utf-8">
+    <title>预订运营平台 - 订单管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" th:href="@{/static/lib/layui-v2.5.4/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/static/css/public.css}" media="all">
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <fieldset class="layui-elem-field layuimini-search">
+            <legend>搜索信息</legend>
+            <div class="layui-margin-10">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">会员昵称</label>
+                            <div class="layui-input-block">
+                                <input type="text" id="memName" name="memName" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">会员手机号</label>
+                            <div class="layui-input-block">
+                                <input type="text" id="memTel" name="memTel" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">支付时间</label>
+                            <div class="layui-input-block" style="width: 295px;">
+                                <input type="text" class="layui-input" id="dataTime" name="dataTime"
+                                       placeholder="开始 到 结束">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">卡号</label>
+                            <div class="layui-input-block">
+                                <input type="text" id="cardCode"name="cardCode" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline" style="width: 292px;">
+                            <label class="layui-form-label">支付类型</label>
+                            <div class="layui-input-block">
+                                <select name="ordPaytype" lay-search lay-filter="ordPayTypeSearch">
+                                    <option value="">直接选择或搜索选择</option>
+                                    <option value="1">微信支付</option>
+                                    <option value="2">现金支付</option>
+                                    <option value="3">兑换卡支付</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <a class="layui-btn" lay-submit="" lay-filter="dataSearch">搜索</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+
+        <div class="layui-row layui-col-space5">
+            <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                <script type="text/html" id="tableOperBar">
+                    <div class="layui-btn-container">
+                        <button shiro:hasPermission="71" class="layui-btn layui-btn-sm data-add-btn" lay-event="export">导出所有订单</button>
+                    </div>
+                </script>
+                <table class="layui-hide" id="dataTable" lay-filter="dataTable"></table>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/static/lib/layui-v2.5.4/layui.js}" charset="utf-8"></script>
+<script th:src="@{/static/js/public.js}" charset="utf-8"></script>
+<script type="text/javascript">
+    var tableIns;
+    var ordPaytype;
+    layui.use(['form', 'table', 'laydate'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table,
+            laydate = layui.laydate;
+
+        laydate.render({
+            elem: '#dataTime'
+            , type: 'datetime'
+            , range: '~'
+            , format: 'yyyy-MM-dd HH:mm:ss'
+            , trigger: 'click'
+        });
+
+        //数据表格
+        tableIns = table.render({
+            elem: '#dataTable',
+            url: 'manager/getAllOrder',
+            toolbar: '#tableOperBar',
+            even: true,
+            title: '订单表',
+            cellMinWidth: 120,
+            cols: [
+                [
+                    {type: 'numbers', title: 'ID', width: 80, fixed: 'left', align: 'center'},
+                    {field: 'cardCode', title: '卡号', align: 'center'},
+                    {field: 'memNickname', title: '会员昵称', width: 140, align: 'center'},
+                    {field: 'memTel', title: '会员手机号', align: 'center'},
+                    {field: 'proName', title: '商品名称', align: 'center'},
+                    {field: 'cardConvertcode', title: '兑换码', align: 'center', width: 310},
+                    {field: 'ordPrice', title: '支付金额', align: 'center'},
+                    {field: 'ordPaystate', title: '支付状态', align: 'center'},
+                    {field: 'ordCreatetime', title: '支付时间', align: 'center', width: 180, sort: true}
+                ]
+            ],
+            limits: [10, 15, 20, 25, 50, 100],
+            limit: 10,
+            page: true
+        });
+
+        //支付类型类型下拉框监听
+        form.on('select(ordPayTypeSearch)', function (data) {
+            ordPaytype = data.value;
+            if ($("#cardCode").val() != "" && (!(/^(\+|-)?\d+$/.test($("#cardCode").val())) || $("#cardCode").val() <= 0)) {
+                layer.msg("卡号只能为大于0的整数");
+                return false;
+            }
+            var dataTime = $("#dataTime").val();
+            var startTime = "";
+            var endTime = "";
+            if (dataTime != '') {
+                startTime = dataTime.split("~")[0];
+                endTime = dataTime.split("~")[1];
+            }
+            //执行搜索重载
+            table.reload('dataTable', {
+                page: {
+                    curr: 1
+                }
+                , where: {
+                    memName: $("#memName").val(),
+                    cardCode: $("#cardCode").val(),
+                    startTime: startTime,
+                    endTime: endTime,
+                    ordPaytype: ordPaytype,
+                    memTel: $("#memTel").val(),
+                }
+            }, 'data');
+        });
+
+        //监听搜索操作
+        form.on('submit(dataSearch)', function (data) {
+            if ($("#cardCode").val() != "" && (!(/^(\+|-)?\d+$/.test($("#cardCode").val())) || $("#cardCode").val() <= 0)) {
+                layer.msg("卡号只能为大于0的整数");
+                return false;
+            }
+            var dataTime = $("#dataTime").val();
+            var startTime = "";
+            var endTime = "";
+            if (dataTime != '') {
+                startTime = dataTime.split("~")[0];
+                endTime = dataTime.split("~")[1];
+            }
+            //执行搜索重载
+            table.reload('dataTable', {
+                page: {
+                    curr: 1
+                }, where: {
+                    memName: $("#memName").val(),
+                    ordPaytype: ordPaytype,
+                    cardCode: $("#cardCode").val(),
+                    startTime: startTime,
+                    endTime: endTime,
+                    memTel: $("#memTel").val()
+                }
+            }, 'data');
+        });
+
+        //监听表格头工具栏操作
+        table.on('toolbar(dataTable)', function (obj) {
+            if (obj.event === 'export') {
+                layer.confirm('确定要导出吗？', function (index) {
+                    var dataTime = $("#dataTime").val();
+                    var startTime = "";
+                    var endTime = "";
+                    if (dataTime != '') {
+                        startTime = dataTime.split("~")[0];
+                        endTime = dataTime.split("~")[1];
+                    }
+                    var param = {
+                        memName: $("#memName").val(),
+                        ordPaytype: ordPaytype,
+                        cardCode: $("#cardCode").val(),
+                        memTel: $("#memTel").val(),
+                        startTime: startTime,
+                        endTime: endTime
+                    };
+                    var str = JSON.stringify(param);
+                    window.location = "manager/expAllOrder?param=" + encodeURI(encodeURI(str));
+                    layer.close(layer.index);
+                });
+            }
+        });
+    });
+</script>
+</body>
+</html>

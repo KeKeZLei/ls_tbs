@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="utf-8">
+    <title>预订运营平台 - 首页</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" th:href="@{/static/lib/layui-v2.5.4/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/static/lib/font-awesome-4.7.0/css/font-awesome.min.css}" media="all">
+    <link rel="stylesheet" th:href="@{/static/css/public.css}" media="all">
+    <link rel="stylesheet" th:href="@{/static/css/welcome.css}" media="all">
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-md12">
+                <div class="layui-row layui-col-space15">
+                    <div class="layui-col-md6">
+                        <div class="layui-card">
+                            <div class="layui-card-header"><i class="fa fa-warning icon"></i>数据统计</div>
+                            <div class="layui-card-body">
+                                <div class="welcome-module">
+                                    <div class="layui-row layui-col-space10">
+                                        <div class="layui-col-xs6">
+                                            <div class="panel layui-bg-number">
+                                                <div class="panel-body">
+                                                    <div class="panel-title">
+                                                        <span class="label pull-right layui-bg-blue">实时</span>
+                                                        <h5>用户统计</h5>
+                                                    </div>
+                                                    <div class="panel-content">
+                                                        <h1 class="no-margins" th:text="${count.memNum}"></h1>
+                                                        <small>当前分类总记录数</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-xs6">
+                                            <div class="panel layui-bg-number">
+                                                <div class="panel-body">
+                                                    <div class="panel-title">
+                                                        <span class="label pull-right layui-bg-cyan">实时</span>
+                                                        <h5>商品统计</h5>
+                                                    </div>
+                                                    <div class="panel-content">
+                                                        <h1 class="no-margins" th:text="${count.proNum}"></h1>
+                                                        <small>当前分类总记录数</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-xs6">
+                                            <div class="panel layui-bg-number">
+                                                <div class="panel-body">
+                                                    <div class="panel-title">
+                                                        <span class="label pull-right layui-bg-orange">实时</span>
+                                                        <h5>预约统计</h5>
+                                                    </div>
+                                                    <div class="panel-content">
+                                                        <h1 class="no-margins" th:text="${count.arNum}"></h1>
+                                                        <small>当前分类已完成数</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-xs6">
+                                            <div class="panel layui-bg-number">
+                                                <div class="panel-body">
+                                                    <div class="panel-title">
+                                                        <span class="label pull-right layui-bg-green">实时</span>
+                                                        <h5>订单统计</h5>
+                                                    </div>
+                                                    <div class="panel-content">
+                                                        <h1 class="no-margins" th:text="${count.ordNum}"></h1>
+                                                        <small>当前分类已完成数</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-md6">
+                        <div class="layui-card">
+                            <div class="layui-card-header"><i class="fa fa-credit-card icon icon-blue"></i>快捷入口</div>
+                            <div class="layui-card-body">
+                                <div class="welcome-module">
+                                    <div class="layui-row layui-col-space10 layuimini-qiuck">
+                                        <div shiro:hasPermission="1" class="layui-col-xs3 layuimini-qiuck-module">
+                                            <a href="javascript:;" data-iframe-tab="card-add" data-title="生成新卡" data-icon="fa fa-credit-card">
+                                                <i class="fa fa-credit-card"></i>
+                                                <cite>生成新卡</cite>
+                                            </a>
+                                        </div>
+                                        <div shiro:hasPermission="20" class="layui-col-xs3 layuimini-qiuck-module">
+                                            <a href="javascript:;" data-iframe-tab="goods-add" data-title="新品上架" data-icon="fa fa-flag-o">
+                                                <i class="fa fa-flag-o"></i>
+                                                <cite>新品上架</cite>
+                                            </a>
+                                        </div>
+                                        <div shiro:hasPermission="7" class="layui-col-xs3 layuimini-qiuck-module">
+                                            <a href="javascript:;" data-iframe-tab="news-add" data-title="发布新闻" data-icon="fa fa-newspaper-o">
+                                                <i class="fa fa-newspaper-o"></i>
+                                                <cite>发布新闻</cite>
+                                            </a>
+                                        </div>
+                                        <div shiro:hasPermission="40" class="layui-col-xs3 layuimini-qiuck-module">
+                                            <a href="javascript:;" data-iframe-tab="service-add" data-title="新增服务商" data-icon="fa fa-bank">
+                                                <i class="fa fa-bank"></i>
+                                                <cite>新增商户</cite>
+                                            </a>
+                                        </div>
+                                        <div shiro:hasRole="accountManager" class="layui-col-xs3 layuimini-qiuck-module">
+                                            <a href="javascript:;" data-iframe-tab="account" data-title="账号管理" data-icon="fa fa-user-secret">
+                                                <i class="fa fa-user-secret"></i>
+                                                <cite>账号管理</cite>
+                                            </a>
+                                        </div>
+                                        <div shiro:hasRole="employeesManager" class="layui-col-xs3 layuimini-qiuck-module">
+                                            <a href="javascript:;" data-iframe-tab="service-users" data-title="员工管理" data-icon="fa fa-group">
+                                                <i class="fa fa-group"></i>
+                                                <cite>员工管理</cite>
+                                            </a>
+                                        </div>
+                                        <div shiro:hasRole="financialCount" class="layui-col-xs3 layuimini-qiuck-module">
+                                            <a href="javascript:;" data-iframe-tab="statistics" data-title="财务统计" data-icon="fa fa-bar-chart">
+                                                <i class="fa fa-bar-chart"></i>
+                                                <cite>财务统计</cite>
+                                            </a>
+                                        </div>
+                                        <div shiro:hasRole="financialCheck" class="layui-col-xs3 layuimini-qiuck-module">
+                                            <a href="javascript:;" data-iframe-tab="reconciliation" data-title="财务对账" data-icon="fa fa-calculator">
+                                                <i class="fa fa-calculator"></i>
+                                                <cite>财务对账</cite>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/static/lib/layui-v2.5.4/layui.js}" charset="utf-8"></script>
+<script th:src="@{/static/js/lay-config.js?v=1.0.4}" charset="utf-8"></script>
+<script>
+    layui.use(['layer', 'layuimini'], function () {
+        var $ = layui.jquery,
+            layer = layui.layer,
+            layuimini = layui.layuimini;
+
+        /**
+         * 查看公告信息
+         **/
+        $('body').on('click', '.layuimini-notice', function () {
+            var title = $(this).children('.layuimini-notice-title').text(),
+                noticeTime = $(this).children('.layuimini-notice-extra').text(),
+                content = $(this).children('.layuimini-notice-content').html();
+            var html = '<div style="padding:15px 20px; text-align:justify; line-height: 22px;border-bottom:1px solid #e2e2e2;background-color: #2f4056;color: #ffffff">\n' +
+                '<div style="text-align: center;margin-bottom: 20px;font-weight: bold;border-bottom:1px solid #718fb5;padding-bottom: 5px"><h4 class="text-danger">' + title + '</h4></div>\n' +
+                '<div style="font-size: 12px">' + content + '</div>\n' +
+                '</div>\n';
+            parent.layer.open({
+                type: 1,
+                title: '系统公告'+'<span style="float: right;right: 1px;font-size: 12px;color: #b1b3b9;margin-top: 1px">'+noticeTime+'</span>',
+                area: '300px;',
+                shade: 0.8,
+                id: 'layuimini-notice',
+                btn: ['查看', '取消'],
+                btnAlign: 'c',
+                moveType: 1,
+                content:html,
+                success: function (layero) {
+                    var btn = layero.find('.layui-layer-btn');
+                    btn.find('.layui-layer-btn0').attr({
+                        href: 'https://gitee.com/zhongshaofa/layuimini',
+                        target: '_blank'
+                    });
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

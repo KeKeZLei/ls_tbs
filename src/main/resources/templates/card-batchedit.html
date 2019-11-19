@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="utf-8">
+    <title>预订运营平台 - 批量编辑卡</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" th:href="@{/static/lib/layui-v2.5.4/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/static/css/public.css}" media="all">
+</head>
+<body class="layui-dialog-body">
+<div class="layui-form layui-form-pane" action="">
+    <div class="layui-row layui-col-space5">
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+            <div class="layui-form-item">
+                <label class="layui-form-label">批次号</label>
+                <div class="layui-input-block">
+                    <select name="cardBatchno" id="cardBatchno" lay-search lay-filter="cardBatchno">
+                        <option value="">直接选择或搜索选择</option>
+                        <option th:each="list:${batchno}" th:value="${list}" th:text="${list}"/>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+            <div class="layui-form-item">
+                <label class="layui-form-label">卡名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="cardName" id="cardName" lay-verify="required" autocomplete="off" required
+                           class="layui-input"
+                           placeholder="请输入卡名称">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space5">
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+            <div class="layui-form-item">
+                <label class="layui-form-label">销售价格</label>
+                <div class="layui-input-block">
+                    <input type="text" name="cardSaleprice" id="cardSaleprice" lay-verify="number" autocomplete="off"
+                           placeholder="请输入销售价格"
+                           class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+            <div class="layui-form-item">
+                <label class="layui-form-label">卡面值</label>
+                <div class="layui-input-block">
+                    <input type="text" name="cardFaceprice" id="cardFaceprice" lay-verify="number" autocomplete="off"
+                           placeholder="请输入卡面值"
+                           class="layui-input">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space5">
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+            <div class="layui-form-item">
+                <label class="layui-form-label">过期时间</label>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input" lay-verify="required" id="cardExpireddate"
+                           name="cardExpireddate">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row">
+        <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">备注</label>
+                <div class="layui-input-block">
+                    <textarea name="cardRemark" id="cardRemark" placeholder="请输入卡备注" class="layui-textarea"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space5">
+        <div class="layui-col-xs5 layui-col-sm5 layui-col-md5">
+            <div class="layui-form-item">
+                <div class="layui-inline" style="width: 100%">
+                    <select name="pcId" id="pcId" lay-filter="pcId" lay-search>
+                        <option value="">直接选择或搜索选择商品类型</option>
+                        <option th:each="list:${proClass}" th:value="${list.pcId}" th:text="${list.pcName}"/>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-xs5 layui-col-sm5 layui-col-md5">
+            <div class="layui-form-item">
+                <div class="layui-inline" style="width: 100%">
+                    <select name="proId" id="proId" lay-filter="proId" lay-search>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-xs2 layui-col-sm2 layui-col-md2">
+            <button class="layui-btn" onclick="addPro()">加入商品列表</button>
+        </div>
+    </div>
+    <div class="layui-row">
+        <fieldset class="layui-elem-field layuimini-search">
+            <legend>商品列表</legend>
+            <div class="layui-margin-10">
+                <div id="goodList" class="layui-row layui-col-space5">
+                </div>
+            </div>
+        </fieldset>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block layui-align-right">
+            <button class="layui-btn" lay-submit="" lay-filter="submit">立即提交</button>
+        </div>
+    </div>
+</div>
+<script th:src="@{/static/lib/jquery-3.4.1/jquery-3.4.1.min.js}" charset="utf-8"></script>
+<script th:src="@{/static/lib/layui-v2.5.4/layui.js}" charset="utf-8"></script>
+<script th:src="@{/static/js/lay-config.js?v=1.0.4}" charset="utf-8"></script>
+<script th:src="@{/static/js/public.js}" charset="utf-8"></script>
+<script>
+    var proIds = ";"; //商品编号集合
+    var proFlag = false; //有无商品列表标识
+    layui.use(['form', 'laydate'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            laydate = layui.laydate;
+        var count = 0;	//提交次数
+
+        laydate.render({
+            elem: '#cardExpireddate'
+            , type: 'date'
+            , format: 'yyyy-M-d'
+            , min: 'date'
+            , trigger: 'click'
+        });
+
+        //监听批次号下拉框
+        form.on('select(cardBatchno)', function (obj) {
+            if(obj.value != ""){
+                $.ajax({
+                    url: "manager/getCardByBatchno", //请求接口
+                    type: "get",   //请求方式
+                    data: {batchno: obj.value},
+                    dataType: "json",
+                    async: false,
+                    success: function (result) {
+                        if(result.code == 200){
+                            var c = result.data.card;
+                            var proList = result.data.proList;
+                            $("#cardName").val(c.cardName);
+                            $("#cardSaleprice").val(c.cardSaleprice);
+                            $("#cardFaceprice").val(c.cardFaceprice);
+                            $("#cardExpireddate").val(formatDate(c.cardExpireddate));
+                            if (c.cardRemark != undefined) {
+                                $("#cardRemark").val(c.cardRemark);
+                            }
+
+                            var str = '';
+                            for (var i = 0; i < proList.length; i++) {
+                                var card = proList[i];
+                                proIds += card.proId + ";";
+                                str += '<div class="layui-col-xs4 layui-col-sm4 layui-col-md4 text-center" id="' + card.proId + '"><dt><dd>' + card.proName + '</dd>';
+                                str += '<dd><img src="' + card.proCover + '" width="90%"/></dd>';
+                                if (card.cpIsmain == 1) {
+                                    str += '<dd><input type="radio" name="mainProduct" value="' + card.proId + '" title="主推" checked=""> </dd>';
+                                } else {
+                                    str += '<dd><input type="radio" name="mainProduct" value="' + card.proId + '" title="主推"> </dd>';
+                                }
+                                str += '<dd><button class="layui-btn layui-btn-primary layui-btn-sm" style="width: 90%" onclick="delPro(' + card.proId + ')">删除</button></dd></dt></div>';
+                            }
+                            $("#goodList").html(str);
+                            form.render("radio");
+                        }
+                    }
+                });
+            }else{
+                $("#cardName").val("");
+                $("#cardSaleprice").val("");
+                $("#cardFaceprice").val("");
+                $("#cardExpireddate").val("");
+                $("#cardRemark").val("");
+                $("#goodList").html("");
+                proIds = ";";
+            }
+        });
+
+        //监听商品类型下拉框
+        form.on('select(pcId)', function (obj) {
+            $.ajax({
+                url: "manager/getProductList", //请求接口
+                type: "get",   //请求方式
+                data: {pcId: obj.value},
+                dataType: "json",
+                async: false,
+                success: function (result) {
+                    proFlag = false;
+                    if (result.length > 0) {
+                        proFlag = true;
+                    }
+                    var str = '<option value="">直接选择或搜索选择商品</option>';
+                    for (var i = 0; i < result.length; i++) {
+                        var data = result[i];
+                        str += '<option value="' + data.proId + '" id="' + data.tagCover + '">' + data.proName + '</option>';
+                    }
+                    $("#proId").html(str);
+                    form.render('select');
+                }
+            });
+        });
+
+        //监听商品下拉框
+        form.on('select(proId)', function (obj) {
+            //判断商品是否已经添加过
+            if (proIds.indexOf(";" + obj.value + ";") != -1) {
+                layer.msg("该商品已经在商品列表,请重新选择");
+                $("#proId").val("");
+            }
+        });
+
+        // 监听提交操作
+        form.on('submit(submit)', function (data) {
+            var cardBatchno = $("#cardBatchno").val();
+            var cardName = $("#cardName").val();
+            var cardSaleprice = $("#cardSaleprice").val();
+            var cardFaceprice = $("#cardFaceprice").val();
+            var cardExpireddate = $("#cardExpireddate").val();
+            var cardRemark = $("#cardRemark").val();
+
+            if (!cardBatchno) {
+                layer.msg("请选择批次号");
+                return false;
+            }
+            if (!cardName) {
+                layer.msg("请输入卡名称");
+                return false;
+            }
+            if (!cardSaleprice || isNaN(cardSaleprice)) {
+                layer.msg("销售价格只能为数字");
+                return false;
+            }
+            if (!cardFaceprice || isNaN(cardFaceprice)) {
+                layer.msg("卡面值只能为数字");
+                return false;
+            }
+            if (!(/^(\d{4})[-\/](\d{1}|0\d{1}|1[0-2])([-\/](\d{1}|0\d{1}|[1-2][0-9]|3[0-1]))*$/.test(cardExpireddate))) {
+                layer.msg("过期时间格式不正确");
+                return false;
+            }
+            var mainId = $("input[name='mainProduct']:checked").val();
+            if (proIds == "" || proIds == ";") {
+                layer.msg("请添加商品列表");
+                return false;
+            }
+            //去除前后分号
+            if(proIds.indexOf(";") != -1) {
+                proIds = proIds.substring(1, proIds.length - 1);
+            }
+            if (mainId == undefined) {
+                layer.msg("请设置主商品");
+                return false;
+            }
+
+            //次数控制，点击多次也只提交一次
+            if (count > 0) {
+                return false;
+            } else {
+                $.ajax({
+                    url: "manager/batchEditCard", //请求接口
+                    type: "post",   //请求方式
+                    data: {
+                        cardBatchno: cardBatchno,
+                        cardName: cardName,
+                        cardSaleprice: cardSaleprice,
+                        cardFaceprice: cardFaceprice,
+                        cardExpireddate: cardExpireddate,
+                        cardRemark: cardRemark,
+                        proIds: proIds,
+                        mainId: mainId
+                    },
+                    dataType: "json",
+                    async: false,
+                    success: function (result) {
+                        if (result.code == 200) { //成功
+                            location.reload();
+                            parent.layer.closeAll();
+                            parent.layer.msg(result.msg);
+                            //点击次数累加
+                            count++;
+                        } else { //失败
+                            parent.layer.msg(result.msg);
+                        }
+                    }
+                });
+            }
+        });
+    });
+
+    //添加商品
+    function addPro() {
+        layui.use(['form', 'laydate'], function () {
+            var form = layui.form;
+
+            if ($("#pcId").val() == "") {
+                layer.msg("请选择或搜索商品类型");
+                return false;
+            }
+            if (proFlag && $("#proId").val() == "") {
+                layer.msg("请选择或搜索商品");
+                return false;
+            }
+            var proName = $("#proId option:selected").text();   //商品名称
+            var proId = $("#proId").val();  //商品编号
+            var proCover = $("#proId option:selected")[0].id;   //商品封图
+            proIds += proId + ";";
+            var str = '<div class="layui-col-xs4 layui-col-sm4 layui-col-md4 text-center" id="' + proId + '"><dt><dd>' + proName + '</dd>';
+            str += '<dd><img src="' + proCover + '" width="90%"/></dd>';
+            str += '<dd><input type="radio" name="mainProduct" value="' + proId + '" title="主推" checked=""> </dd>';
+            str += '<dd><button class="layui-btn layui-btn-primary layui-btn-sm" style="width: 90%" onclick="delPro(' + proId + ')">删除</button></dd></dt></div>';
+            $("#goodList").append(str);
+
+            form.render("radio");
+
+            $("#proId").val("");
+            form.render('select');
+        });
+    }
+
+    //删除商品
+    function delPro(id) {
+        layui.use(['form', 'laydate'], function () {
+            $("#" + id).remove();
+            proIds = proIds.replace(id + ";", "");
+        });
+    }
+</script>
+</body>
+</html>

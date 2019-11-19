@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="utf-8">
+    <title>预订运营平台 - 酒店库存</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" th:href="@{/static/lib/layui-v2.5.4/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/static/css/public.css}" media="all">
+    <style>
+        .layui-laydate-content td, .layui-laydate-content th {
+            font-size: 24px;
+        }
+
+        #calendarModel .layui-laydate-main, #layui-laydate1, #layui-laydate1 table{
+            width: 100%;
+        }
+
+        .price {
+            color: #1ab4f1;
+            width: 100%;
+            text-align: center;
+            font-size:14px;
+        }
+    </style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <fieldset class="layui-elem-field layuimini-search">
+            <legend>搜索信息</legend>
+            <div class="layui-margin-10">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline" id="type">
+                            <label class="layui-form-label">所属商户</label>
+                            <div class="layui-input-block">
+                                <select name="merId" id="merId" lay-filter="merId" lay-search>
+                                    <option value="">直接选择或搜索选择</option>
+                                    <option th:each="list:${merList}" th:value="${list.merId}"
+                                            th:text="${list.merName}"/>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">酒店名称</label>
+                            <div class="layui-input-block">
+                                <select name="hotId" id="hotId" lay-filter="hotId" lay-search>
+                                    <option value="">直接选择或搜索选择</option>
+                                    <option th:each="list:${hotelList}" th:value="${list.hotId}"
+                                            th:text="${list.hotName}"/>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">商品名称</label>
+                            <div class="layui-input-inline">
+                                <select name="proNameExt" id="proNameExt" lay-filter="proNameExt" lay-search>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+        <div class="layui-row layui-col-space5">
+            <div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="padding: 0px;">
+                <form class="layui-form layui-form-pane" action="" style="text-align: right;">
+                    <div class="layui-form-item" style="margin-bottom: 0px;">
+                        <div class="layui-inline" shiro:hasPermission="73">
+                            <input type="checkbox" checked="" name="model" lay-skin="switch" lay-filter="switchModel"
+                                   lay-text="表格模式|日历模式">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                <div id="tableModel" class="layui-row">
+                    <script type="text/html" id="tableOperBar">
+                        <div class="layui-btn-container">
+                            <button shiro:hasPermission="52"
+                                    class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="deleMul">
+                                批量删除
+                            </button>
+                            <button shiro:hasPermission="48" class="layui-btn layui-btn-sm data-add-btn"
+                                    lay-event="add">添加库存
+                            </button>
+                            <button shiro:hasPermission="49" class="layui-btn layui-btn-sm data-add-btn"
+                                    lay-event="editMul">批量修改库存
+                            </button>
+                        </div>
+                    </script>
+                    <table class="layui-hide" id="dataTable" lay-filter="dataTable"></table>
+                    <script type="text/html" id="tableDataBar">
+                        <a shiro:hasPermission="50" class="layui-btn layui-btn-xs data-count-edit"
+                           lay-event="edit">编辑</a>
+                        <a shiro:hasPermission="51" class="layui-btn layui-btn-xs layui-btn-danger data-count-delete"
+                           lay-event="dele">删除</a>
+                    </script>
+                </div>
+                <div id="calendarModel" style="display: none">
+                    <div class="layui-row layui-col-space5">
+                        <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                        </div>
+                        <div id="calendar" class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/static/lib/layui-v2.5.4/layui.js}" charset="utf-8"></script>
+<script th:src="@{/static/js/public.js}" charset="utf-8"></script>
+<script type="text/javascript">
+    var tableObj;
+    var hotName;
+    var proName;
+    layui.use(['form', 'table', 'laydate'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table,
+            laydate = layui.laydate;
+
+        var pageNow = 0, dataLength = 0;
+
+        //数据表格
+        tableObj = table.render({
+            elem: '#dataTable',
+            url: 'manager/getAllHotelSku',
+            toolbar: '#tableOperBar',
+            even: true,
+            cellMinWidth: 120,
+            title: '酒店库存表',
+            cols: [
+                [
+                    {type: "checkbox", width: 50, fixed: "left"},
+                    {type: 'numbers', title: 'ID', fixed: 'left', align: 'center', width: 80},
+                    {field: 'merName', title: '商户名称', sort: true, align: 'center'},
+                    {field: 'hotName', title: '酒店名称', sort: true, align: 'center'},
+                    {field: 'proName', title: '商品名称', sort: true, align: 'center'},
+                    {
+                        field: 'hsDate',
+                        title: '预约日期',
+                        align: 'center',
+                        templet: "<div>{{formatDate(d.hsDate, 'yyyy-MM-dd')}}</div>"
+                    },
+                    {field: 'hsStock', title: '剩余库存', align: 'center'},
+                    {field: 'hsPrice', title: '产品售价', align: 'center'},
+                    {title: '操作', toolbar: '#tableDataBar', fixed: 'right', align: 'center'}
+                ]
+            ],
+            limits: [10, 15, 20, 25, 50, 100],
+            limit: 10,
+            page: true,
+            done: function (res, curr, count) {
+                pageNow = curr;
+                dataLength = res.data.length;
+            }
+        });
+
+        //监听所属商户下拉框
+        form.on('select(merId)', function (obj) {
+            //执行搜索重载
+            table.reload('dataTable', {
+                page: {
+                    curr: 1
+                }
+                , where: {
+                    merId: obj.value,
+                    hotId: $("#hotId").val(),
+                    proId: $("#proNameExt").val()
+                }
+            }, 'data');
+        });
+
+        //监听搜索操作
+        form.on('select(hotId)', function (data) {
+            hotName = this.innerText;
+            $.ajax({
+                url: "manager/getProductByHotId",
+                dataType: "json",
+                type: "get",
+                data: {"hotId": data.value},
+                success: function (result) {
+                    var str ="<option value=''>直接选择或搜索选择</option>"
+                    for(var x in result){
+                        str +="<option value='"+result[x].proId+"'>"+result[x].proName+"</option>"
+                    }
+                    $("#proNameExt").html(str);
+                    form.render();
+                }
+            });
+            //执行搜索重载
+            table.reload('dataTable', {
+                page: {
+                    curr: 1
+                }
+                , where: {
+                    merId: $("#merId").val(),
+                    hotId: data.value,
+                    proId: $("#proNameExt").val()
+                }
+            }, 'data');
+        });
+
+        //监听搜索操作
+        form.on('select(proNameExt)', function (data) {
+            proName = this.innerText;
+            //执行搜索重载
+            table.reload('dataTable', {
+                page: {
+                    curr: 1
+                },
+                where: {
+                    pcId: $("#pcId").val(),
+                    merId: $("#merId").val(),
+                    proName: $("#proNameExt").val(),
+                }
+            }, 'data');
+            form.render();
+            $("#calendar").html("");
+            laydate.render({
+                elem: '#calendar',
+                position: 'static'
+                ,showBottom: false,
+                ready: function (date) {
+                    getCalendarCount(date.year,date.month);
+                }
+                , done: function (value, date) {
+                    var arr = getStock(value);
+                    top.layer.open({
+                        type: 2
+                        , title: '编辑库存'
+                        , area: [ '600px', '430px']
+                        , shade: 0.8
+                        , maxmin: true
+                        , content: 'hotel-stock-calendar'
+                        , zIndex: layer.zIndex
+                        , success: function (layero, index) {
+                            top.layer.setTop(layero);
+                            layero.find("iframe")[0].contentWindow.renderData(arr);
+                        }
+                        , end: function () {
+                            initCan();
+                        }
+                    });
+                }
+                , change: function (value, date) { //监听日期被切换
+                    getCalendarCount(date.year,date.month);
+                }
+            });
+            calendarCount = 1;
+        });
+
+        //监听指定开关
+        var calendarCount = 0;
+        form.on('switch(switchModel)', function(data){
+            var hotId = $("#hotId").val();
+            var proNameExt = $("#proNameExt").val();
+
+            if(hotId == null || hotId == '' || hotId == undefined ){
+                layer.msg("请选择酒店");
+                data.elem.checked = !data.elem.checked;
+                form.render('checkbox');
+                return false;
+            }
+            if(proNameExt == null || proNameExt == ''|| proNameExt == undefined ){
+                layer.msg("请选择商品");
+                data.elem.checked = !data.elem.checked;
+                form.render('checkbox');
+                return false;
+            }
+            if(this.checked){
+                //显示表格模式
+                $("#calendarModel").hide();
+                $("#tableModel").show();
+                $("#type").show();
+
+
+            }else{
+                //显示日历模式
+                $("#tableModel").hide();
+                $("#calendarModel").show();
+                $("#type").hide();
+
+                if(calendarCount == 0) {
+                    var tmpValue;
+                    laydate.render({
+                        elem: '#calendar'
+                        , position: 'static'
+                        , ready: function (date) {
+                            getCalendarCount(date.year,date.month);
+                        }
+                        , done: function (value, date) {
+                            var arr = getStock(value);
+                            top.layer.open({
+                                type: 2
+                                , title: '编辑库存'
+                                , area: [ '600px', '430px']
+                                , shade: 0.8
+                                , maxmin: true
+                                , content: 'hotel-stock-calendar'
+                                , zIndex: layer.zIndex
+                                , success: function (layero, index) {
+                                    top.layer.setTop(layero);
+                                    layero.find("iframe")[0].contentWindow.renderData(arr);
+                                }
+                                , end: function () {
+                                    initCan();
+                                }
+                            });
+                        }
+                        , change: function (value, date) { //监听日期被切换
+                            getCalendarCount(date.year,date.month);
+                        }
+                    });
+                }
+                calendarCount = 1;
+            }
+        });
+
+        //监听表格头工具栏操作
+        table.on('toolbar(dataTable)', function (obj) {
+            if (obj.event === 'deleMul') {
+                var checkStatus = table.checkStatus(obj.config.id);
+                //待删除的酒店库存编号
+                var hsIds = "";
+                //已勾选的数据
+                var checkData = checkStatus.data;
+                //判断有无勾选数据
+                if (checkData.length == 0) {
+                    layer.msg("请选择要删除的数据项");
+                    return;
+                }
+                //组装酒店库存编号
+                for (var i = 0; i < checkData.length; i++) {
+                    hsIds += checkData[i].hsId;
+                    //判断是否为最后一个数据，为最后一个时不加分号
+                    if (i != checkData.length - 1) {
+                        hsIds += ";";
+                    }
+                }
+
+                layer.confirm('确定要删除吗？', function (index) {
+                    $.ajax({
+                        url: "manager/delHotelSku",
+                        dataType: "json",
+                        type: "post",
+                        data: {"ids": hsIds},
+                        success: function (result) {
+                            if (result.code == 200) { //成功
+                                //处理一页只有一行，删除后表格数据不出来的问题
+                                if (dataLength == checkData.length) {
+                                    table.reload('dataTable', {page: {curr: pageNow > 1 ? (pageNow - 1) : 1}});
+                                } else {
+                                    table.reload('dataTable', {page: {curr: pageNow}});
+                                }
+                            }
+                            layer.msg(result.msg);
+                        }
+                    });
+                });
+            } else if (obj.event === 'add') {
+                add();
+            } else if (obj.event === 'editMul') {
+                var checkStatus = table.checkStatus(obj.config.id);
+                //待编辑的酒店库存编号
+                var hsIds = "";
+                //已勾选的数据
+                var checkData = checkStatus.data;
+                //判断有无勾选数据
+                if (checkData.length == 0) {
+                    layer.msg("请选择要编辑的数据项");
+                    return;
+                }
+                //组装酒店库存编号
+                for (var i = 0; i < checkData.length; i++) {
+                    hsIds += checkData[i].hsId;
+                    //判断是否为最后一个数据，为最后一个时不加分号
+                    if (i != checkData.length - 1) {
+                        hsIds += ";";
+                    }
+                }
+                modalDialog(tableObj, '批量编辑库存', 'hotel-stock-editmul', '400px', '160px', hsIds);
+            }
+        });
+
+        //监听表格行操作
+        table.on('tool(dataTable)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'edit') {
+                data.hsDate = data.hsDate.substring(0, data.hsDate.indexOf(" "));
+                modalDialog(tableObj, '编辑库存', 'hotel-stock-edit?hsId=' + data.hsId, '600px', '430px', data);
+            } else if (obj.event === 'dele') {
+                layer.confirm('确定要删除吗？', function (index) {
+                    $.ajax({
+                        url: "manager/delHotelSku",
+                        dataType: "json",
+                        type: "post",
+                        data: {"ids": data.hsId},
+                        success: function (result) {
+                            if (result.code == 200) { //成功
+                                //处理一页只有一行，删除后表格数据不出来的问题
+                                if (dataLength == 1) {
+                                    table.reload('dataTable', {page: {curr: pageNow > 1 ? (pageNow - 1) : 1}});
+                                } else {
+                                    table.reload('dataTable', {page: {curr: pageNow}});
+                                }
+                            }
+                            layer.msg(result.msg);
+                        }
+                    });
+                });
+            }
+        });
+    });
+
+    function add(){
+        modalDialog(tableObj, '添加库存', 'hotel-stock-add', '600px', '430px');
+    }
+    function getCalendarCount(year,month){
+        var $ = layui.jquery;
+        $.ajax({
+            url: "manager/getHotCalendarCount",
+            dataType: "json",
+            type: "get",
+            data: {"hotId": $("#hotId").val(),"proId":$("#proNameExt").val(),"year": year,"moth":month},
+            success: function (result) {
+                for(var x in result){
+                    var dates= '.layui-laydate-content td[lay-ymd="'+result[x].time+'"]';
+                    var choosedate = $(dates);
+                    choosedate.append("<div class=\"price\">" + result[x].count + "</div>");
+                }
+            }
+        });
+    }
+    function getStock(value){
+        var $ = layui.jquery;
+        var arr = {};
+        var hotId = $("#hotId").val();
+        var proId = $("#proNameExt").val();
+        arr["hotId"] = hotId;
+        arr["hotName"] = hotName;
+        arr["proId"] = proId;
+        arr["proName"] = proName;
+        arr["time"] = value;
+        $.ajax({
+            url: "manager/getHotelStock",
+            dataType: "json",
+            type: "get",
+            data: {"hotId": hotId,"proId":proId,"date":value},
+            success: function (results) {
+                var  hsStock = results.data.hsStock;
+                var  merName = results.data.merName;
+                var  hsId = results.data.hsId;
+                var  hsPrice = results.data.hsPrice;
+                arr["hsId"] = hsId;
+                arr["hsStock"] = hsStock;
+                arr["merName"] = merName;
+                arr["hsPrice"] = hsPrice;
+            }
+        });
+        return arr;
+    }
+    function initCan() {
+        var $ = layui.jquery;
+        var laydate = layui.laydate;
+        $("#calendar").html("");
+        laydate.render({
+            elem: '#calendar',
+            position: 'static'
+            ,showBottom: false,
+            ready: function (date) {
+                getCalendarCount(date.year,date.month);
+            }
+            , done: function (value, date) {
+                var arr = getStock(value);
+                top.layer.open({
+                    type: 2
+                    , title: '编辑库存'
+                    , area: [ '600px', '430px']
+                    , shade: 0.8
+                    , maxmin: true
+                    , content: 'hotel-stock-calendar'
+                    , zIndex: layer.zIndex
+                    , success: function (layero, index) {
+                        top.layer.setTop(layero);
+                        layero.find("iframe")[0].contentWindow.renderData(arr);
+                    }
+                    , end: function () {
+                        initCan();
+                    }
+                });
+            }
+            , change: function (value, date) { //监听日期被切换
+                getCalendarCount(date.year,date.month);
+            }
+        });
+        calendarCount = 1;
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lionsource.tbs.comm.dao.EvaluateMapper" >
+  <resultMap id="BaseResultMap" type="com.lionsource.tbs.comm.model.Evaluate" >
+    <id column="eva_id" property="evaId" jdbcType="INTEGER" />
+    <result column="mem_id" property="memId" jdbcType="INTEGER" />
+    <result column="ste_id" property="steId" jdbcType="INTEGER" />
+    <result column="eva_service" property="evaService" jdbcType="INTEGER" />
+    <result column="eva_skill" property="evaSkill" jdbcType="INTEGER" />
+    <result column="eva_proquality" property="evaProquality" jdbcType="INTEGER" />
+    <result column="eva_comment" property="evaComment" jdbcType="LONGVARCHAR" />
+    <result column="eva_agreestate" property="evaAgreestate" jdbcType="INTEGER" />
+    <result column="eva_state" property="evaState" jdbcType="INTEGER" />
+    <result column="eva_createtime" property="evaCreatetime" jdbcType="TIMESTAMP" />
+    <result column="eva_time" property="evaTime" jdbcType="DATE" />
+    <result column="eva_evastate" property="evaEvastate" jdbcType="INTEGER" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from evaluate
+    where eva_id = #{evaId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lionsource.tbs.comm.model.Evaluate" >
+    insert into evaluate (eva_id, mem_id, ste_id, 
+      eva_service, eva_skill, eva_proquality, 
+      eva_comment, eva_agreestate, eva_state, 
+      eva_createtime, eva_time, eva_evastate
+      )
+    values (#{evaId,jdbcType=INTEGER}, #{memId,jdbcType=INTEGER}, #{steId,jdbcType=INTEGER}, 
+      #{evaService,jdbcType=INTEGER}, #{evaSkill,jdbcType=INTEGER}, #{evaProquality,jdbcType=INTEGER}, 
+      #{evaComment,jdbcType=LONGVARCHAR}, #{evaAgreestate,jdbcType=INTEGER}, #{evaState,jdbcType=INTEGER},
+      #{evaCreatetime,jdbcType=TIMESTAMP}, #{evaTime,jdbcType=DATE}, #{evaEvastate,jdbcType=INTEGER}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.lionsource.tbs.comm.model.Evaluate" >
+    update evaluate
+    set mem_id = #{memId,jdbcType=INTEGER},
+      ste_id = #{steId,jdbcType=INTEGER},
+      eva_service = #{evaService,jdbcType=INTEGER},
+      eva_skill = #{evaSkill,jdbcType=INTEGER},
+      eva_proquality = #{evaProquality,jdbcType=INTEGER},
+      eva_comment = #{evaComment,jdbcType=LONGVARCHAR},
+      eva_agreestate = #{evaAgreestate,jdbcType=INTEGER},
+      eva_state = #{evaState,jdbcType=INTEGER},
+      eva_createtime = #{evaCreatetime,jdbcType=TIMESTAMP},
+      eva_time = #{evaTime,jdbcType=DATE},
+      eva_evastate = #{evaEvastate,jdbcType=INTEGER}
+    where eva_id = #{evaId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select eva_id, mem_id, ste_id, eva_service, eva_skill, eva_proquality, eva_comment, 
+    eva_agreestate, eva_state, eva_createtime, eva_time, eva_evastate
+    from evaluate
+    where eva_id = #{evaId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select eva_id, mem_id, ste_id, eva_service, eva_skill, eva_proquality, eva_comment, 
+    eva_agreestate, eva_state, eva_createtime, eva_time, eva_evastate
+    from evaluate
+  </select>
+</mapper>

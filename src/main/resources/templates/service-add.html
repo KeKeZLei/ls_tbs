@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="utf-8">
+    <title>预订运营平台 - 添加商户</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" th:href="@{/static/lib/layui-v2.5.4/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/static/css/public.css}" media="all">
+</head>
+<body class="layui-dialog-body">
+<form class="layui-form layui-form-pane" action="">
+    <div class="layui-row">
+        <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+            <div class="layui-form-item text-center">
+                <div class="layui-upload-drag" id="fileUpload" style="height:70px;">
+                    <i class="layui-icon layui-icon-upload"></i>
+                    <p>LOGO图</p>
+                </div>
+                <p class="msg-red">标准尺寸：45px * 45px</p>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space5">
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+            <div class="layui-form-item">
+                <label class="layui-form-label">商户名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="merName" lay-verify="required" autocomplete="off" placeholder="请输入商户名称"
+                           class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+            <div class="layui-form-item">
+                <label class="layui-form-label">经营类型</label>
+                <div class="layui-input-block">
+                    <select name="pcId" id="pcId" lay-filter="pcId" lay-verify="required" lay-search>
+                        <option value="">直接选择或搜索选择</option>
+                        <option th:each="list:${proClass}" th:value="${list.pcId}" th:text="${list.pcName}"/>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row">
+        <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+            <div class="layui-form-item">
+                <label class="layui-form-label">经营地址</label>
+                <div class="layui-input-inline">
+                    <select name="merProvince" id="merProvince" lay-verify="required" lay-filter="merProvince"
+                            lay-search>
+                        <option value="">请选择或搜索省</option>
+                        <option th:each="list:${provinceList}" th:value="${list.provId}" th:text="${list.provName}"/>
+                    </select>
+                </div>
+                <div class="layui-input-inline">
+                    <select name="merCity" id="merCity" lay-filter="merCity" lay-verify="required" lay-search>
+                        <option value="">请选择或搜索市</option>
+                    </select>
+                </div>
+                <div class="layui-input-inline">
+                    <select name="merCounty" id="merCounty" lay-filter="merCounty" lay-verify="required" lay-search>
+                        <option value="">请选择或搜索区县</option>
+                    </select>
+                </div>
+                <div class="layui-input-inline">
+                    <input type="text" name="merAddress" lay-verify="required" autocomplete="off" placeholder="请输入地址"
+                           class="layui-input"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space5">
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+            <div class="layui-form-item">
+                <label class="layui-form-label">联系人</label>
+                <div class="layui-input-block">
+                    <input type="text" name="merContact" lay-verify="required" autocomplete="off" placeholder="请输入联系人姓名"
+                           class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+            <div class="layui-form-item">
+                <label class="layui-form-label">手机号码</label>
+                <div class="layui-input-block">
+                    <input type="text" name="merTel" lay-verify="merTel" autocomplete="off" placeholder="请输入联系人手机号码"
+                           class="layui-input">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space5">
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+            <div class="layui-form-item">
+                <label class="layui-form-label">座机号码</label>
+                <div class="layui-input-block">
+                    <input type="text" name="merLandline" autocomplete="off" placeholder="请输入座机号码"
+                           class="layui-input">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row">
+        <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">商户简介</label>
+                <div class="layui-input-block">
+                    <textarea name="merDescribe" placeholder="请输入简介内容" class="layui-textarea"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block layui-align-right">
+            <button class="layui-btn" lay-submit="" lay-filter="submit">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<script th:src="@{/static/lib/jquery-3.4.1/jquery-3.4.1.min.js}" charset="utf-8"></script>
+<script th:src="@{/static/lib/layui-v2.5.4/layui.js}" charset="utf-8"></script>
+<script th:src="@{/static/js/lay-config.js?v=1.0.4}" charset="utf-8"></script>
+<script th:src="@{/static/js/public.js}" charset="utf-8"></script>
+<script>
+    layui.use(['form', 'upload'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            upload = layui.upload;
+        var posterWidth = 45;	//图片宽度上限
+        var posterHeight = 45;	//图片高度上限
+        var merLogo = "";	 	//图片地址
+        var count = 0;	//提交次数
+
+        //自定义验证规则
+        form.verify({
+            merTel: [
+                /^1[3456789]\d{9}$/
+                , '手机号码格式错误'
+            ]
+        });
+
+        //上传图片
+        upload.render({
+            elem: '#fileUpload',
+            url: "uploadImage",
+            multiple: true,
+            auto: false,
+            data: {"type": 3},
+            choose: function (obj) {
+                obj.preview(function (index, file, result) {
+                    var img = new Image();
+                    img.onload = function () {
+                        if (posterWidth <= img.width && posterHeight <= img.height) {
+                            obj.upload(index, file);
+                        } else {
+                            layer.msg('图片标准尺寸为：' + posterWidth + 'px * ' + posterHeight + 'px');
+                        }
+                    };
+                    img.src = result;
+                });
+            },
+            before: function (obj) {
+                layer.msg('图片上传中...', {
+                    icon: 16,
+                    shade: 0.01,
+                    time: 0
+                });
+            },
+            done: function (res) {
+                //关闭上传提示窗口
+                layer.close(layer.msg());
+                //图片回显
+                var fileObj = res.data;
+                //删除之前图片
+                if (merLogo != null && merLogo != "") {
+                    $.ajax({
+                        url: "deleteFile", //请求接口
+                        type: "get",   //请求方式
+                        data: {     //参数列表
+                            "fileName": merLogo,
+                            "type": 3
+                        },
+                        dataType: "json",
+                        async: false
+                    });
+                }
+                merLogo = fileObj.uuid + fileObj.suffix;
+                var str = "<img src='showImage?imgName=" + merLogo + "&type=3' style='margin-top: 15px'>";
+                $('#fileUpload').html(str);
+            }
+        });
+
+        //监听省下拉框
+        form.on('select(merProvince)', function (obj) {
+            $.ajax({
+                url: "manager/getCityByProvId", //请求接口
+                type: "get",   //请求方式
+                data: {provId: obj.value},
+                dataType: "json",
+                async: false,
+                success: function (result) {
+                    var str = '<option value="">请选择或搜索市</option>';
+                    for (var i = 0; i < result.length; i++) {
+                        var data = result[i];
+                        str += '<option value="' + data.cityId + '">' + data.cityName + '</option>';
+                    }
+                    $("#merCity").html(str);
+                    form.render('select');
+                }
+            });
+        });
+
+        //监听市下拉框
+        form.on('select(merCity)', function (obj) {
+            $.ajax({
+                url: "manager/getCountyByCityId", //请求接口
+                type: "get",   //请求方式
+                data: {cityId: obj.value},
+                dataType: "json",
+                async: false,
+                success: function (result) {
+                    var str = '<option value="">请选择或搜索区县</option>';
+                    for (var i = 0; i < result.length; i++) {
+                        var data = result[i];
+                        str += '<option value="' + data.counId + '">' + data.counName + '</option>';
+                    }
+                    $("#merCounty").html(str);
+                    form.render('select');
+                }
+            });
+        });
+
+        // 监听提交操作
+        form.on('submit(submit)', function (data) {
+            if (merLogo != "") {
+                data.field["merLogo"] = merLogo;
+            }
+            //次数控制，点击多次也只提交一次
+            if (count > 0) {
+                return false;
+            } else {
+                $.ajax({
+                    url: "manager/addMerchants", //请求接口
+                    type: "post",   //请求方式
+                    data: data.field,
+                    dataType: "json",
+                    async: false,
+                    success: function (result) {
+                        if (result.code == 200) { //成功
+                            location.reload();
+                            parent.layer.closeAll();
+                            parent.layer.msg(result.msg);
+                        } else { //失败
+                            parent.layer.msg(result.msg);
+                        }
+                    }
+                });
+            }
+            //点击次数累加
+            count++;
+        });
+    });
+</script>
+</body>
+</html>

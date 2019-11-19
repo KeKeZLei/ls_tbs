@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="utf-8">
+    <title>预订运营平台 - 后台帐号</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" th:href="@{/static/lib/layui-v2.5.4/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/static/css/public.css}" media="all">
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <fieldset class="layui-elem-field layuimini-search">
+            <legend>搜索信息</legend>
+            <div class="layui-margin-10">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">角色名称</label>
+                            <div class="layui-input-block">
+                                <select name="roleId" id="roleId" lay-filter="roleId" lay-search>
+                                    <option value="">直接选择或搜索选择</option>
+                                    <option th:each="list:${roleList}" th:value="${list.roleId}" th:text="${list.roleName}"/>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+
+        <script type="text/html" id="tableOperBar">
+            <div shiro:hasPermission="34" class="layui-btn-container">
+                <button class="layui-btn layui-btn-sm data-add-btn" lay-event="add">添加</button>
+            </div>
+        </script>
+        <table class="layui-hide" id="dataTable" lay-filter="dataTable"></table>
+        <script type="text/html" id="tableDataBar">
+            <input shiro:hasPermission="37" type="checkbox" name="manaState" value="{{d.manaId}}" lay-skin="switch" lay-filter="isEnable"
+                   lay-text="启用|禁用" {{ d.manaState== 1 ? 'checked' : '' }}/>
+            <a shiro:hasPermission="35" class="layui-btn layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
+            <a shiro:hasPermission="36" class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="dele">删除</a>
+        </script>
+    </div>
+</div>
+<script th:src="@{/static/lib/layui-v2.5.4/layui.js}" charset="utf-8"></script>
+<script th:src="@{/static/js/public.js}" charset="utf-8"></script>
+<script type="text/javascript">
+    layui.use(['form', 'table'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table;
+
+        var pageNow = 0,dataLength = 0;
+
+        //数据表格
+        var tableObj = table.render({
+            elem: '#dataTable',
+            url: 'manager/getAllManager',
+            toolbar: '#tableOperBar',
+            even: true,
+            title: '后台账号表',
+            cellMinWidth: 120,
+            cols: [
+                [
+                    {type: 'numbers', title: 'ID', fixed: 'left', align: 'center', width: 80},
+                    {field: 'manaLoginname', title: '用户名', sort: true, align: 'center'},
+                    {field: 'manaName', title: '姓名', align: 'center'},
+                    {field: 'manaTel', title: '手机号码', align: 'center'},
+                    {field: 'roleName', title: '角色名称', align: 'center'},
+                    {field: 'manaCreatetime', title: '创建时间', align: 'center', width: 180, sort: true},
+                    {title: '操作', toolbar: '#tableDataBar', fixed: 'right', align: 'center', width: 200}
+                ]
+            ],
+            limits: [10, 15, 20, 25, 50, 100],
+            limit: 10,
+            page: true,
+            done: function(res, curr, count){
+                pageNow = curr;
+                dataLength = res.data.length;
+            }
+        });
+
+        //监听角色名称下拉框
+        form.on('select(roleId)', function (obj) {
+            //执行搜索重载
+            table.reload('dataTable', {
+                page: {
+                    curr: 1
+                },
+                where: {
+                    roleId: obj.value
+                }
+            }, 'data');
+        });
+
+        //监听表格头工具栏操作
+        table.on('toolbar(dataTable)', function (obj) {
+            if (obj.event === 'add') {
+                modalDialog(tableObj,'添加后台账号','account-add','400px','366px');
+            }
+        });
+
+        //监听是否禁用开关
+        form.on('switch(isEnable)', function (obj) {
+            var isChecked = obj.elem.checked;
+            $.ajax({
+                url: "manager/setManager",
+                type: "post",
+                data: {"manaId": obj.value, "manaState": isChecked == true ? 1 : 0},
+                dataType: "json",
+                async: false,
+                success: function (result) {
+                    if (result.code == 200) { //成功
+                        table.reload('dataTable');
+                    }
+                    layer.msg(result.msg);
+                }
+            });
+        });
+
+        //监听表格行操作
+        table.on('tool(dataTable)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'edit') {
+                modalDialog(tableObj,'编辑后台账号','account-edit','400px','366px',data);
+            } else if (obj.event === 'dele') {
+                layer.confirm('确定要删除吗？', function (index) {
+                    $.ajax({
+                        url: "manager/delManager",
+                        dataType: "json",
+                        type: "get",
+                        data: {"manaId": data.manaId},
+                        success: function (result) {
+                            if (result.code == 200) { //成功
+                                //处理一页只有一行，删除后表格数据不出来的问题
+                                if(dataLength == 1){
+                                    table.reload('dataTable', {  page: { curr: pageNow > 1 ? (pageNow-1) : 1 } });
+                                }else{
+                                    table.reload('dataTable', {  page: { curr: pageNow  }  });
+                                }
+                            }
+                            layer.msg(result.msg);
+                        }
+                    });
+                });
+            }
+        });
+    });
+</script>
+</body>
+</html>
