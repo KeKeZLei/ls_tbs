@@ -43,7 +43,6 @@ public class ProvinceController {
         JSONObject jsonObject =new JSONObject();
         //查询所有的省份信息
         List<Province> list =  provinceService.selectAll();
-        System.out.println("省份:"+list);
         jsonObject.put("provinList",list);
         //输出到 ajax 对象中
         writer.write(jsonObject.toString());

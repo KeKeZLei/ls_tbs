@@ -36,7 +36,6 @@ public class CityController {
         JSONObject jsonObject =new JSONObject();
         //调用 dao中根据 省份id 查询 城市的
         List<City> list = citySerivce.getAllCity(proId);
-        System.out.println("城市:"+list);
         jsonObject.put("cityList",list);
         writer.write(jsonObject.toString());
     }
