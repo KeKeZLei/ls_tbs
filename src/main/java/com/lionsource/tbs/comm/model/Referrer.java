@@ -47,6 +47,35 @@ public class Referrer implements Serializable {
 
     private String refRealnamestate;
 
+    @Override
+    public String toString() {
+        return "Referrer{" +
+                "refId=" + refId +
+                ", refOpenid='" + refOpenid + '\'' +
+                ", refHead='" + refHead + '\'' +
+                ", refName='" + refName + '\'' +
+                ", refTel='" + refTel + '\'' +
+                ", refIdcardnum='" + refIdcardnum + '\'' +
+                ", refIdcardfront='" + refIdcardfront + '\'' +
+                ", refIdcardreverse='" + refIdcardreverse + '\'' +
+                ", refIdcardreason='" + refIdcardreason + '\'' +
+                ", refBanknum='" + refBanknum + '\'' +
+                ", refBankdeposit='" + refBankdeposit + '\'' +
+                ", refBankfront='" + refBankfront + '\'' +
+                ", refBankaudit='" + refBankaudit + '\'' +
+                ", refBankreason='" + refBankreason + '\'' +
+                ", refProvince=" + refProvince +
+                ", refCity=" + refCity +
+                ", refCounty=" + refCounty +
+                ", refAddress='" + refAddress + '\'' +
+                ", refRealnamestate='" + refRealnamestate + '\'' +
+                ", refCreatetime=" + refCreatetime +
+                ", refCoopterm=" + refCoopterm +
+                ", refState=" + refState +
+                ", refNickname='" + refNickname + '\'' +
+                '}';
+    }
+
     private Date refCreatetime;
 
     private Date refCoopterm;

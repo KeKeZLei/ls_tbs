@@ -31,4 +31,7 @@
     select city_id, pro_id, city_name
     from city
   </select>
+  <select id="getAllCity" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+     select * from city where pro_id=#{proId,jdbcType=INTEGER}
+  </select>
 </mapper>

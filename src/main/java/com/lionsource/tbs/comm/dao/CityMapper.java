@@ -13,4 +13,9 @@ public interface CityMapper {
     List<City> selectAll();
 
     int updateByPrimaryKey(City record);
+
+    /**
+     * 根据省份的id查询所有的城市
+     */
+    List<City> getAllCity(int provId);
 }

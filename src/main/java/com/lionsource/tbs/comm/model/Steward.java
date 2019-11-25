@@ -71,5 +71,40 @@ public class Steward implements Serializable {
 
     private String steDescribe;
 
+
     private static final long serialVersionUID = 1L;
+
+    public Steward(Integer steId, Integer refId, String steOpenid, String steWhead, String steChead, String steName, String steTel, String steIdcardnum, String steIdcardfront, String steIdcardreverse, String steIdcardreason, Integer steSex, Integer steAge, String steNative, String steAddress, String steWorkstate, String steRealnamestate, Integer steContracttype, Integer steWorkyear, Integer steExpsalary, String steWorkform, String steCerstate, Date steCreatetime, Integer steState, Integer steProvince, Integer steCity, String steNickname, String steWorktype, String steSkill, String steTag, String steDescribe) {
+        this.steId = steId;
+        this.refId = refId;
+        this.steOpenid = steOpenid;
+        this.steWhead = steWhead;
+        this.steChead = steChead;
+        this.steName = steName;
+        this.steTel = steTel;
+        this.steIdcardnum = steIdcardnum;
+        this.steIdcardfront = steIdcardfront;
+        this.steIdcardreverse = steIdcardreverse;
+        this.steIdcardreason = steIdcardreason;
+        this.steSex = steSex;
+        this.steAge = steAge;
+        this.steNative = steNative;
+        this.steAddress = steAddress;
+        this.steWorkstate = steWorkstate;
+        this.steRealnamestate = steRealnamestate;
+        this.steContracttype = steContracttype;
+        this.steWorkyear = steWorkyear;
+        this.steExpsalary = steExpsalary;
+        this.steWorkform = steWorkform;
+        this.steCerstate = steCerstate;
+        this.steCreatetime = steCreatetime;
+        this.steState = steState;
+        this.steProvince = steProvince;
+        this.steCity = steCity;
+        this.steNickname = steNickname;
+        this.steWorktype = steWorktype;
+        this.steSkill = steSkill;
+        this.steTag = steTag;
+        this.steDescribe = steDescribe;
+    }
 }

@@ -1,0 +1,390 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <title>及时管家服务平台</title>
+    <link rel="shortcut icon" href="http://www.jishiguanjia.com/favicon.ico">
+    <link rel="stylesheet" type="text/css" th:href="@{static/css/style.css}">
+    <script type="text/javascript" th:src="@{static/js/app.js}"></script>
+</head>
+<!-- 网站公共头部区域 -->
+<div class="p-header">
+    <div class="topCon">
+        <div class="wrap">
+            <h1>
+                <a href="http://www.jishiguanjia.com/index.php">
+                    <img th:src="@{static/images/p-header-logo.png}" alt="">
+                </a>
+            </h1>
+            <div class="search">
+                <form action="http://www.jishiguanjia.com/search.php" method="post">
+                    <input type="text" class="keyword" placeholder="请输入关键字" name="keywords">
+                    <input type="submit" class="btn">
+                </form>
+            </div>
+            <div class="h-icon">
+                <div class="icon">
+                    <img th:src="@{static/images/p-header-icon01.png}" alt="">
+                    <span>专业管家</span>
+                </div>
+                <div class="icon">
+                    <img th:src="@{static/images/p-header-icon02.png}" alt="">
+                    <span>六重安全</span>
+                </div>
+                <div class="icon">
+                    <img th:src="@{static/images/p-header-icon03.png}" alt="">
+                    <span>免费更换</span>
+                </div>
+            </div>
+            <div class="tel">
+                <p><span>24小时服务热线：</span>400-6186-889</p>
+            </div>
+        </div>
+    </div>
+    <div class="menuBox">
+        <div class="wrap">
+            <ul>
+                <li class="on">
+                    <a href="/homePage">网站首页</a>
+                </li>
+                <li><a href="http://www.jishiguanjia.com/list.php?typeid=700#maodian">家庭服务</a></li>
+                <li><a href="http://www.jishiguanjia.com/list.php?typeid=737#maodian">商业保洁</a></li>
+                <li><a href="http://www.jishiguanjia.com/list.php?typeid=698#maodian">管家风采</a></li>
+                <li><a href="http://www.jishiguanjia.com/list.php?typeid=699#maodian">及时百科</a></li>
+                <li><a href="http://www.jishiguanjia.com/list.php?typeid=702#maodian">服务项目</a></li>
+                <li><a href="http://www.jishiguanjia.com/list.php?typeid=697#maodian">关于我们</a></li>
+                <li><a href="register">从业者申请</a></li>
+                <li><a href="register1">服务人员登录</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="i-fuwu">
+    <div class="wrap">
+        <div class="tit">
+            <img th:src="@{static/images/i-fuwu-titBg.png}" alt="">
+        </div>
+        <div class="nav">
+            <a href="http://www.jishiguanjia.com/list.php?typeid=718#maodian" class="on">清洁管家服务</a>
+            <a href="http://www.jishiguanjia.com/list.php?typeid=719#maodian">日常清洁护理</a>
+            <a href="http://www.jishiguanjia.com/list.php?typeid=720#maodian">清洗服务</a>
+            <a href="http://www.jishiguanjia.com/list.php?typeid=721#maodian">生活管家</a>
+
+        </div>
+        <div class="fwBd">
+            <div class="item">
+                <ul style="display: block;">
+                    <li>
+                        <a href="http://www.jishiguanjia.com/view.php?id=954#maodian">
+                            <img th:src="@{static/images/1520167171.jpg}">
+                            <div class="desc">
+                                <span>A1自由包年</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://www.jishiguanjia.com/view.php?id=953#maodian">
+                            <img th:src="@{static/images/1520167054.jpg}">
+                            <div class="desc">
+                                <span>A2无忧包年</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://www.jishiguanjia.com/view.php?id=952#maodian">
+                            <img th:src="@{static/images/1520167013.jpg}">
+                            <div class="desc">
+                                <span>A3品质包年</span>
+                            </div>
+                        </a>
+                    </li>
+
+                </ul>
+                <ul>
+                </ul>
+                <ul>
+                    <li>
+                        <a href="http://www.jishiguanjia.com/view.php?id=1008#maodian">
+                            <img th:src="@{static/images/1566184761.jpg}">
+                            <div class="desc">
+                                <span>体验宝</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://www.jishiguanjia.com/view.php?id=1005#maodian">
+                            <img th:src="@{static/images/1566636988.jpg}">
+                            <div class="desc">
+                                <span>日式擦窗</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://www.jishiguanjia.com/view.php?id=1004#maodian">
+                            <img th:src="@{static/images/1566637054.jpg}">
+                            <div class="desc">
+                                <span>日式保洁</span>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+                <ul>
+                    <li>
+                        <a href="http://www.jishiguanjia.com/view.php?id=967#maodian">
+                            <img th:src="@{static/images/1520168251.jpg}">
+                            <div class="desc">
+                                <span>床品除螨</span>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="i-adBanner" style="margin-top: 30px;">
+
+</div>
+<div class="i-zhaoshang" style="display: none;">
+    <div class="wrap">
+        <div class="tit">
+            <img th:src="@{static/images/i-zhaoshang-titBg.png}" alt="">
+        </div>
+        <div class="item1">
+            <h2>现在申请品质生活创业扶持计划</h2>
+            <p>如果，您同样看好互联网家庭服务的广阔前景</p>
+            <p>如果，您欣赏品质生活的全新定位家庭服务的决心</p>
+            <p>如果，您身在家乡，却渴望加入一流创业团队</p>
+            <p>如果，您已有了一颗坚定不移创业的决心</p>
+            <p>那就加入我们吧！</p>
+        </div>
+        <div class="item2">
+            <h2>为什么您更应该与品质生活合作？</h2>
+            <p>产品体验行业好，用户口碑遥遥领先</p>
+            <p>独创全国首家家庭服务行业S2B2C商业模式、专注家庭服务品类布局</p>
+            <p style="margin-top: 20px;">您可以电话联系我们:<span style="font-size: 26px;color: #049c92;font-weight: bold;font-family: " 微软雅黑";"="">400 6186 889</span></p>
+            <p>你也可以来到本公司参观与了解</p>
+            <p>公司地址：湖南长沙芙蓉区火炬中路芙蓉苑公寓二层</p>
+            <p style="margin-top: 18px;">品质生活，期待与您牵手！<a href="http://www.jishiguanjia.com/index.php" class="join">加入我们</a></p>
+        </div>
+    </div>
+</div>
+<!-- 招商加盟 END -->
+<!-- 及时百科 -->
+<div class="i-baike">
+    <div class="wrap">
+        <div class="bkTit">
+            <img th:src="@{static/images/i-baike-titBg.png}" alt="">
+        </div>
+        <div class="bkBd">
+            <ul>
+                <li>
+                    <div class="t">
+                        <img th:src="@{static/images/i-baike-iconbai0.png}" alt="">
+                        <a href="http://www.jishiguanjia.com/list.php?typeid=708">保洁</a>
+                    </div>
+                    <div class="list">
+                        <a href="http://www.jishiguanjia.com/view.php?id=850#maodian">.保洁公司的保洁范围包括哪些呢</a>
+                        <a href="http://www.jishiguanjia.com/view.php?id=834#maodian">.日常保洁包含哪些内容</a>
+                        <a href="http://www.jishiguanjia.com/view.php?id=833#maodian">.请人做家庭保洁,一般要花多少钱</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="t">
+                        <img th:src="@{static/images/i-baike-iconbai1.png}" alt="">
+                        <a href="http://www.jishiguanjia.com/list.php?typeid=709">保姆</a>
+                    </div>
+                    <div class="list">
+                        <a href="http://www.jishiguanjia.com/view.php?id=916#maodian">.宝宝这一惹人烦的毛病，其实是高智商的象征，你家的有吗</a>
+                        <a href="http://www.jishiguanjia.com/view.php?id=915#maodian">.高薪月嫂八点半开门，却总让五周大的宝宝准时哭醒，宝爸起疑心！</a>
+                        <a href="http://www.jishiguanjia.com/view.php?id=835#maodian">.浅析保姆怎样开发1-6个月婴儿的能力</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="t">
+                        <img th:src="@{static/images/i-baike-iconbai2.png}" alt="">
+                        <a href="http://www.jishiguanjia.com/list.php?typeid=711">家具护理</a>
+                    </div>
+                    <div class="list">
+                        <a href="http://www.jishiguanjia.com/view.php?id=908#maodian">.管家教你家具清洗妙招</a>
+                        <a href="http://www.jishiguanjia.com/view.php?id=907#maodian">.4大家具保养小窍门，发黄家具都能白，天天住“新家”</a>
+                        <a href="http://www.jishiguanjia.com/view.php?id=864#maodian">.【及时管家】管家告诉你皮沙发的清洁与保养</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="t">
+                        <img th:src="@{static/images/i-baike-iconbai3.png}" alt="">
+                        <a href="http://www.jishiguanjia.com/list.php?typeid=712">家政</a>
+                    </div>
+                    <div class="list">
+                        <a href="http://www.jishiguanjia.com/view.php?id=930#maodian">.不能错过的冬季生活小窍门</a>
+                        <a href="http://www.jishiguanjia.com/view.php?id=929#maodian">.41个聪明的家政小窍门</a>
+                        <a href="http://www.jishiguanjia.com/view.php?id=928#maodian">.100个生活小妙招，你绝对用得到，赶紧收藏起来！| 晓得</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="t">
+                        <img th:src="@{static/images/i-baike-iconbai4.png}" alt="">
+                        <a href="http://www.jishiguanjia.com/list.php?typeid=714">生活贴士</a>
+                    </div>
+                    <div class="list">
+                        <a href="http://www.jishiguanjia.com/view.php?id=983#maodian">.生活百科：四种生活窍门，用榨果汁剩下的果渣清洁水池，效果很好</a>
+                        <a href="http://www.jishiguanjia.com/view.php?id=982#maodian">.教你7条生活窍门，让你的生活更美好</a>
+                        <a href="http://www.jishiguanjia.com/view.php?id=981#maodian">.生活小常识 ，简简单单的帮您解决一些实际问题</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="t">
+                        <img th:src="@{static/images/i-baike-iconbai5.png}" alt="">
+                        <a href="http://www.jishiguanjia.com/list.php?typeid=715">新式家政</a>
+                    </div>
+                    <div class="list">
+                        <a href="http://www.jishiguanjia.com/view.php?id=987#maodian">.【管家小妙招】春季打扫小妙招</a>
+                        <a href="http://www.jishiguanjia.com/view.php?id=976#maodian">.互联网家政与传统家政的比拼</a>
+                        <a href="http://www.jishiguanjia.com/view.php?id=975#maodian">.家政机器人的春天，家政服务员何去何从？</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="t">
+                        <img th:src="@{static/images/i-baike-iconbai6.png}" alt="">
+                        <a href="http://www.jishiguanjia.com/list.php?typeid=717">育儿百科</a>
+                    </div>
+                    <div class="list">
+                        <a href="http://www.jishiguanjia.com/view.php?id=992#maodian">.这3件衣服别再给孩子穿，不然后悔莫及（第1件肯定穿过）</a>
+                        <a href="http://www.jishiguanjia.com/view.php?id=973#maodian">.当妈后，变成了孩子的人肉玩具</a>
+                        <a href="http://www.jishiguanjia.com/view.php?id=971#maodian">.讲真，养女儿，要比养儿子操心10000倍</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="i-about">
+    <img class="bg" th:src="@{static/images/i-about-bg.jpg}" alt="">
+    <div class="wrap">
+        <div class="desc">
+            <h5>Walk into time keeper</h5>
+            <em>housekeeper in time</em>
+            <h4>走进品质生活</h4>
+            <p class="p1">品质生活投入固定资产近千万，在湖南长沙芙蓉苑打造了湖南首家集管家式服务、合伙人式服务和培训式服务为一体的综合性、互联网式的中国式家庭服务中心。</p>
+            <p class="p2">品质生活目前已在湖南长沙开福区、岳麓区、芙蓉区设立运营分公司，预计2018年9月底将达到100家运营分公司或经营网点，目前品质生活日提供订单服务100单，树立了湖南现代家政服务业优质典范。</p>
+            <a href="http://www.jishiguanjia.com/index.php" class="more">查看详情　→</a>
+        </div>
+    </div>
+</div>
+<div class="p-footer">
+    <div class="content1">
+        <div class="wrap">
+            <div class="fItem1">
+                <a href="http://www.jishiguanjia.com/index.php" class="logo">
+                    <img th:src="@{static/images/p-header-logo.png}" alt="">
+                </a>
+                <div class="ewm">
+                    <img th:src="@{static/images/ewm.jpg}" alt="">
+                    <span>微信公众号</span>
+                </div>
+                <div class="des" style="margin-top: 15px;">
+                    <p style="font-size: 14px;color: #333;line-height: 24px;">及时管家是属于<br>湖南品质生活服务有限公司旗下商标</p>
+                </div>
+            </div>
+            <div class="fItem2">
+                <h3>联系我们</h3>
+                <div>
+                    <p>公司地址：湖南省长沙市岳麓区麓谷科技产业园A3栋七楼</p>
+                    <p>客服电话：400-6186-889</p>
+                    <p>官方微信公众号：jishiguanjia</p>
+                </div>
+                <div>
+                    <span>业务合作</span>
+                    <p>联系人：汤先生</p>
+                    <p>电话：15675831721</p>
+                </div>
+                <div>
+                    <span>新媒体及宣传合作</span>
+                    <p>联系人：钟先生</p>
+                    <p>电话：15084888427</p>
+                </div>
+                <div>
+                    <span>家政服务合作</span>
+                    <p>联系人：成女士</p>
+                    <p>电话：0731-89712116</p>
+                </div>
+                <div>
+                    <span>产品及渠道合作</span>
+                    <p>联系人：钟先生</p>
+                    <p>电话：15084888427</p>
+                </div>
+            </div>
+            <div class="fItem3">
+                <dl>
+                    <dt>关于我们</dt>
+                    <dd>
+                        <a href="http://www.jishiguanjia.com/list.php?typeid=705#maodian">公司简介</a>
+                    </dd>
+                    <dd>
+                        <a href="http://www.jishiguanjia.com/list.php?typeid=740#maodian">企业愿景</a>
+                    </dd>
+                    <dd>
+                        <a href="http://www.jishiguanjia.com/list.php?typeid=704#maodian">发展历程</a>
+                    </dd>
+                    <dd>
+                        <a href="http://www.jishiguanjia.com/list.php?typeid=706#maodian">企业文化</a>
+                    </dd>
+
+                </dl>
+                <dl>
+                    <dt>家庭服务</dt>
+                    <dd>
+                        <a href="http://www.jishiguanjia.com/list.php?typeid=718#maodian">清洁管家服务</a>
+                    </dd>
+                    <dd>
+                        <a href="http://www.jishiguanjia.com/list.php?typeid=719#maodian">日常清洁护理</a>
+                    </dd>
+                    <dd>
+                        <a href="http://www.jishiguanjia.com/list.php?typeid=720#maodian">清洗服务</a>
+                    </dd>
+                    <dd>
+                        <a href="http://www.jishiguanjia.com/list.php?typeid=721#maodian">生活管家</a>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>生活百科</dt>
+                    <dd>
+                    </dd><dd>
+                    <a href="http://www.jishiguanjia.com/list.php?typeid=708#maodian">保洁</a>
+                </dd>
+                    <dd>
+                        <a href="http://www.jishiguanjia.com/list.php?typeid=709#maodian">保姆</a>
+                    </dd>
+                    <dd>
+                        <a href="http://www.jishiguanjia.com/list.php?typeid=711#maodian">家具护理</a>
+                    </dd>
+                    <dd>
+                        <a href="http://www.jishiguanjia.com/list.php?typeid=712#maodian">家政</a>
+                    </dd>
+                    <dd>
+                        <a href="http://www.jishiguanjia.com/list.php?typeid=714#maodian">生活贴士</a>
+                    </dd>
+                    <dd>
+                        <a href="http://www.jishiguanjia.com/list.php?typeid=715#maodian">新式家政</a>
+                    </dd>
+                    <dd>
+                        <a href="http://www.jishiguanjia.com/list.php?typeid=717#maodian">育儿百科</a>
+                    </dd>
+
+                </dl>
+            </div>
+        </div>
+    </div>
+    <div class="content2">
+        <div class="wrap">
+            <p>@copyright  湖南品质生活服务有限公司　<a href="http://www.beian.miit.gov.cn/" target="_blank">湘ICP备17010467号-1</a></p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

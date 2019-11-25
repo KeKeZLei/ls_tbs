@@ -9,11 +9,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * @ClassName MD5_32
+ *
  * @Description 32位MD5加密算法
- * @Author 狮源信息-Jacky.zhou
- * @Date 2018/11/17 22:59
- * @Version 1.0
+ *
  **/
 public class MD5_32 {
 

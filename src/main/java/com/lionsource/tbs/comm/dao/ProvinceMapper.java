@@ -1,5 +1,6 @@
 package com.lionsource.tbs.comm.dao;
 
+import com.lionsource.tbs.comm.model.City;
 import com.lionsource.tbs.comm.model.Province;
 import java.util.List;
 
@@ -13,4 +14,5 @@ public interface ProvinceMapper {
     List<Province> selectAll();
 
     int updateByPrimaryKey(Province record);
+
 }

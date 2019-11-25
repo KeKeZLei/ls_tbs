@@ -1,0 +1,292 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>及时 管家服务平台</title>
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <link th:href="@{/static/css/common.css}" rel="stylesheet" />
+  <link th:href="@{/static/css/register.css}" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" th:href="@{/static/css/style.css}">
+/</head>
+<body>
+<header>
+  <div class="p-header">
+    <div class="topCon">
+      <div class="wrap">
+        <h1>
+          <a href="http://www.jishiguanjia.com/index.php">
+            <img th:src="@{/static/images/p-header-logo.png}" alt="">
+          </a>
+        </h1>
+        <div class="search">
+          <form action="" method="post">
+            <input type="text" class="keyword" placeholder="请输入关键字" name="keywords">
+            <input type="submit" class="btn">
+          </form>
+        </div>
+        <div class="h-icon">
+          <div class="icon">
+            <img th:src="@{/static/images/p-header-icon01.png}" alt="">
+            <span>专业管家</span>
+          </div>
+          <div class="icon">
+            <img th:src="@{/static/images/p-header-icon02.png}" alt="">
+            <span>六重安全</span>
+          </div>
+          <div class="icon">
+            <img th:src="@{/static/images/p-header-icon03.png}" alt="">
+            <span>免费更换</span>
+          </div>
+        </div>
+        <div class="tel">
+          <p><span>24小时服务热线：</span>400-6186-889</p>
+        </div>
+      </div>
+    </div>
+    <div class="menuBox">
+      <div class="wrap">
+        <ul>
+          <li class="on">
+            <a href="../homePage">网站首页</a>
+          </li>
+          <li><a href="http://www.jishiguanjia.com/list.php?typeid=700#maodian">家庭服务</a></li>
+          <li><a href="http://www.jishiguanjia.com/list.php?typeid=737#maodian">商业保洁</a></li>
+          <li><a href="http://www.jishiguanjia.com/list.php?typeid=698#maodian">管家风采</a></li>
+          <li><a href="http://www.jishiguanjia.com/list.php?typeid=699#maodian">及时百科</a></li>
+          <li><a href="http://www.jishiguanjia.com/list.php?typeid=702#maodian">服务项目</a></li>
+          <li><a href="http://www.jishiguanjia.com/list.php?typeid=697#maodian">关于我们</a></li>
+          <li><a href="register">从业者申请</a></li>
+          <li><a href="login">服务人员登录</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+<div class="wrap">
+  <form action="login" method="post">
+    <div class="tdbModule loginPage">
+      <div class="registerTitle">用户登录</div>
+      <div class="registerCont">
+        <ul>
+          <li class="error">
+            <span id="prrintInfo" data-info=""><span>请输入正确用户名</span></span>
+            <span id="msg" th:text="${errorMsg}" style="color:red;"></span>
+          </li>
+          <li>
+            <span class="dis">用户名：</span><input class="input" type="text" onblur="userNameJy()" name="username" id="userName" maxlength="24" tabindex="1" autocomplete="off">
+            <a id="sssdfasdfas" href="jumpregister" class="blue">注册用户</a><span style="color: red" id="ti"></span>
+          </li>
+
+          <li>
+            <span class="dis">密码：</span><input class="input" type="password" name="password" id="password" maxlength="24" tabindex="1" autocomplete="off">
+            <a href="#" id="pawHide" class="blue">忘记密码</a><span id="si" style="color: red"></span>
+          </li>
+          <li>
+            <span class="dis">验证码：</span><input type="text" onkeyup="verify(this)" id="jpgVerify" style="width:166px;" class="input" name="yzm" data-msg="验证码" maxlength="4" tabindex="1" autocomplete="off" >
+          </li>
+          <li class="btn">
+            <input type="submit" value="立即登录" id="submitBtn" />
+          </li>
+        </ul>
+      </div>
+    </div>
+  </form>
+</div>
+  <div class="p-footer">
+    <div class="content1">
+      <div class="wrap">
+        <div class="fItem1">
+          <a href="http://www.jishiguanjia.com/index.php" class="logo">
+            <img th:src="@{/static/images/p-header-logo.png}" alt="">
+          </a>
+          <div class="ewm">
+            <img th:src="@{/static/images/ewm.jpg}" alt="">
+            <span>微信公众号</span>
+          </div>
+          <div class="des" style="margin-top: 15px;">
+            <p style="font-size: 14px;color: #333;line-height: 24px;">及时管家是属于<br>湖南品质生活服务有限公司旗下商标</p>
+          </div>
+        </div>
+        <div class="fItem2">
+          <h3>联系我们</h3>
+          <div>
+            <p>公司地址：湖南省长沙市岳麓区麓谷科技产业园A3栋七楼</p>
+            <p>客服电话：400-6186-889</p>
+            <p>官方微信公众号：jishiguanjia</p>
+          </div>
+          <div>
+            <span>业务合作</span>
+            <p>联系人：汤先生</p>
+            <p>电话：15675831721</p>
+          </div>
+          <div>
+            <span>新媒体及宣传合作</span>
+            <p>联系人：钟先生</p>
+            <p>电话：15084888427</p>
+          </div>
+          <div>
+            <span>家政服务合作</span>
+            <p>联系人：成女士</p>
+            <p>电话：0731-89712116</p>
+          </div>
+          <div>
+            <span>产品及渠道合作</span>
+            <p>联系人：钟先生</p>
+            <p>电话：15084888427</p>
+          </div>
+        </div>
+        <div class="fItem3">
+          <dl>
+            <dt>关于我们</dt>
+            <dd>
+              <a href="http://www.jishiguanjia.com/list.php?typeid=705#maodian">公司简介</a>
+            </dd>
+            <dd>
+              <a href="http://www.jishiguanjia.com/list.php?typeid=740#maodian">企业愿景</a>
+            </dd>
+            <dd>
+              <a href="http://www.jishiguanjia.com/list.php?typeid=704#maodian">发展历程</a>
+            </dd>
+            <dd>
+              <a href="http://www.jishiguanjia.com/list.php?typeid=706#maodian">企业文化</a>
+            </dd>
+
+          </dl>
+          <dl>
+            <dt>家庭服务</dt>
+            <dd>
+              <a href="http://www.jishiguanjia.com/list.php?typeid=718#maodian">清洁管家服务</a>
+            </dd>
+            <dd>
+              <a href="http://www.jishiguanjia.com/list.php?typeid=719#maodian">日常清洁护理</a>
+            </dd>
+            <dd>
+              <a href="http://www.jishiguanjia.com/list.php?typeid=720#maodian">清洗服务</a>
+            </dd>
+            <dd>
+              <a href="http://www.jishiguanjia.com/list.php?typeid=721#maodian">生活管家</a>
+            </dd>
+          </dl>
+          <dl>
+            <dt>生活百科</dt>
+            <dd>
+            </dd><dd>
+            <a href="http://www.jishiguanjia.com/list.php?typeid=708#maodian">保洁</a>
+          </dd>
+            <dd>
+              <a href="http://www.jishiguanjia.com/list.php?typeid=709#maodian">保姆</a>
+            </dd>
+            <dd>
+              <a href="http://www.jishiguanjia.com/list.php?typeid=711#maodian">家具护理</a>
+            </dd>
+            <dd>
+              <a href="http://www.jishiguanjia.com/list.php?typeid=712#maodian">家政</a>
+            </dd>
+            <dd>
+              <a href="http://www.jishiguanjia.com/list.php?typeid=714#maodian">生活贴士</a>
+            </dd>
+            <dd>
+              <a href="http://www.jishiguanjia.com/list.php?typeid=715#maodian">新式家政</a>
+            </dd>
+            <dd>
+              <a href="http://www.jishiguanjia.com/list.php?typeid=717#maodian">育儿百科</a>
+            </dd>
+
+          </dl>
+        </div>
+      </div>
+    </div>
+    <div class="content2">
+      <div class="wrap">
+        <p>@copyright  湖南品质生活服务有限公司　<a href="http://www.beian.miit.gov.cn/" target="_blank">湘ICP备17010467号-1</a></p>
+      </div>
+    </div>
+  </div>
+  <!--<script th:src="@{/static/layer/layer.js}"></script>-->
+  <!--<script type="text/javascript">-->
+      <!--$(function () {-->
+          <!--//手机验证码-->
+          <!--document.getElementById("btn").onclick=function(){time(this);}-->
+          <!--$("#btn").click(function () {-->
+              <!--var telphone = $("#telphone").val();-->
+              <!--if (telphone == null || telphone == '') {-->
+                  <!--layer.open({-->
+                      <!--title: '提示'-->
+                      <!--,content: '请填写您的手机号码'-->
+                  <!--});-->
+                  <!--return false;-->
+              <!--}-->
+              <!--//发送ajax的请求-->
+              <!--$.ajax({-->
+                  <!--method: "POST",-->
+                  <!--url: "getphone",-->
+                  <!--data: {-->
+                      <!--telphone: telphone-->
+                  <!--},-->
+                  <!--//xhrFields: { withCredential s: true },-->
+                  <!--success: function (data) {-->
+                      <!--if (data.status == "success") {-->
+                          <!--layer.open({-->
+                              <!--title: '提示'-->
+                              <!--,content: '验证码发送成功，请在手机上查收'-->
+                          <!--});-->
+                      <!--} else {-->
+                          <!--/* BusinessException */-->
+                          <!--alert("验证码发送失败,原因是:" + data.data.errMsg);-->
+                      <!--}-->
+                  <!--},-->
+                  <!--error: function (data) {-->
+                      <!--alert("服务器异常,原因是:" + data.responseText);-->
+                  <!--}-->
+              <!--});-->
+          <!--})-->
+          <!--//可以阻止冒泡-->
+          <!--return false;-->
+          <!--//验证用户名是否重复-->
+      <!--});-->
+      <!--$("#userName").blur(function () {-->
+          <!--var name = $("#userName").val();-->
+          <!--if(name==null||name==''){-->
+              <!--layer.msg('用户名不能为空', {icon: 5});-->
+              <!--return false;-->
+          <!--}-->
+          <!--//发送ajax的请求-->
+          <!--$.ajax({-->
+              <!--type: "POST",-->
+              <!--url: "checkUser",-->
+              <!--data: {-->
+                  <!--"tername": name,-->
+              <!--},-->
+              <!--success: function (data) {-->
+                  <!--if (data=="true") {-->
+                  <!--} else {-->
+                      <!--/* BusinessException */-->
+                      <!--layer.open({-->
+                          <!--title: '提示'-->
+                          <!--,content: '用户名已经被占用'-->
+                      <!--});-->
+                  <!--}-->
+              <!--}-->
+          <!--});-->
+          <!--//可以阻止冒泡-->
+          <!--return false;-->
+      <!--})-->
+      <!--var wait=60;-->
+      <!--function time(o) {-->
+          <!--if (wait == 0) {-->
+              <!--o.removeAttribute("disabled");-->
+              <!--o.value="获取验证码";-->
+              <!--wait = 60;-->
+          <!--} else {-->
+              <!--o.setAttribute("disabled", true);-->
+              <!--o.value="重新发送(" + wait + ")";-->
+              <!--wait&#45;&#45;;-->
+              <!--setTimeout(function() {-->
+                  <!--time(o)-->
+              <!--},1000)-->
+          <!--}-->
+      <!--}-->
+  <!--</script>-->
+</body>
+</html>

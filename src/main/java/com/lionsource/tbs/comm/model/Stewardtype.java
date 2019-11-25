@@ -13,6 +13,17 @@ public class Stewardtype implements Serializable {
 
     private String stIcon;
 
+    @Override
+    public String toString() {
+        return "Stewardtype{" +
+                "stId=" + stId +
+                ", stIcon='" + stIcon + '\'' +
+                ", stName='" + stName + '\'' +
+                ", stState=" + stState +
+                ", stCreatetime=" + stCreatetime +
+                '}';
+    }
+
     private String stName;
 
     private Integer stState;

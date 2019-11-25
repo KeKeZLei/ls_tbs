@@ -18,11 +18,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @ClassName MVCConfig
  * @Description MVC配置
- * @Author 狮源信息-Jacky.zhou
- * @Date 2019/4/1 19:07
- * @Version 1.0
  **/
 @Configuration
 @EnableWebMvc   //开启Spring MVC支持，若无此句，重写WebMvcConfigurerAdapter方法无效
@@ -34,9 +30,9 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
 
     /**
-     * @Author 狮源信息-Sunny
+     * @Author
      * @Description 配置特定资源访问路径
-     * @Date 19:09 2019/4/1
+     * @Date
      * @Param
      * @return
      **/
@@ -55,9 +51,9 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     }
 
     /**
-     * @Author 狮源信息-Sunny
+     *
      * @Description SpringBoot以fastjon方式转化json数据
-     * @Date 19:09 2019/4/1
+     *
      * @Param
      * @return
      **/

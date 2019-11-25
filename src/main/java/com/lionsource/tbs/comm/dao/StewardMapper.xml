@@ -140,4 +140,29 @@
     ste_worktype, ste_skill, ste_tag, ste_describe
     from steward where ste_tag like '%${tagId}%'
   </select>
+  <!--从业者申请-->
+  <insert id="serverAddApply" parameterType="com.lionsource.tbs.comm.model.Steward">
+      insert into steward (ste_id, ref_id, ste_openid,
+      ste_whead, ste_chead, ste_name,
+      ste_tel, ste_idcardnum, ste_idcardfront,
+      ste_idcardreverse, ste_idcardreason, ste_sex,
+      ste_age, ste_native, ste_address,
+      ste_workstate, ste_realnamestate, ste_contracttype,
+      ste_workyear, ste_expsalary, ste_workform,
+      ste_cerstate, ste_createtime, ste_state,
+      ste_province, ste_city, ste_nickname,
+      ste_worktype, ste_skill, ste_tag,
+      ste_describe)
+    values (#{steId,jdbcType=INTEGER}, #{refId,jdbcType=INTEGER}, #{steOpenid,jdbcType=VARCHAR},
+      #{steWhead,jdbcType=VARCHAR}, #{steChead,jdbcType=VARCHAR}, #{steName,jdbcType=VARCHAR},
+      #{steTel,jdbcType=VARCHAR}, #{steIdcardnum,jdbcType=VARCHAR}, #{steIdcardfront,jdbcType=VARCHAR},
+      #{steIdcardreverse,jdbcType=VARCHAR}, #{steIdcardreason,jdbcType=VARCHAR}, #{steSex,jdbcType=INTEGER},
+      #{steAge,jdbcType=INTEGER}, #{steNative,jdbcType=VARCHAR}, #{steAddress,jdbcType=VARCHAR},
+      #{steWorkstate,jdbcType=VARCHAR}, #{steRealnamestate,jdbcType=VARCHAR}, #{steContracttype,jdbcType=INTEGER},
+      #{steWorkyear,jdbcType=INTEGER}, #{steExpsalary,jdbcType=INTEGER}, #{steWorkform,jdbcType=VARCHAR},
+      #{steCerstate,jdbcType=VARCHAR}, #{steCreatetime,jdbcType=TIMESTAMP}, #{steState,jdbcType=INTEGER},
+      #{steProvince,jdbcType=INTEGER}, #{steCity,jdbcType=INTEGER}, #{steNickname,jdbcType=LONGVARCHAR},
+      #{steWorktype,jdbcType=LONGVARCHAR}, #{steSkill,jdbcType=VARCHAR}, #{steTag,jdbcType=VARCHAR},
+      #{steDescribe,jdbcType=LONGVARCHAR})
+  </insert>
 </mapper>

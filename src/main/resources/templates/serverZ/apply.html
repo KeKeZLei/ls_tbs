@@ -1,0 +1,203 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <title>及时管家从业者申请表</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Job Application Form Widget Responsive, Login form web template, Sign up Web Templates, Flat Web Templates, Login signup Responsive web template, Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+    <script th:src="@{static/js/jquery-1.12.4.js}"></script>
+    <link rel="stylesheet" th:href="@{static/css/sweetalert.css}">
+    <link rel="stylesheet" th:href="@{static/css/j-forms.css}">
+    <link th:href="@{static/css/style.css}" rel="stylesheet"  />
+    <link th:href="@{static/css/city-picker.css}" rel="stylesheet" />
+    <script th:href="@{static/css/jquery.js}"></script>
+</head>
+<body>
+<div class="content">
+    <h1>
+        从业者申请表<br />
+        <span style="font-size: 80%;">请如实填写以下信息以便及时完成申请</span>
+    </h1>
+    <div class="main">
+        <b>服务类目：</b>
+        <form  th:action="serverAddApply" class="contact-forms" style="vertical-align: middle;" method="post"><br/>
+            <input type="hidden" name="ste_worktype" class="ste_worktype" >
+            <div class="first-line">
+                <div>
+                    <div class="button">
+                    </div>
+                </div>
+            </div>
+            <div class="first-line">
+                <div class="span6 main-row">
+                    <div class="input" align="center" >
+                        姓名：
+                    </div>
+                </div>
+                <div class="span6 main-row">
+                    <div class="input">
+                        <input type="text" placeholder="请正确填写您的姓名" class="ste_name" name="ste_name">
+                    </div>
+                </div>
+            </div>
+            <div class="first-line">
+                <div class="span6 main-row">
+                    <div class="input" align="center">
+                        电话号码：
+                    </div>
+                </div>
+                <div class="span6 main-row">
+                    <div class="input">
+                        <input type="text" placeholder="请正确填写您的电话号码"  class="ste_tel" name="ste_tel">
+                    </div>
+                </div>
+            </div>
+            <div class="first-line">
+                <div class="span6 main-row">
+                    <div class="input" align="center">
+                        年龄：
+                    </div>
+                </div>
+                <div class="span6 main-row">
+                    <div class="input">
+                        <input type="text" placeholder="请正确填写您的身份证年龄"  class="ste_age" name="ste_age">
+                    </div>
+                </div>
+            </div>
+            <div class="first-line">
+                <div class="span6 main-row">
+                    <div class="input" align="center">
+                        从业年限：
+                    </div>
+                </div>
+                <div class="span6 main-row">
+                    <div class="input">
+                        <input type="text" placeholder="请填写您从事这份工作的年数"   class="ste_workyear" name="ste_workyear">
+                    </div>
+                </div>
+            </div>
+            <div class="first-line">
+                <div class="span6 main-row">
+                    <div class="input" align="center" >
+                        籍贯：
+                    </div>
+                </div>
+                <div class="span6 main-row">
+                    <div class="input">
+                        <input id="city-picker3" class="form-control" name="ste_native" readonly type="text" value="江苏省/常州市/溧阳市" data-toggle="city-picker">
+                    </div>
+                </div>
+            </div>
+            <div class="first-line">
+                <div class="span6 main-row">
+                    <div class="input" align="center" >
+                        性别：
+                    </div>
+                </div>
+                <div class="span6 main-row">
+                    <div class="input">
+                        <select class="ste_sex" name="ste_sex">
+                            <option value="0">未知</option>
+                            <option value="1" selected="selected">男</option>
+                            <option value="2">女</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="first-line">
+                <div class="span6 main-row">
+                    <div class="input" align="center" >
+                        推荐人：
+                    </div>
+                </div>
+                <div class="span6 main-row">
+                    <div class="input">
+                        <input type="text" placeholder="此项为选填项" class="ref_id" >
+                        <input type="hidden" name="ref_id" class="ref_ids">
+                    </div>
+                </div>
+            </div>
+            <div class="first-line">
+                <div class="span6 main-row">
+                    <div class="input" align="center" >
+                        个人介绍：
+                    </div>
+                </div>
+                <div class="span6 main-row">
+                    <div class="input">
+                        <input type="text" placeholder="填写您的自我介绍、自我评价、及工作情况等" class="ste_describe" name="ste_describe">
+                    </div>
+                </div>
+            </div>
+            <div class="first-line">
+                <div class="span6 main-row">
+                    <div class="input" align="center" >
+                        常驻地址：
+                    </div>
+                </div>
+                <div class="span6 main-row">
+                    <div class="input">
+                        <input type="text" placeholder="填写您的详细住地，请精确到小区，以便匹配到距离最适合的雇主" class="ste_address" name="ste_address">
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" name="ste_tag" class="ste_tag" >
+            <div class="">
+                <div class=" ">
+                    <div class="" align="center" >
+                        个人特点：<span style="color: #BDBDBD;">选择您的个人标签</span>
+                    </div>
+                </div><br/><br/>
+                <div class=" ">
+                    <div class="button1">
+
+                    </div>
+                </div>
+            </div><br/><br/>
+            <div class="first-line">
+                <div class="span6 main-row">
+                    <div class="input" align="center" >
+                        期望薪资 ：<span style="color: #BDBDBD;">填写您希望月工资</span>
+                    </div>
+                </div>
+                <div class="span6 main-row">
+                    <div class="input" align="center">
+                        <img  th:src="@{static/img/jian.jpg}" class="minus" style="width: 20px;height: 20px;">&nbsp;&nbsp;<input value="3800" name="money" style="font-size: 30px; width: 100px; text-align: center" class="money">元&nbsp;&nbsp;<img th:src="@{static/img/jia.jpg}" class="add" style="width: 20px;height: 20px;">
+                    </div>
+                </div>
+            </div>
+            <div class="first-line">
+                <div class="span6 main-row">
+                    <div class="input" align="center" >
+                        服务范围 ：
+                    </div>
+                </div>
+                <div class="span6 main-row">
+                    <div class="input" align="center">
+                        <select class="serverProvince" name="ste_province">
+                            <option value="0" >==请选择==</option>
+                        </select>
+                        <select class="serverCity" name="ste_city">
+                            <option value="0">==请选择==</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="footer" align="center">
+                <button type="submit" class="submit" style="background-color: #F39800;color: white; width: 200px;height: 50px; font-size: 20px;" >提交信息</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script th:src="@{static/js/jquery.1.11.1.min.js}"></script>
+<script th:src="@{static/js/sweetalert-dev.js}"></script>
+<script th:src="@{static/js/sweetalert.min.js}"></script>
+<script th:src="@{static/js/apply.js}"></script>
+<script th:src="@{static/js/jquery.js}"></script>
+<script th:src="@{static/js/bootstrap.js}"></script>
+<script th:src="@{static/js/city-picker.data.js}"></script>
+<script th:src="@{static/js/city-picker.js}"></script>
+<script th:src="@{static/js/main.js}"></script>
+</body>
+</html>

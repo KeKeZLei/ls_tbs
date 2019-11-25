@@ -89,4 +89,12 @@
     ref_createtime, ref_coopterm, ref_state, ref_nickname
     from referrer
   </select>
+  <select id="getRef_name" resultMap="BaseResultMap" parameterType="string">
+     select * from referrer where ref_name=#{ref_name.jdbcType=INTEGER}
+  </select>
+  <select id="selectByref_id" resultType="java.lang.Integer" parameterType="string">
+    select ref_id
+    from referrer
+    where ref_name = #{ref_name,jdbcType=INTEGER}
+  </select>
 </mapper>

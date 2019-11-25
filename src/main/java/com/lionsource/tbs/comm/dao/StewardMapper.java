@@ -24,4 +24,11 @@ public interface StewardMapper {
 
     //根据标签编号查询管家
     List<Steward> selectAllByTagId(@Param("tagId") String tagId);
+
+    /**
+     * 从业者申请
+     * @param steward
+     * @return
+     */
+    int serverAddApply(Steward steward);
 }
