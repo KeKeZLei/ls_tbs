@@ -1,0 +1,40 @@
+.bs{       
+	background-color: white;
+}
+.ck{
+	background-color: #F4F4F4;
+	
+}
+.dropdown button{
+	background-color: #F4F4F4;
+	border: none;
+	
+}
+.dropdown{
+	height: 50px;
+	line-height: 50px;
+}
+.logo{
+	font-size: 16px;
+}
+.jieshao{
+	color: #898989;
+}
+.imglogo{
+	/*border: 1px red solid;*/
+	position: absolute;
+	background-color: #EAE4DF;
+	top: -20px;
+	width: 73%;
+	text-align: center;
+}
+.gunajia{
+	font-size: 18px;
+}
+.jianshu{
+	font-size: 14px;
+	background-color: #EEEEEE;
+}
+.weibu span{
+	font-size: 40px;
+}
