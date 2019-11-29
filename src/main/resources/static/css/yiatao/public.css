@@ -1,0 +1,132 @@
+body {
+    margin: 5px 5px 5px 5px;
+    background: #f2f2f2;
+}
+
+.layui-dialog-body {
+    margin: 5px 5px 5px 5px;
+    background: #ffffff;
+}
+
+.layuimini-container {
+    border: 1px solid #f2f2f2;
+    border-radius: 5px;
+    background-color: #ffffff
+}
+
+.layuimini-main {
+    margin: 10px 10px 10px 10px;
+}
+
+/**必填红点 */
+.layuimini-form > .layui-form-item > .required:after {
+    content: '*';
+    color: red;
+    position: absolute;
+    margin-left: 4px;
+    font-weight: bold;
+    line-height: 1.8em;
+    top: 6px;
+    right: 5px;
+}
+
+.layuimini-form > .layui-form-item > .layui-form-label {
+    width: 120px !important;
+}
+
+.layuimini-form > .layui-form-item > .layui-input-block {
+    margin-left: 150px !important;
+}
+
+.layuimini-form > .layui-form-item > .layui-input-block > tip {
+    display: inline-block;
+    margin-top: 10px;
+    line-height: 10px;
+    font-size: 10px;
+    color: #a29c9c;
+}
+
+.layui-margin-10 {
+    margin: 10px 10px 10px 10px
+}
+
+.layui-align-right {
+    text-align: right;
+}
+
+.msg-red {
+    color: red;
+}
+
+.text-center {
+    text-align: center;
+}
+
+/**商品详情样式**/
+#proName {
+    font-size: 20px;
+    color: #0C0C0C;
+    padding-left: 20px;
+}
+
+#proDescribe {
+    font-size: 16px;
+    color: #808080;
+    padding-left: 20px;
+}
+
+#proShowprice {
+    font-size: 18px;
+    color: #ffA500;
+}
+
+#proMarketprice {
+    font-size: 16px;
+    color: #808080;
+    text-decoration: line-through;
+}
+
+.p1 {
+    padding-left: 8px;
+}
+
+.p2 {
+    font-size: 18px;
+    color: #808080;
+    padding-right: 10px;
+    text-align: right
+}
+
+.row-detail {
+    font-size: 16px;
+    color: #808080;
+    border-radius: 5px;
+    height: 40px;
+    line-height: 40px;
+    background-color: #d0d0d0;
+    text-align: center;
+}
+
+.hr1 {
+    margin: 20px auto;
+    height: 2px;
+    width: 50%;
+}
+
+.hr2 {
+    margin: 20px auto;
+    height: 2px;
+    width: 50%
+}
+
+#proDetails{
+    padding: 0px 20px;
+}
+
+.img-thumb{
+    width:20%;
+}
+
+.img-cover{
+    width:41%;
+}

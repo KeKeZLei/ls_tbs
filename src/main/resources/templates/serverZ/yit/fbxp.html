@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+	<head>
+		<meta charset="utf-8" />
+		<title>需求配置向导页</title>
+		<link rel="stylesheet" th:href="@{static/css/bootstrap.css}" />
+		<script  src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<meta http-equiv="Content-Type"content="text/html; charset=utf-8" />
+		<meta name="viewport"content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=no;" />
+		<!--必要样式-->
+		<link th:href="@{static/css/city-picker.css}" rel="stylesheet" type="text/css" />
+		<style>
+			* {
+				margin: 0%;
+				padding: 0%;
+			}
+			div{
+				font-size: 1.2em;
+				margin: 1%;
+			}
+			/*chrckbox美化*/
+			 input.cbox {
+            -webkit-appearance: none;
+            width: 16px!important;
+            height: 16px!important;
+            display: inline-block;
+            margin: -3px 5px 0 0!important;
+            cursor: pointer;
+            vertical-align: middle;
+            border: 1px solid black;
+            border-radius: 15px;
+            background-color: #FFFFFF;
+	        }
+	        input.cbox:checked {
+	            background-color:#1E7AF7 ;
+	        }
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<div id="dinbu">
+				<div class="row">
+				<div class="col-xs-12">
+					 <a href="#">
+					 	<span class="glyphicon glyphicon-chevron-left"></span>		
+					 	&nbsp;发布需求
+					 </a>
+				</div>
+			</div>
+			</div>
+			<div class="row" style="background-color: #F4F4F4;">
+				<div class="col-xs-12">
+					<h2>量身定制您的管家</h2>
+				</div>
+			</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<h3><b>您需要管家做什么？<font color="#ABABAB">(可多选)</font></b></h3>
+					</div>
+					<div th:each="Stewardtype:${zylist}">
+						<div class="col-xs-12" id="fruit">
+							<input type="checkbox"class="cbox" name="stId" th:value="${Stewardtype.stId}"/>&nbsp;&nbsp;<span th:text="${Stewardtype.stName}"></span>
+						</div>
+					</div>
+				</div>
+				<div class="row" style="background-color: #F4F4F4;height: 20px;">
+					<div class="col-xs-12">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<h3><b>您需要管家住在家里吗？</font></b></h3>
+					</div>
+					<div class="col-xs-3">
+						<input name="hom" type="radio" value="住家"/>&nbsp;&nbsp;住家
+					</div>
+					<div class="col-xs-1">
+						
+					</div>
+					<div class="col-xs-3">
+						<input name="hom" type="radio" value="不住家"/>&nbsp;&nbsp;不住家
+					</div>
+				</div>
+				<div class="row" style="background-color: #F4F4F4;height: 20px;">
+					<div class="col-xs-12">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<h3><b>您和管家签约形式？</font></b></h3>
+					</div>
+					<div class="col-xs-3">
+						<input name="zhi" type="radio" value="1"/>&nbsp;&nbsp;中介制
+					</div>
+					<div class="col-xs-1">
+					</div>
+					<div class="col-xs-3">
+						<input name="zhi" type="radio" value="2"/>&nbsp;&nbsp;雇佣制
+					</div>
+				</div>
+				<div class="row" style="background-color: #F4F4F4;height: 20px;">
+					<div class="col-xs-12">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<h3><b>您需要管家有多少工作经验？</font></b></h3>
+					</div>
+					<div class="col-xs-3">
+						<input name="gzjy" type="radio" value="1"/>&nbsp;&nbsp;1年
+					</div>
+					<div class="col-xs-3">
+						<input name="gzjy" type="radio" value="2"/>&nbsp;&nbsp;2年
+					</div>
+					<div class="col-xs-3">
+						<input name="gzjy" type="radio" value="3"/>&nbsp;&nbsp;3年
+					</div>
+					<div class="col-xs-3">
+						<input name="gzjy" type="radio" value="4"/>&nbsp;&nbsp;更久
+					</div>
+				</div>
+				<div class="row" style="background-color: #F4F4F4;height: 20px;">
+					<div class="col-xs-12">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<h3><b>您预计给管家的月工资是？</font></b></h3>
+					</div>
+					<div class="col-xs-12" align="center">
+						<span class="glyphicon glyphicon-minus" id="min"></span>
+						<input  type="text" style="width: 30%;border: 0px;text-align: center;font-size: 50px;"   name="yuan" value="3800"/><span>元</span>
+						<span class="glyphicon glyphicon-plus" id="add"></span>
+					</div>
+					<div class="col-xs-12" >
+						<font color="red" size="4">工资参考：符合您要求的保姆，以每周双休计算，市场价大概为3800元/月</font>
+					</div>
+				</div>
+				<div class="row" style="background-color: #F4F4F4;height: 20px;">
+					<div class="col-xs-12">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<h3><b>补充详细需求<font color="#ABABAB">(可不填)</font></b></h3>
+							<h5><font color="#ABABAB">信息越完善，匹配阿姨越精准</font></h5>
+					</div>
+					<div class="col-xs-3">
+						籍贯要求
+					</div>
+					<div style="text-align: right;">
+						<input type="text" name="jiguan" placeholder="请输入籍贯" style="text-align: right;border: 0px;"/>
+					</div>
+					<!--<div class="col-xs-12">-->
+						<!--籍贯要求-->
+					<!--</div>-->
+					<!--<div class="col-xs-12" >-->
+						<!--<div class="docs-methods">-->
+							<!--<form class="form-inline">-->
+								<!--<div id="distpicker">-->
+									<!--<div class="form-group">-->
+										<!--<div style="position: relative;" >-->
+											<!--<input id="city-picker3" style="width: 100%;" class="form-control" readonly type="text" value="湖南省/长沙市/岳麓区" data-toggle="city-picker" ..>-->
+										<!--</div>-->
+									<!--</div>-->
+									<!--<div class="form-group">-->
+										<!--<button class="btn btn-warning" id="reset" type="button">重置</button>-->
+										<!--<button class="btn btn-danger" id="destroy" type="button">确定</button>-->
+									<!--</div>-->
+								<!--</div>-->
+							<!--</form>-->
+						<!--</div>-->
+					<!--</div>-->
+					<div class="col-xs-12">
+						<h3><b>详细服务需求？<font color="#ABABAB">(可多选)</font></b></h3>
+					</div>
+					<div class="col-xs-3">
+						<input name="fwxq" type="radio" value="出车开门"/>&nbsp;&nbsp;出车开门
+					</div>
+					<div class="col-xs-3">
+						<input name="fwxq" type="radio" value="照顾病人"/>&nbsp;&nbsp;照顾病人
+					</div>
+					<div class="col-xs-3">
+						<input name="fwxq" type="radio" value="喂养宠物"/>&nbsp;&nbsp;喂养宠物
+					</div>
+					<div class="col-xs-12">
+						<br />
+					</div>
+				</div>
+				<div class="row" style="background-color: #F4F4F4;height: 20px;">
+					<div class="col-xs-12">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<h3><b>填写您的信息</b></h3>
+							<h5><font color="#ABABAB">及时管家承诺您的个人信息不会被泄露，请您放心填写</font></h5>
+					</div>
+					<div class="col-xs-12">
+						<div class="col-xs-3">
+							您的称呼
+						</div>
+						<div style="text-align: right;">
+							<input type="text" placeholder="某某先生/女士" style="text-align: right;border: 0px;"/>
+						</div>
+					</div>
+					<div class="col-xs-12">
+						<div class="col-xs-3">
+							联系电话
+						</div>
+						<div >
+							<input type="text" placeholder="请输入短信验证码" style="text-align: right;border: 0px;width: 48%;"/>
+							<a href="#" style="color: blue;text-decoration: underline;">获取验证码</a>
+						</div>
+					</div>
+				</div>
+				<div class="row" style="background-color: #F4F4F4;height: 20px;">
+					<div class="col-xs-12">
+					</div>
+				</div>
+				<div class="row" align="center">
+					<div class="col-xs-12">
+						<input type="button" name="submit" class="btn btn-info btn-lg" value="为我匹配定制管家" style="width: 400px;height: 70px">
+					</div>
+				</div>
+		</div>
+		</div>
+	</body>
+	<script th:src="@{static/js/jquery.js}"></script>
+	<script th:src="@{static/js/bootstrap.js}"></script>
+	<script th:src="@{static/js/city-picker.data.js}"></script>
+	<script th:src="@{static/js/city-picker.js}"></script>
+	<script th:src="@{static/js/main.js}"></script>
+					<script>
+						$(function(){
+                            //定制管家
+                            $("[name=submit]").click(function () {
+                                var arr = new Array();
+                                $("input[type=checkbox]:checked").each(function(i){
+                                    arr[i] = $(this).val();
+                                });
+                                var vals = arr.join("%");
+								
+                                $.ajax({
+                                    type:"post",
+                                    url:"dzgj",
+                                    data:{
+                                        ste_worktype:vals,
+                                        ste_workform:$("[name=hom]:checked").val(),
+                                        ste_contracttype:$("[name=zhi]:checked").val(),
+                                        ste_workyear:$("[name=gzjy]:checked").val(),
+                                        ste_expsalary:$("[name=yuan]").val(),
+                                        ste_native:$("[name=jiguan]").val()
+                                    },
+                                    dataType:"text",
+                                    success:function(e){
+                                        alert(e);
+                                        // if(e=="修改成功！"){
+                                        //     window.location.href = '';
+                                        // }
+                                    }
+                                })
+                            })
+							//金额只能是数字
+							$("[name=yuan]").blur(function () {
+                                var re = new RegExp("^[0-9]*[1-9][0-9]*$");
+                                var e=$(this).val();
+                                if (e != "") {
+                                    if (!re.test(e)) {
+                                        alert("请输入整数");
+                                        $(this).val("0");
+                                    }
+                                }
+                            })
+							
+							$("#add").click(function(){
+								var gz= parseInt($(this).prev().prev().val());
+									 gz=gz+100;
+									$(this).prev().prev().val(gz);
+							})
+
+                            $("#min").click(function(){
+                                if($(this).next().val()=="0"){
+                                    alert("工资不能为0")
+                                }else{
+                                    var gz= parseInt($(this).next().val());
+                                    gz=gz-100;
+                                    $(this).next().val(gz);
+                                }
+                            })
+
+						})
+					</script>
+</html>

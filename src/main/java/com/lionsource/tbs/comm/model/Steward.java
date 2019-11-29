@@ -9,6 +9,9 @@ import java.util.Date;
 @ToString
 @Data
 public class Steward implements Serializable {
+    public Steward() {
+    }
+
     private Integer steId;
 
     private Integer refId;

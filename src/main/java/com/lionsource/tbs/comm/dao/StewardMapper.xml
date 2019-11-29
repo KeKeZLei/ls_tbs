@@ -165,4 +165,33 @@
       #{steWorktype,jdbcType=LONGVARCHAR}, #{steSkill,jdbcType=VARCHAR}, #{steTag,jdbcType=VARCHAR},
       #{steDescribe,jdbcType=LONGVARCHAR})
   </insert>
+
+  <select id="selectAllfbxp" resultMap="BaseResultMap" >
+   select *  from steward where ste_worktype
+-- 管家类型
+    like #{ste_worktype} and
+--  判断管家是否住家
+    <if test="ste_workform != null">
+      ste_workform = '住家'
+    </if>
+    <if test="ste_workform == null">
+      ste_workform in ('白班','钟点')
+    </if>
+--   签约形式
+    and ste_contracttype=#{ste_contracttype}
+--  工作年限
+    <if test="ste_workyear != 0">
+      and ste_workyear=#{ste_workyear}
+    </if>
+    <if test="ste_workyear == 0">
+      and ste_workyear >= #{ste_expsalary}
+    </if>
+--  期望薪资
+      and ste_expsalary &lt;= #{ste_expsalary}
+-- 籍贯
+    <!--<if test="ste_native != null">-->
+      <!--and ste_native=#{ste_native}-->
+    <!--</if>-->
+  </select>
+
 </mapper>

@@ -26,6 +26,15 @@ public interface StewardMapper {
     List<Steward> selectAllByTagId(@Param("tagId") String tagId);
 
     /**
+     * 量身定制管家
+     *多条件查询：
+     * 职业类别 ste_worktype
+     * 是否住家 ste_workform
+     *
+     */
+    List<Steward> selectAllfbxp(@Param("ste_worktype") String ste_worktype,@Param("ste_workform") String ste_workform,@Param("ste_contracttype")String ste_contracttype,@Param("ste_workyear")int ste_workyear,@Param("ste_expsalary") int ste_expsalary,@Param("ste_native") String ste_native);
+
+    /**
      * 从业者申请
      * @param steward
      * @return
