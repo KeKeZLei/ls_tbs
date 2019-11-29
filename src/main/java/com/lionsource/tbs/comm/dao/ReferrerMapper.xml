@@ -97,4 +97,18 @@
     from referrer
     where ref_name = #{ref_name,jdbcType=INTEGER}
   </select>
+  <!--根据推荐人用户名和手机号码进行登录-->
+  <select id="getRefnameReftel" resultMap="BaseResultMap" parameterType="com.lionsource.tbs.comm.model.Referrer">
+    select * from referrer where ref_name = #{refName,jdbcType=VARCHAR} and ref_tel = #{refTel,jdbcType=VARCHAR}
+  </select>
+  <!--根据手机号码进行登录-->
+
+
+  <select id="getReftel" resultMap="BaseResultMap" parameterType="com.lionsource.tbs.comm.model.Referrer">
+    select * from referrer where ref_tel = #{refTel,jdbcType=VARCHAR}
+  </select>
+  <!--根据电话号码查询服务人员姓名-->
+  <select id="getReferrerRefname" resultType="String" parameterType="com.lionsource.tbs.comm.model.Referrer">
+    select ref_name from referrer where ref_tel = #{refTel,jdbcType=VARCHAR}
+  </select>
 </mapper>

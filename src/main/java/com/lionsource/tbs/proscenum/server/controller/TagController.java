@@ -38,7 +38,6 @@ public class TagController {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("tagList", list);
         //输出到 ajax 对象中
-        System.out.println(jsonObject.toString());
         writer.write(jsonObject.toString());
     }
 }

@@ -2,32 +2,13 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>p2p网贷平台</title>
+<title>及时管家服务平台</title>
 <meta name="keywords" content="" />
 <meta name="description" content="" />
 <link th:href="@{static/css/common.css}" rel="stylesheet" />
 <link th:href="@{static/css/register.css}" rel="stylesheet" type="text/css">
-<script type="text/javascript" th:src="@{static/script/jquery.min.js}"></script>
-<script type="text/javascript" th:src="@{static/script/common.js}"></script>
-  <link th:href="@{static/css/common.css}" rel="stylesheet" />
   <link rel="stylesheet" type="text/css" th:href="@{static/css/style.css}">
   <script type="text/javascript" th:src="@{static/js/app.js}"></script>
-  <link th:href="@{static/css/register.css}" rel="stylesheet" type="text/css">
-  <script type="text/javascript" th:src="@{static/script/jquery.min.js}"></script>
-  <script type="text/javascript" th:src="@{static/script/common.js}"></script>
-  <script th:src="@{static/script/login.js}" type="text/javascript"></script>
-  <script th:src="@{static/js/jquery-1.12.4.js}"></script>
-  <link rel="stylesheet" th:href="@{static/css/sweetalert.css}">
-  <link rel="stylesheet" th:href="@{static/css/j-forms.css}">
-  <link th:href="@{static/css/city-picker.css}" rel="stylesheet" />
-  <script th:src="@{static/js/jquery.1.11.1.min.js}"></script>
-  <script th:src="@{static/js/sweetalert-dev.js}"></script>
-  <script th:src="@{static/js/sweetalert.min.js}"></script>
-  <script th:src="@{static/js/jquery.js}"></script>
-  <script th:src="@{static/js/bootstrap.js}"></script>
-  <script th:src="@{static/js/city-picker.data.js}"></script>
-  <script th:src="@{static/js/city-picker.js}"></script>
-  <script th:src="@{static/js/main.js}"></script>
 </head>
 <body>
 <!-- 网站公共头部区域 -->
@@ -77,7 +58,7 @@
         <li><a href="http://www.jishiguanjia.com/list.php?typeid=702#maodian">服务项目</a></li>
         <li><a href="http://www.jishiguanjia.com/list.php?typeid=697#maodian">关于我们</a></li>
         <li><a href="register">从业者申请</a></li>
-        <li><a href="login">服务人员登录</a></li>
+        <li><a href="server/login">服务人员登录</a></li>
       </ul>
     </div>
   </div>
@@ -93,8 +74,8 @@
     </div>
     <div class="registerCont">
       <ul>
-        <li class="scses"> ， 恭喜您注册成功!</li>
-        <li class="rz"><a href="#" class="btn">去登录</a>
+        <li class="scses"><span th:text="${ste_name}" style="font-size: 30px;color: #00FFFF" ></span>， 恭喜您注册成功!</li>
+        <li class="rz"><a href="server/login" class="btn">去登录</a>
       </ul>
     </div>
   </div>

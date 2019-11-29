@@ -6,6 +6,8 @@ import com.lionsource.tbs.proscenum.server.service.StewardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @Description
  * @Author 可可球
@@ -23,5 +25,38 @@ public class StewardServiceImpl implements StewardService {
      */
     public int serverAddApply(Steward steward){
         return stewardMapper.serverAddApply(steward);
+    }
+
+    /**
+     * 查询从业者手机号码是否存在
+     */
+    public int selectPhone(String steTel){
+        return stewardMapper.selectPhone(steTel);
+    }
+    /**
+     * 根据用户名和手机号码进行登录
+     * @param  steward
+     * @return
+     */
+    public List<Steward> getStenameStetel(Steward steward){
+        return stewardMapper.getStenameStetel(steward);
+    }
+
+    /**
+     * 根据手机号码进行登录
+     * 短信验证
+     * @param steward
+     * @return
+     */
+    public List<Steward> getStetel(Steward steward){
+        return stewardMapper.getStetel(steward);
+    }
+    /**
+     * 根据电话号码查询服务人员姓名
+     * @param steward
+     * @return
+     */
+   public  String getStetelSteName(Steward steward){
+        return stewardMapper.getStetelSteName(steward);
     }
 }

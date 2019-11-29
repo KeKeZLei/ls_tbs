@@ -40,4 +40,31 @@ public interface StewardMapper {
      * @return
      */
     int serverAddApply(Steward steward);
+
+    /**
+     * 查询从业者手机号码是否存在
+     */
+    int selectPhone(String steTel);
+
+    /**
+     * 根据用户名和手机号码进行登录
+     * @param  steward
+     * @return
+     */
+    List<Steward> getStenameStetel(Steward steward);
+
+    /**
+     * 根据手机号码进行登录
+     * 短信验证
+     * @param steward
+     * @return
+     */
+    List<Steward> getStetel(Steward steward);
+
+    /**
+     * 根据电话号码查询服务人员姓名
+     * @param steward
+     * @return
+     */
+    String getStetelSteName(Steward steward);
 }

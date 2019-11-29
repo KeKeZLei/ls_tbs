@@ -131,6 +131,9 @@
     ste_worktype, ste_skill, ste_tag, ste_describe
     from steward where ste_skill like '%${skillId}%'
   </select>
+  <select id="selectPhone"  resultType="int" parameterType="string">
+      select count(*)  from steward where ste_tel = #{steTel}
+  </select>
   <!--根据标签编号查询管家-->
   <select id="selectAllByTagId" resultMap="BaseResultMap" >
     select ste_id, ref_id, ste_openid, ste_whead, ste_chead, ste_name, ste_tel, ste_idcardnum,
@@ -139,6 +142,17 @@
     ste_workform, ste_cerstate, ste_createtime, ste_state, ste_province, ste_city, ste_nickname,
     ste_worktype, ste_skill, ste_tag, ste_describe
     from steward where ste_tag like '%${tagId}%'
+  </select>
+  <!--根据用户名和手机号码进行登录-->
+  <select id="getStenameStetel" resultMap="BaseResultMap" parameterType="com.lionsource.tbs.comm.model.Steward">
+    select * from steward where ste_name = #{steName,jdbcType=VARCHAR} and ste_tel = #{steTel,jdbcType=VARCHAR}
+  </select>
+  <select id="getStetel" resultMap="BaseResultMap" parameterType="com.lionsource.tbs.comm.model.Steward">
+    select * from steward where ste_tel = #{steTel,jdbcType=VARCHAR}
+  </select>
+  <!--根据电话号码查询服务人员姓名-->
+  <select id="getStetelSteName" resultType="String" parameterType="com.lionsource.tbs.comm.model.Steward">
+    select ste_name from steward where ste_tel = #{steTel,jdbcType=VARCHAR}
   </select>
   <!--从业者申请-->
   <insert id="serverAddApply" parameterType="com.lionsource.tbs.comm.model.Steward">

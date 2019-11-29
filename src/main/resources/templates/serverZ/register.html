@@ -8,22 +8,13 @@
         <meta name="description" content="" />
         <link th:href="@{static/css/common.css}" rel="stylesheet" />
         <link rel="stylesheet" type="text/css" th:href="@{static/css/style.css}">
-        <script type="text/javascript" th:src="@{static/js/app.js}"></script>
         <link th:href="@{static/css/register.css}" rel="stylesheet" type="text/css">
-        <script type="text/javascript" th:src="@{static/script/jquery.min.js}"></script>
-        <script type="text/javascript" th:src="@{static/script/common.js}"></script>
-        <script th:src="@{static/script/login.js}" type="text/javascript"></script>
         <script th:src="@{static/js/jquery-1.12.4.js}"></script>
-        <link rel="stylesheet" th:href="@{static/css/sweetalert.css}">
-        <link rel="stylesheet" th:href="@{static/css/j-forms.css}">
-        <script th:src="@{static/js/jquery.1.11.1.min.js}"></script>
-        <script th:src="@{static/js/sweetalert-dev.js}"></script>
+        <link th:href="@{static/css/main.css}" rel="stylesheet"/>
+        <link th:href="@{static/css/sweetalert.css}" rel="stylesheet" />
         <script th:src="@{static/js/sweetalert.min.js}"></script>
-        <script th:src="@{static/js/jquery.js}"></script>
-        <link th:href="@{static/css/main.css}" rel="stylesheet">
-        <link th:href="@{static/css/style.css}" rel="stylesheet"  />
-            <script th:src="@{static/js/apply.js}"></script>
-
+        <script th:src="@{static/js/sweetalert-dev.js}"></script>
+        <script th:src="@{static/js/apply.js}"></script>
         </head>
     <body>
         <div class="p-header">
@@ -35,8 +26,8 @@
                         </a>
                     </h1>
                     <div class="search">
-                        <form action="" method="post">
-                            <input type="text" class="keyword" placeholder="请输入关键字" name="keywords">
+                        <form action="serverAddApply" method="post">
+                            <input type="text" class="keyword" placeholder="请输入关键字" name="keywords" >
                             <input type="submit" class="btn">
                         </form>
                     </div>
@@ -72,7 +63,7 @@
                         <li><a href="http://www.jishiguanjia.com/list.php?typeid=702#maodian">服务项目</a></li>
                         <li><a href="http://www.jishiguanjia.com/list.php?typeid=697#maodian">关于我们</a></li>
                         <li><a href="register">从业者申请</a></li>
-                        <li><a href="login">服务人员登录</a></li>
+                        <li><a href="server/login">服务人员登录</a></li>
                     </ul>
                 </div>
             </div>
@@ -87,6 +78,7 @@
                     <p class="p3">注册成功</p>
                 </div>
                 <div class="registerCont">
+                    <input th:value="${msg}" class="msg" type="hidden"/>
                     <form th:action="serverAddApply" method="post">
                         <ul>
                             <li><span class="dis">服 务 类 目:</span>
@@ -99,43 +91,42 @@
                                 </div>
                             </li>
                             <li><span class="dis">姓 名:</span>
-                                <input type="text" placeholder="请正确填写您的姓名" class="ste_name" name="ste_name">
+                                <input type="text" placeholder="请正确填写您的姓名" class="ste_name" name="ste_name" style="width:220px;">
                             </li>
                             <li class="telNumber"> <span class="dis">手 机 号 码:</span>
-                                <input type="number" class="ste_tel"  name="ste_tel" tabindex="1" oninput="if(value.length>11)value=value.slice(0,11)">
+                                <input type="number" class="ste_tel"  name="ste_tel" style="width:220px;" tabindex="1" oninput="if(value.length>11)value=value.slice(0,11)">
                                 <input type="button"  class="button radius1 _getkey" id="btn" style="border: 0px" value="获取验证码"> <span id="phoneJy" data-info="请输入您的常用电话">请输入您的常用电话</span></li>
                             <li class="telNumber"><span class="dis">短信验证码:</span>
-                                <input id="phonVerify" type="text" name="phcode" class="input input1  _phonVerify" data-_id="phonVerify" tabindex="1">
+                                <input class="yzm" type="hidden" name="yzm">
+                                <input id="phonVerify" type="text" name="phcode" style="width:220px;" class="input input1  _phonVerify" data-_id="phonVerify" tabindex="1">
                                 <span class="info" id="phonVerifys" style="color: red" th:text="${tisi}"  data-info="请输入手机验证码">请输入手机验证码</span></li>
                             </li>
                             <li><span class="dis">年 龄:</span>
-                            <input type="text" placeholder="请正确填写您的身份证年龄"  class="ste_age" name="ste_age">
+                            <input type="text" placeholder="请正确填写您的身份证年龄" style="width:220px;" class="ste_age" name="ste_age">
                             </li>
                             <span class="info" id="jpgVerifys" data-info="请输入手机验证码"></span> </li>
                             <li class="telNumber"> <span class="dis">从业年限:</span>
-                            <input type="text" placeholder="请填写您从事这份工作的年数"   class="ste_workyear" name="ste_workyear">
+                            <input type="text" placeholder="请填写您从事这份工作的年数" style="width:220px;"  class="ste_workyear" name="ste_workyear">
                             </li>
                             <li class="telNumber"><span class="dis">籍贯:</span>
-                                <input  class="ste_native" name="ste_native"  type="text" placeholder="请输入你出生的籍贯">
+                                <input  class="ste_native" name="ste_native" style="width:220px;" type="text" placeholder="请输入你出生的籍贯">
                             </li>
                             <li> <span class="dis">推 荐 人:</span>
-                                <input type="text" placeholder="此项为选填项" class="ref_id" >
+                                <input type="text" placeholder="此项为选填项" style="width:220px;" class="ref_id" >
                                 <input type="hidden" name="ref_id" class="ref_ids">
                                 <span class="_invist_msg">请填写推荐人账户名，如无推荐人请留空</span>
                             </li>
                             <li><span class="dis">性 别:</span>
                                 <select class="ste_sex" name="ste_sex">
-                                    <option value="0">未知</option>
                                     <option value="1" selected="selected">男</option>
                                     <option value="2">女</option>
                                 </select>
                             </li>
                             <li> <span class="dis">个 人 介 绍:</span>
-                                <input type="text" placeholder="填写您的自我介绍、自我评价、及工作情况等" class="ste_describe" name="ste_describe">
+                                <input type="text" placeholder="填写您的自我介绍、自我评价、及工作情况等" style="width:220px;" class="ste_describe" name="ste_describe">
                             </li>
-                            <li> <span class="dis">常 驻 地 址:</span>
-                                <input type="text" placeholder="填写您的详细住地，请精确到小区，以便匹配到距离最适合的雇主" class="ste_address" name="ste_address">
-                            </li>
+                            <input type="hidden" name="ste_tag" class="ste_tag" >
+
                             <li> <span class="dis">个 人 特 点：</span>
                                 <div class="button1">
 
@@ -145,7 +136,7 @@
                                 <img th:src="@{static/img/jian.jpg}" class="minus" style="width: 40px;height: 40px;">&nbsp;&nbsp;<input value="3800" name="money" style="font-size: 30px; width: 100px; text-align: center" class="money">元&nbsp;&nbsp;<img th:src="@{static/img/jia.jpg}" class="add" style="width: 40px;height: 40px;">
                             </li>
                             <li> <span class="dis">常 驻 地 址:</span>
-                                <input type="text" placeholder="填写您的详细住地，请精确到小区，以便匹配到距离最适合的雇主" class="ste_address" name="ste_address">
+                                <input type="text" placeholder="填写您的详细住地，请精确到小区，以便匹配到距离最适合的雇主" style="width:220px;" class="ste_address" name="ste_address">
                             </li>
                             <li> <span class="dis">服 务 范 围:</span>
                                 <select class="serverProvince" name="ste_province">
@@ -156,7 +147,7 @@
                                 </select>
                             </li>
                             <li class="agree">
-                                <input style="width: 20px;height: 20px;" name="protocol" id="protocol" type="checkbox" value="" checked="checked">
+                                <input style="width: 10px;height: 10px;" disabled="disabled" name="protocol" id="protocol" type="checkbox" value="" checked="checked">
                                 我同意《<a href="#">及时管家注册协议</a>》 <span id="protocolAlt" data-info="请查看协议">请查看协议</span></li>
                             <li class="btn">
                                 <button type="submit" class="submit" style="background-color: #F39800;color: white; width: 200px;height: 50px; font-size: 20px;" >提交信息</button>
@@ -265,7 +256,6 @@
                             <dd>
                                 <a href="http://www.jishiguanjia.com/list.php?typeid=717#maodian">育儿百科</a>
                             </dd>
-
                         </dl>
                     </div>
                 </div>
@@ -276,90 +266,5 @@
                 </div>
             </div>
         </div>
-        <!--<script th:src="@{static/layer/layer.js}"></script>-->
-        <script type="text/javascript">
-            $(function () {
-                //手机验证码
-                document.getElementById("btn").onclick=function(){time(this);}
-                $("#btn").click(function () {
-                    var telphone = $("#telphone").val();
-                    if (telphone == null || telphone == '') {
-                        layer.open({
-                            title: '提示'
-                            ,content: '请填写您的手机号码'
-                        });
-                        return false;
-                    }
-                    //发送ajax的请求
-                    $.ajax({
-                        method: "POST",
-                        url: "getphone",
-                        data: {
-                            telphone: telphone
-                        },
-                        //xhrFields: { withCredential s: true },
-                        success: function (data) {
-                            if (data.status == "success") {
-                                layer.open({
-                                    title: '提示'
-                                    ,content: '验证码发送成功，请在手机上查收'
-                                });
-                            } else {
-                                /* BusinessException */
-                                alert("验证码发送失败,原因是:" + data.data.errMsg);
-                            }
-                        },
-                        error: function (data) {
-                            alert("服务器异常,原因是:" + data.responseText);
-                        }
-                    });
-                })
-                //可以阻止冒泡
-                return false;
-                //验证用户名是否重复
-            });
-            $("#userName").blur(function () {
-                var name = $("#userName").val();
-                if(name==null||name==''){
-                    layer.msg('用户名不能为空', {icon: 5});
-                    return false;
-                }
-                //发送ajax的请求
-                $.ajax({
-                    type: "POST",
-                    url: "checkUser",
-                    data: {
-                        "tername": name,
-                    },
-                    success: function (data) {
-                        if (data=="true") {
-                        } else {
-                            /* BusinessException */
-                            layer.open({
-                                title: '提示'
-                                ,content: '用户名已经被占用'
-                            });
-                        }
-                    }
-                });
-                //可以阻止冒泡
-                return false;
-            })
-            var wait=60;
-            function time(o) {
-                if (wait == 0) {
-                    o.removeAttribute("disabled");
-                    o.value="获取验证码";
-                    wait = 60;
-                } else {
-                    o.setAttribute("disabled", true);
-                    o.value="重新发送(" + wait + ")";
-                    wait--;
-                    setTimeout(function() {
-                        time(o)
-                    },1000)
-                }
-            }
-        </script>
     </body>
 </html>

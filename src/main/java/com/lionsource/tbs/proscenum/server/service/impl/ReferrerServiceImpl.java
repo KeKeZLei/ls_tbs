@@ -34,4 +34,32 @@ public class ReferrerServiceImpl implements ReferrerService {
     public int selectByref_id(String ref_name){
         return referrerMapper.selectByref_id(ref_name);
     }
+
+    /**
+     * 根据推荐人用户名和手机号码进行登录
+     * @param referrer
+     * @return
+     */
+   public List<Referrer> getRefnameReftel(Referrer referrer){
+        return referrerMapper.getReftel(referrer);
+    }
+
+    /**
+     * 根据手机号码进行登录
+     * 短信验证
+     * @param referrer
+     * @return
+     */
+    public List<Referrer> getReftel(Referrer referrer){
+        return referrerMapper.getReftel(referrer);
+    }
+
+    /**
+     * 根据电话号码查询推荐人姓名
+     * @param referrer
+     * @return
+     */
+    public String getReferrerRefname(Referrer referrer){
+        return referrerMapper.getReferrerRefname(referrer);
+    }
 }
