@@ -15,7 +15,7 @@ public class StewardServiceImply implements StewardServiceI {
     private StewardMapper stewardMapper;
 
     @Override
-    public List<Steward> selectAllfbxp(String ste_worktype,String ste_workform,String ste_contracttype,int ste_workyear,int ste_expsalary,String ste_native) {
-        return stewardMapper.selectAllfbxp(ste_worktype,ste_workform,ste_contracttype,ste_workyear,ste_expsalary,ste_native);
+    public List<Steward> selectAllfbxp(String ste_worktype,String ste_workform,String ste_contracttype,int ste_workyear,int ste_expsalary,String ste_native,String ste_tag) {
+        return stewardMapper.selectAllfbxp(ste_worktype,ste_workform,ste_contracttype,ste_workyear,ste_expsalary,ste_native,ste_tag);
     }
 }

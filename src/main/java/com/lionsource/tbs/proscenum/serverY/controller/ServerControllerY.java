@@ -31,8 +31,8 @@ public class ServerControllerY {
         List<Stewardtype> list = stewardtypeService.selectAll();
         List<Tag> tagslist = tagServiceimpl.selectAll();
         model.addAttribute("zylist",list);
-        model.addAttribute("listt",tagslist);
-
+        model.addAttribute("tagslist",tagslist);
+        System.out.println(tagslist);
         return "serverZ/yit/fbxp";
     }
 }

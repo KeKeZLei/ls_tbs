@@ -203,8 +203,12 @@
 --  期望薪资
       and ste_expsalary &lt;= #{ste_expsalary}
 -- 籍贯
-    <!--<if test="ste_native != null">-->
-      <!--and ste_native=#{ste_native}-->
+    <if test="ste_native != null">
+    and ste_native like #{ste_native}
+    </if>
+-- 个人标签
+    <!--<if test="ste_tag != null">-->
+      <!--and ste_tag like #{ste_tag}-->
     <!--</if>-->
   </select>
 

@@ -24,9 +24,6 @@ public class Steward implements Serializable {
 
     private String steName;
 
-    public Steward() {
-    }
-
     private String steTel;
 
     public Integer getSteId() {

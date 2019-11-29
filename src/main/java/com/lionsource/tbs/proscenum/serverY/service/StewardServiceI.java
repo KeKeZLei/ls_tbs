@@ -10,5 +10,5 @@ public interface StewardServiceI {
      * 定制管家
      * @return
      */
-    List<Steward> selectAllfbxp(String ste_worktype,String ste_workform,String ste_contracttype,int ste_workyear,int ste_expsalary,String ste_native);
+    List<Steward> selectAllfbxp(String ste_worktype,String ste_workform,String ste_contracttype,int ste_workyear,int ste_expsalary,String ste_native,String ste_tag);
 }

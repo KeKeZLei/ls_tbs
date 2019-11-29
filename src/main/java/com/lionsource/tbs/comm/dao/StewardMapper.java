@@ -27,12 +27,16 @@ public interface StewardMapper {
 
     /**
      * 量身定制管家
-     *多条件查询：
-     * 职业类别 ste_worktype
-     * 是否住家 ste_workform
-     *
+     *  多条件查询：
+     * 1职业类别
+     * 2是否住家
+     * 3管家签约形式(1=中介制,2=雇佣制)
+     * 4工作年限
+     * 5期望工资
+     * 6籍贯
+     * 7个人标签
      */
-    List<Steward> selectAllfbxp(@Param("ste_worktype") String ste_worktype,@Param("ste_workform") String ste_workform,@Param("ste_contracttype")String ste_contracttype,@Param("ste_workyear")int ste_workyear,@Param("ste_expsalary") int ste_expsalary,@Param("ste_native") String ste_native);
+    List<Steward> selectAllfbxp(@Param("ste_worktype") String ste_worktype,@Param("ste_workform") String ste_workform,@Param("ste_contracttype")String ste_contracttype,@Param("ste_workyear")int ste_workyear,@Param("ste_expsalary") int ste_expsalary,@Param("ste_native") String ste_native,@Param("ste_tag") String ste_tag);
 
     /**
      * 从业者申请

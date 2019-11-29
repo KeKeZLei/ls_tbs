@@ -11,6 +11,9 @@
 		<meta name="viewport"content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=no;" />
 		<!--必要样式-->
 		<link th:href="@{static/css/city-picker.css}" rel="stylesheet" type="text/css" />
+		<link th:href="@{/static/css/sweetalert.css}" rel="stylesheet" />
+		<script th:src="@{/static/js/sweetalert.min.js}"></script>
+		<script th:src="@{/static/js/sweetalert-dev.js}"></script>
 		<style>
 			* {
 				margin: 0%;
@@ -61,7 +64,7 @@
 					</div>
 					<div th:each="Stewardtype:${zylist}">
 						<div class="col-xs-12" id="fruit">
-							<input type="checkbox"class="cbox" name="stId" th:value="${Stewardtype.stId}"/>&nbsp;&nbsp;<span th:text="${Stewardtype.stName}"></span>
+							<input type="checkbox"class="cbox" name="Stewardtype" th:value="${Stewardtype.stId}"/>&nbsp;&nbsp;<span th:text="${Stewardtype.stName}"></span>
 						</div>
 					</div>
 				</div>
@@ -118,14 +121,14 @@
 						<input name="gzjy" type="radio" value="3"/>&nbsp;&nbsp;3年
 					</div>
 					<div class="col-xs-3">
-						<input name="gzjy" type="radio" value="4"/>&nbsp;&nbsp;更久
+						<input name="gzjy" type="radio" value="4"/>&nbsp;&nbsp;3年以上
 					</div>
 				</div>
 				<div class="row" style="background-color: #F4F4F4;height: 20px;">
 					<div class="col-xs-12">
 					</div>
 				</div>
-				<div class="row">
+				<div class="row">					
 					<div class="col-xs-12">
 						<h3><b>您预计给管家的月工资是？</font></b></h3>
 					</div>
@@ -176,14 +179,10 @@
 					<div class="col-xs-12">
 						<h3><b>详细服务需求？<font color="#ABABAB">(可多选)</font></b></h3>
 					</div>
-					<div class="col-xs-3">
-						<input name="fwxq" type="radio" value="出车开门"/>&nbsp;&nbsp;出车开门
-					</div>
-					<div class="col-xs-3">
-						<input name="fwxq" type="radio" value="照顾病人"/>&nbsp;&nbsp;照顾病人
-					</div>
-					<div class="col-xs-3">
-						<input name="fwxq" type="radio" value="喂养宠物"/>&nbsp;&nbsp;喂养宠物
+					<div th:each="Tag:${tagslist}">
+						<div class="col-xs-5" id="fruits">
+							<input type="checkbox"class="cbox" name="tag" th:value="${Tag.tagId}"/>&nbsp;&nbsp;<span th:text="${Tag.tagName}"></span>
+						</div>
 					</div>
 					<div class="col-xs-12">
 						<br />
@@ -203,16 +202,24 @@
 							您的称呼
 						</div>
 						<div style="text-align: right;">
-							<input type="text" placeholder="某某先生/女士" style="text-align: right;border: 0px;"/>
+							<input type="text" name="name" placeholder="某某先生/女士" style="text-align: right;border: 0px;"/>
 						</div>
 					</div>
 					<div class="col-xs-12">
 						<div class="col-xs-3">
 							联系电话
 						</div>
-						<div >
-							<input type="text" placeholder="请输入短信验证码" style="text-align: right;border: 0px;width: 48%;"/>
-							<a href="#" style="color: blue;text-decoration: underline;">获取验证码</a>
+						<div style="text-align: right;">
+							<input type="text" name="sjhm" placeholder="请输入手机号码" style="text-align: right;border: 0px;"/>
+						</div>
+					</div>
+					<div class="col-xs-12">
+						<div class="col-xs-3">
+							验证码
+						</div>
+						<div style="text-align: right;">
+							<input type="text" placeholder="请输入短信验证码" name="yzms" style="text-align: right;border: 0px;width: 48%;"/>
+							<a href="#" style="color: blue;text-decoration: underline;" name="yzm">获取验证码</a>
 						</div>
 					</div>
 				</div>
@@ -236,32 +243,59 @@
 					<script>
 						$(function(){
                             //定制管家
+							//多选职业类型
                             $("[name=submit]").click(function () {
                                 var arr = new Array();
-                                $("input[type=checkbox]:checked").each(function(i){
+                                $("[name=Stewardtype]:checked").each(function(i){
                                     arr[i] = $(this).val();
                                 });
                                 var vals = arr.join("%");
-								
-                                $.ajax({
-                                    type:"post",
-                                    url:"dzgj",
-                                    data:{
-                                        ste_worktype:vals,
-                                        ste_workform:$("[name=hom]:checked").val(),
-                                        ste_contracttype:$("[name=zhi]:checked").val(),
-                                        ste_workyear:$("[name=gzjy]:checked").val(),
-                                        ste_expsalary:$("[name=yuan]").val(),
-                                        ste_native:$("[name=jiguan]").val()
-                                    },
-                                    dataType:"text",
-                                    success:function(e){
-                                        alert(e);
-                                        // if(e=="修改成功！"){
-                                        //     window.location.href = '';
-                                        // }
-                                    }
-                                })
+
+                                var arrs = new Array();
+                                $("[name=tag]:checked").each(function(i){
+                                    arrs[i] = $(this).val();
+                                });
+                                var  stetag= arrs.join("%");
+
+                                var reg = new RegExp(/^\d{6}$/);
+                                var ysms=$("[name=yzms]").val();
+                                //非空验证
+								if(arr.length<=0||$("[name=hom]:checked").length<=0||$("[name=zhi]:checked").length<=0
+								||$("[name=gzjy]:checked").length<=0){
+									swal("错误","请将信息填写完整","error");//success
+									return false;
+                                }else if ($("[name=name]").val() ==null || $("[name=name]").val() =="") {
+                                    swal("错误","请输入姓名！","error");return false;
+								}else if ($("[name=sjhm]").val() ==null || $("[name=sjhm]").val() =="") {
+                                    swal("错误","请输入手机号码！","error");return false;
+                                }else if ($("[name=yzms]").val() ==null || $("[name=yzms]").val() =="") {
+                                    swal("错误","请输入验证码！","error");return false;
+                                }else if(!reg.test(ysms)){
+                                   swal("错误","验证码格式不对，请输入6为数验证码","error");return false;
+								}else{
+								    //执行操作
+                                    $.ajax({
+                                        type:"post",
+                                        url:"dzgj",
+                                        data:{
+                                            ste_worktype:vals,
+                                            ste_workform:$("[name=hom]:checked").val(),
+                                            ste_contracttype:$("[name=zhi]:checked").val(),
+                                            ste_workyear:$("[name=gzjy]:checked").val(),
+                                            ste_expsalary:$("[name=yuan]").val(),
+                                            ste_native:$("[name=jiguan]").val(),
+                                            ste_tag:stetag
+                                        },
+                                        dataType:"text",
+                                        success:function(e){
+                                            swal("",e,"success");return false;
+                                            // if(e=="修改成功！"){
+                                            //     window.location.href = '';
+                                            // }
+                                        }
+                                    })
+								}
+
                             })
 							//金额只能是数字
 							$("[name=yuan]").blur(function () {
@@ -269,9 +303,9 @@
                                 var e=$(this).val();
                                 if (e != "") {
                                     if (!re.test(e)) {
-                                        alert("请输入整数");
-                                        $(this).val("0");
-                                    }
+                                        alert("请输入正确格式");
+                                        $(this).val("1000");
+									}
                                 }
                             })
 							
@@ -289,6 +323,38 @@
                                     gz=gz-100;
                                     $(this).next().val(gz);
                                 }
+                            })
+
+							//手机号码验证
+							$("[name=sjhm]").blur(function () {
+                                var reg=/^1[3|4|5|7|8][0-9]\d{4,8}$/;
+                                var mobile = $(this).val();
+                                if(mobile==null || mobile=="" || !reg.exec(mobile))
+                                {
+                                    alert("电话有误，请重新填写");
+                                }
+                            })
+
+							//短信倒计时
+							$("[name=yzm]").click(function () {
+                                var time = 60;
+                                settime($(this));
+                                function settime(obj){
+                                    if (time==0) {
+                                        $(obj).attr('disabled', false);
+                                        $(obj).html("点击获取验证码");
+                                        time = 60;
+                                        return;
+                                    } else{
+                                        $(obj).attr('disabled', true);
+                                        $(obj).html(time+"秒后重新发送");
+                                        time--;
+                                    }
+                                    setTimeout(function() {
+                                        settime(obj)
+                                    },1000)
+                                }
+
                             })
 
 						})

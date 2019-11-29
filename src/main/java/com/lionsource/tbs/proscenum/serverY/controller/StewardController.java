@@ -26,7 +26,7 @@ public class StewardController {
      * @return
      */
     @RequestMapping("/dzgj")
-    public void dzgj(HttpServletResponse response, String ste_worktype,String ste_workform,String ste_contracttype,String ste_workyear,String ste_expsalary,String ste_native) throws IOException {
+    public void dzgj(HttpServletResponse response, String ste_worktype,String ste_workform,String ste_contracttype,String ste_workyear,String ste_expsalary,String ste_native,String ste_tag) throws IOException {
         //乱码处理
         response.setContentType("text/html;charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
@@ -43,8 +43,20 @@ public class StewardController {
         }
         //期望工资 转数据类型
         int ste_expsalarys=Integer.parseInt(ste_expsalary);
+        //判断籍贯是否为空
+        if(ste_native.equals("")){
+            ste_native=null;
+        }
+        //个人标签
+        //拼接职位类别：模糊查询
+        //判断个人标签是否为空
+        if (ste_tag.equals("")){
+            ste_tag=null;
+        }else {
+            ste_tag="%"+ste_tag+"%";
+        }
         //调用方法
-        List<Steward> list = serviceI.selectAllfbxp(ste_worktype,ste_workform,ste_contracttype,ste_workyears,ste_expsalarys,ste_native);
+        List<Steward> list = serviceI.selectAllfbxp(ste_worktype,ste_workform,ste_contracttype,ste_workyears,ste_expsalarys,ste_native,ste_tag);
         PrintWriter out = response.getWriter();
         System.out.println("职位类别："+ste_worktype);
         System.out.println("是否住家："+ste_workform);
@@ -52,6 +64,8 @@ public class StewardController {
         System.out.println("工作年限:"+ste_workyear);
         System.out.println("期望工资:"+ste_expsalarys);
         System.out.println("籍贯:"+ste_native);
+        System.out.println("个人标签："+ste_tag);
+
         for (Steward i:list
              ) {
             System.out.println(i);
