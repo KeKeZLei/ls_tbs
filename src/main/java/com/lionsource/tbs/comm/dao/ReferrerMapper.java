@@ -1,6 +1,8 @@
 package com.lionsource.tbs.comm.dao;
 
 import com.lionsource.tbs.comm.model.Referrer;
+import com.lionsource.tbs.comm.model.Steward;
+
 import java.util.List;
 
 public interface ReferrerMapper {
@@ -27,5 +29,27 @@ public interface ReferrerMapper {
      * @return
      */
     int selectByref_id(String ref_name);
+
+    /**
+     * 根据推荐人用户名和手机号码进行登录
+     * @param referrer
+     * @return
+     */
+    List<Referrer> getRefnameReftel(Referrer referrer);
+
+    /**
+     * 根据手机号码进行登录
+     * 短信验证
+     * @param referrer
+     * @return
+     */
+    List<Referrer> getReftel(Referrer referrer);
+
+    /**
+     * 根据电话号码查询推荐人姓名
+     * @param referrer
+     * @return
+     */
+    String getReferrerRefname(Referrer referrer);
 
 }

@@ -129,4 +129,16 @@
     mem_createtime, mem_state, mem_nickname, mem_stewardtype, mem_skilldemand
     from member where mem_skilldemand like '%${skillId}%'
   </select>
+  <!--根据用户的用户名和手机号码进行登录-->
+  <select id="getMemnameTel" resultMap="BaseResultMap" parameterType="com.lionsource.tbs.comm.model.Member">
+    select * from member where mem_name = #{memName,jdbcType=VARCHAR} and mem_tel = #{memTel,jdbcType=VARCHAR}
+  </select>
+  <!--根据手机号码进行登录-->
+  <select id="getMemtel" resultMap="BaseResultMap" parameterType="com.lionsource.tbs.comm.model.Member">
+    select * from member where mem_tel = #{memTel,jdbcType=VARCHAR}
+  </select>
+  <!--根据电话号码查询用户姓名-->
+  <select id="getMemname" resultType="String" parameterType="com.lionsource.tbs.comm.model.Member">
+    select mem_name from member where mem_tel = #{memTel,jdbcType=VARCHAR},
+  </select>
 </mapper>

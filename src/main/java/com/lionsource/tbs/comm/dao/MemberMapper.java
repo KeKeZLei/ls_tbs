@@ -1,6 +1,7 @@
 package com.lionsource.tbs.comm.dao;
 
 import com.lionsource.tbs.comm.model.Member;
+import com.lionsource.tbs.comm.model.Referrer;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -21,4 +22,26 @@ public interface MemberMapper {
 
     //根据技能编号查询会员
     List<Member> selectAllBySkillId(@Param("skillId") String skillId);
+
+    /**
+     * 根据用户用户名和手机号码进行登录
+     * @param member
+     * @return
+     */
+    List<Member> getMemnameTel(Member member);
+
+    /**
+     * 根据手机号码进行登录
+     * 短信验证
+     * @param member
+     * @return
+     */
+    List<Member> getMemtel(Member member);
+
+    /**
+     * 根据电话号码查询用户姓名
+     * @param member
+     * @return
+     */
+    String getMemname(Member member);
 }

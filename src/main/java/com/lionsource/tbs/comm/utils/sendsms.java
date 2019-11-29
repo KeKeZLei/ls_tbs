@@ -10,7 +10,7 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.dom4j.Document;   
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;   
-import org.dom4j.Element;   
+import org.dom4j.Element;
 
 
 
@@ -35,10 +35,9 @@ public class sendsms {
 
 	    String content = new String("您的验证码是：" + mobile_code + "。请不要把验证码泄露给其他人。");
 
-		NameValuePair[] data = {//�ύ����
+		NameValuePair[] data = {
 			    new NameValuePair("account", "C07580732"),
-			    new NameValuePair("password", "2115f6df2b8eb2f2a2c6123f490ac311"), //�鿴�������¼�û�����->��֤�롢֪ͨ����->�ʻ���ǩ������->APIKEY
-			    //new NameValuePair("password", util.StringUtil.MD5Encode("����")),
+			    new NameValuePair("password", "2115f6df2b8eb2f2a2c6123f490ac311"),
 			    new NameValuePair("mobile", mobile),
 			    new NameValuePair("content", content),
 		};
@@ -75,7 +74,8 @@ public class sendsms {
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	
+		}
+		System.out.println(content.substring(7,13));
 		return content.substring(7,13);
 	}
 

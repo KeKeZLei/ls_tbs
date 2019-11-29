@@ -3,13 +3,18 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>及时 管家服务平台</title>
+  <title>及时管家服务平台</title>
   <meta name="keywords" content="" />
   <meta name="description" content="" />
   <link th:href="@{/static/css/common.css}" rel="stylesheet" />
   <link th:href="@{/static/css/register.css}" rel="stylesheet" type="text/css">
   <link rel="stylesheet" type="text/css" th:href="@{/static/css/style.css}">
-/</head>
+  <link rel="stylesheet" type="text/css" th:href="@{/static/css/sweetalert.css}">
+  <script type="text/javascript" th:src="@{/static/js/jquery-1.12.4.js}"></script>
+  <script type="text/javascript" th:src="@{/static/js/serverZlogin.js}"></script>
+  <script type="text/javascript" th:src="@{/static/js/sweetalert.min.js}"></script>
+  <script type="text/javascript" th:src="@{/static/js/sweetalert-dev.js}"></script>
+</head>
 <body>
 <header>
   <div class="p-header">
@@ -58,42 +63,47 @@
           <li><a href="http://www.jishiguanjia.com/list.php?typeid=702#maodian">服务项目</a></li>
           <li><a href="http://www.jishiguanjia.com/list.php?typeid=697#maodian">关于我们</a></li>
           <li><a href="register">从业者申请</a></li>
-          <li><a href="login">服务人员登录</a></li>
+          <li><a href="server/login">登录</a></li>
         </ul>
       </div>
     </div>
   </div>
 
-<div class="wrap">
-  <form action="login" method="post">
-    <div class="tdbModule loginPage">
-      <div class="registerTitle">用户登录</div>
-      <div class="registerCont">
-        <ul>
-          <li class="error">
-            <span id="prrintInfo" data-info=""><span>请输入正确用户名</span></span>
-            <span id="msg" th:text="${errorMsg}" style="color:red;"></span>
-          </li>
-          <li>
-            <span class="dis">用户名：</span><input class="input" type="text" onblur="userNameJy()" name="username" id="userName" maxlength="24" tabindex="1" autocomplete="off">
-            <a id="sssdfasdfas" href="jumpregister" class="blue">注册用户</a><span style="color: red" id="ti"></span>
-          </li>
+  <div class="wrap">
+    <form action="../server/serverLogin" method="post">
+      <input type="hidden" th:value="${tisiLogin}" class="tisi"/>
+      <div class="tdbModule loginPage">
 
-          <li>
-            <span class="dis">密码：</span><input class="input" type="password" name="password" id="password" maxlength="24" tabindex="1" autocomplete="off">
-            <a href="#" id="pawHide" class="blue">忘记密码</a><span id="si" style="color: red"></span>
-          </li>
-          <li>
-            <span class="dis">验证码：</span><input type="text" onkeyup="verify(this)" id="jpgVerify" style="width:166px;" class="input" name="yzm" data-msg="验证码" maxlength="4" tabindex="1" autocomplete="off" >
-          </li>
-          <li class="btn">
-            <input type="submit" value="立即登录" id="submitBtn" />
-          </li>
-        </ul>
+        <div class="registerTitle">请选择：
+          <select name="type">
+            <option selected="selected" value="用户登录">用户登录</option>
+            <option value="推荐人登录">推荐人登录</option>
+            <option value="服务人员登录">服务人员登录</option>
+          </select>
+          &nbsp;&nbsp;<a href="../server/login1"  style="color:#59BBEC ">手机验证码快速登录</a></div>
+        <div class="registerCont">
+          <ul>
+            <li>
+              <span class="dis">用 户 名：</span><input class="input" type="text"  name="ste_name" id="ste_name" maxlength="24" tabindex="1" autocomplete="off">
+            </li>
+
+            <li>
+              <span class="dis">手 机 号 码：</span>
+              <input type="number" class="ste_tel"  name="ste_tel" style="width:200px;height: 40px;" tabindex="1" oninput="if(value.length>11)value=value.slice(0,11)">
+            </li>
+            <li>
+              <span class="dis">验证码：</span><input type="text" style="width:166px;" class="input" id="yzCode" name="yzm" data-msg="验证码" maxlength="4" tabindex="1" autocomplete="off" >
+              <img src="../getimage" id="yanzheng"  style="cursor:pointer;" class="valign">
+              <a id="yzm">看不清？点击图片换一张</a><span id="msg" th:text="${errorMsg}" style="color:red;"></span>
+            </li>
+            <li class="btn">
+              <input type="submit" value="立即登录" id="submitBtn" />
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
-  </form>
-</div>
+    </form>
+  </div>
   <div class="p-footer">
     <div class="content1">
       <div class="wrap">
@@ -204,90 +214,6 @@
       </div>
     </div>
   </div>
-  <!--<script th:src="@{/static/layer/layer.js}"></script>-->
-  <!--<script type="text/javascript">-->
-      <!--$(function () {-->
-          <!--//手机验证码-->
-          <!--document.getElementById("btn").onclick=function(){time(this);}-->
-          <!--$("#btn").click(function () {-->
-              <!--var telphone = $("#telphone").val();-->
-              <!--if (telphone == null || telphone == '') {-->
-                  <!--layer.open({-->
-                      <!--title: '提示'-->
-                      <!--,content: '请填写您的手机号码'-->
-                  <!--});-->
-                  <!--return false;-->
-              <!--}-->
-              <!--//发送ajax的请求-->
-              <!--$.ajax({-->
-                  <!--method: "POST",-->
-                  <!--url: "getphone",-->
-                  <!--data: {-->
-                      <!--telphone: telphone-->
-                  <!--},-->
-                  <!--//xhrFields: { withCredential s: true },-->
-                  <!--success: function (data) {-->
-                      <!--if (data.status == "success") {-->
-                          <!--layer.open({-->
-                              <!--title: '提示'-->
-                              <!--,content: '验证码发送成功，请在手机上查收'-->
-                          <!--});-->
-                      <!--} else {-->
-                          <!--/* BusinessException */-->
-                          <!--alert("验证码发送失败,原因是:" + data.data.errMsg);-->
-                      <!--}-->
-                  <!--},-->
-                  <!--error: function (data) {-->
-                      <!--alert("服务器异常,原因是:" + data.responseText);-->
-                  <!--}-->
-              <!--});-->
-          <!--})-->
-          <!--//可以阻止冒泡-->
-          <!--return false;-->
-          <!--//验证用户名是否重复-->
-      <!--});-->
-      <!--$("#userName").blur(function () {-->
-          <!--var name = $("#userName").val();-->
-          <!--if(name==null||name==''){-->
-              <!--layer.msg('用户名不能为空', {icon: 5});-->
-              <!--return false;-->
-          <!--}-->
-          <!--//发送ajax的请求-->
-          <!--$.ajax({-->
-              <!--type: "POST",-->
-              <!--url: "checkUser",-->
-              <!--data: {-->
-                  <!--"tername": name,-->
-              <!--},-->
-              <!--success: function (data) {-->
-                  <!--if (data=="true") {-->
-                  <!--} else {-->
-                      <!--/* BusinessException */-->
-                      <!--layer.open({-->
-                          <!--title: '提示'-->
-                          <!--,content: '用户名已经被占用'-->
-                      <!--});-->
-                  <!--}-->
-              <!--}-->
-          <!--});-->
-          <!--//可以阻止冒泡-->
-          <!--return false;-->
-      <!--})-->
-      <!--var wait=60;-->
-      <!--function time(o) {-->
-          <!--if (wait == 0) {-->
-              <!--o.removeAttribute("disabled");-->
-              <!--o.value="获取验证码";-->
-              <!--wait = 60;-->
-          <!--} else {-->
-              <!--o.setAttribute("disabled", true);-->
-              <!--o.value="重新发送(" + wait + ")";-->
-              <!--wait&#45;&#45;;-->
-              <!--setTimeout(function() {-->
-                  <!--time(o)-->
-              <!--},1000)-->
-          <!--}-->
-      <!--}-->
-  <!--</script>-->
+
 </body>
 </html>

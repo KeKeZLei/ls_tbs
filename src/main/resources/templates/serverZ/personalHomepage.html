@@ -1,48 +1,47 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>及时管家管理平台</title>
+    <title>及时管家服务平台</title>
     <meta name="keywords" content="" />
     <meta name="description" content="" />
-    <link th:href="@{static/css/common.css}" rel="stylesheet" />
-    <link th:href="@{static/css/register.css}" rel="stylesheet" type="text/css">
-    <script type="text/javascript" th:src="@{static/script/jquery.min.js}"></script>
-    <link rel="stylesheet" type="text/css" th:href="@{static/css/style.css}">
-    <script type="text/javascript" th:src="@{static/js/app.js}"></script>
-    <script th:src="@{static/js/jquery-1.12.4.js}"></script>
-    <link rel="stylesheet" th:href="@{static/css/sweetalert.css}">
-    <link rel="stylesheet" th:href="@{static/css/j-forms.css}">
-    <script th:src="@{static/js/jquery.js}"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="static/yuyueguanjia/css/tuijianrenduan.css" />
+    <link th:href="@{/static/css/common.css}" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/style.css}">
+    <link th:href="@{/static/css/register.css}" rel="stylesheet" type="text/css">
+    <script th:src="@{/static/js/jquery-1.12.4.js}"></script>
+    <link th:href="@{/static/css/main.css}" rel="stylesheet"/>
+    <link th:href="@{/static/css/sweetalert.css}" rel="stylesheet" />
+    <script th:src="@{/static/js/sweetalert.min.js}"></script>
+    <script th:src="@{/static/js/sweetalert-dev.js}"></script>
+    <script th:src="@{/static/js/personalHomepage.js}"></script>
 </head>
 <body>
-<!-- 网站公共头部区域 -->
 <div class="p-header">
     <div class="topCon">
         <div class="wrap">
             <h1>
                 <a href="http://www.jishiguanjia.com/index.php">
-                    <img th:src="@{static/images/p-header-logo.png}" alt="">
+                    <img th:src="@{/static/images/p-header-logo.png}" alt="">
                 </a>
             </h1>
             <div class="search">
                 <form action="" method="post">
-                    <input type="text" class="keyword" placeholder="请输入关键字" name="keywords">
+                    <input type="text" class="keyword" placeholder="请输入关键字" name="keywords" >
+                    <input type="submit" class="btn">
                 </form>
             </div>
             <div class="h-icon">
                 <div class="icon">
-                    <img th:src="@{static/images/p-header-icon01.png}" alt="">
+                    <img th:src="@{/static/images/p-header-icon01.png}" alt="">
                     <span>专业管家</span>
                 </div>
                 <div class="icon">
-                    <img th:src="@{static/images/p-header-icon02.png}" alt="">
+                    <img th:src="@{/static/images/p-header-icon02.png}" alt="">
                     <span>六重安全</span>
                 </div>
                 <div class="icon">
-                    <img th:src="@{static/images/p-header-icon03.png}" alt="">
+                    <img th:src="@{/static/images/p-header-icon03.png}" alt="">
                     <span>免费更换</span>
                 </div>
             </div>
@@ -51,8 +50,8 @@
             </div>
         </div>
     </div>
-    <div class="menuBox heds">
-        <div class="wrap hed2">
+    <div class="menuBox">
+        <div class="wrap">
             <ul>
                 <li class="on">
                     <a href="three.html">网站首页</a>
@@ -63,114 +62,26 @@
                 <li><a href="http://www.jishiguanjia.com/list.php?typeid=699#maodian">及时百科</a></li>
                 <li><a href="http://www.jishiguanjia.com/list.php?typeid=702#maodian">服务项目</a></li>
                 <li><a href="http://www.jishiguanjia.com/list.php?typeid=697#maodian">关于我们</a></li>
-                <li><a href="register">从业者申请</a></li>
-                <li><a href="login">服务人员登录</a></li>
+                <li><a href="../sessionInvalidate"><span th:text="${ste_name}"></span>退出系统</a></li>
             </ul>
         </div>
     </div>
 </div>
-<!--注册-->
-<div class="wrap ">
-
+<div class="wrap">
     <div class="tdbModule register">
-        <div class="registerTitle">站长登录后</div>
-        <div class="container-fluid">
-            <div class="row colxs-12 ">
-                <div class="row col-xs-2 col-xs-offset-2 ">
-                    <img src="static/yuyueguanjia/img/11.jpg" class="img-circle image"  >
-                </div>
-                <div class="row col-xs-8 ">
-                    <h4>姓名  电话</h4>
-                    <span class="text-muted">推荐人编号: 编号</span>
-                </div>
-            </div>
-            <p></p>
-            <a href="#">
-                <div class="row col-xs-10 col-xs-offset-1 os">
-                    <div class="col-xs-3 col-xs-offset-1">
-                        <h4 class="text-muted text-right">推荐管家数</h4>
-                    </div>
-                    <div class="col-xs-5 ">
-                        <h5>num人</h5>
-                    </div>
-                    <div class="col-xs-1 col-xs-offset-2 os">
-                        <h4 class="glyphicon glyphicon-menu-right text-muted"></h4>
-                    </div>
-                </div>
-            </a>
-            <p></p>
-            <a href="#">
-                <div class="row col-xs-10 col-xs-offset-1 os">
-                    <div class="col-xs-3 col-xs-offset-1">
-                        <h4 class="text-muted text-right">推荐实名管家数</h4>
-                    </div>
-                    <div class="col-xs-5 ">
-                        <h5>num人</h5>
-                    </div>
-                    <div class="col-xs-1 col-xs-offset-2 os">
-                        <h4 class="glyphicon glyphicon-menu-right text-muted"></h4>
-                    </div>
-                </div>
-            </a>
-            <p></p>
-            <a href="#">
-                <div class="row col-xs-10 col-xs-offset-1 os">
-                    <div class="col-xs-3 col-xs-offset-1">
-                        <h4 class="text-muted text-right">推荐用户数</h4>
-                    </div>
-                    <div class="col-xs-5 ">
-                        <h5>num人</h5>
-                    </div>
-                    <div class="col-xs-1 col-xs-offset-2 os">
-                        <h4 class="glyphicon glyphicon-menu-right text-muted"></h4>
-                    </div>
-                </div>
-            </a>
-            <p></p>
-            <a href="#">
-                <div class="row col-xs-10 col-xs-offset-1 os">
-                    <div class="col-xs-3 col-xs-offset-1">
-                        <h4 class="text-muted text-right">推荐实名用户数</h4>
-                    </div>
-                    <div class="col-xs-5 ">
-                        <h5>num人</h5>
-                    </div>
-                    <div class="col-xs-1 col-xs-offset-2 os">
-                        <h4 class="glyphicon glyphicon-menu-right text-muted"></h4>
-                    </div>
-                </div>
-            </a>
-            <p></p>
-            <p></p>
-            <p></p>
-            <div class="row col-xs-6">
-                <div class="row col-xs-12 text-right">
-                     <a href="#">
-                        <button type="button" class="btn btn-warning bot"><h4>推荐服务人员</h4></button>
-                      </a>
-                </div>
-            </div>
-            <div class="row col-xs-6">
-                <div class="row col-xs-12 text-left">
-                    <a href="#">
-                        <button type="button" class="btn btn-primary bot"><h4>推荐用户</h4></button>
-                    </a>
-                </div>
-            </div>
-        </div>
+        <input id="msg" type="hidden" value="${ste_name}" style="color:red;"></input>
+        <div class="registerTitle">个人主页</span></div>
     </div>
-
 </div>
-
 <div class="p-footer">
     <div class="content1">
         <div class="wrap">
             <div class="fItem1">
                 <a href="http://www.jishiguanjia.com/index.php" class="logo">
-                    <img th:src="@{static/images/p-header-logo.png}" alt="">
+                    <img th:src="@{/static/images/p-header-logo.png}" alt="">
                 </a>
                 <div class="ewm">
-                    <img th:src="@{static/images/ewm.jpg}" alt="">
+                    <img th:src="@{/static/images/ewm.jpg}" alt="">
                     <span>微信公众号</span>
                 </div>
                 <div class="des" style="margin-top: 15px;">
@@ -261,7 +172,6 @@
                     <dd>
                         <a href="http://www.jishiguanjia.com/list.php?typeid=717#maodian">育儿百科</a>
                     </dd>
-
                 </dl>
             </div>
         </div>
@@ -272,8 +182,5 @@
         </div>
     </div>
 </div>
-<script type="text/javascript"  src="static/yuyueguanjia/js/jquery-3.3.1.js"></script>
-<script type="text/javascript"  src="static/yuyueguanjia/js/bootstrap.min.js"></script>
-
 </body>
 </html>
