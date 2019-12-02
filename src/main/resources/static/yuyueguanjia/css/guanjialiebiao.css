@@ -1,0 +1,59 @@
+.bs{       
+	background-color: white;
+}
+.ck{
+	background-color: #F4F4F4;
+	
+}
+.dropdown button{
+	background-color: #F4F4F4;
+	border: none;
+	
+}
+.dropdown{
+	height: 50px;
+	line-height: 50px;
+}
+.logo{
+	font-size: 16px;
+}
+.logos{
+	/*border: 1px red solid;*/
+	background-color: #FBFBFC;
+}
+.jieshao{
+	color: #898989;
+}
+.imglogo{
+	/*border: 1px red solid;*/
+	position: absolute;
+	background-color: #EAE4DF;
+	top: -20px;
+	width: 72%;
+	text-align: center;
+}
+.gunajia{
+	font-size: 18px;
+}
+.jianshu{
+	font-size: 14px;
+	background-color: #EEEEEE;
+}
+.weibu span{
+	font-size: 40px;
+}
+
+.heds{
+	position: relative;
+	top: 100px;
+}
+.hed2{
+	position: relative;
+	top: -200px;
+}
+.bot{
+	width: 70%;
+}
+p{
+	height: 40px;
+}

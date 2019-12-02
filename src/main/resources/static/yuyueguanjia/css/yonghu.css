@@ -1,0 +1,35 @@
+.bs{       
+	background-color: white;
+	border-radius: 2%;
+}
+p{
+	height: 70px;
+}
+.logos{
+	/*border: 1px red solid;*/
+	background-color: #FBFBFC;
+}
+.body{
+	background-color: #F4F4F4;
+}
+.jieshao{
+	color: #898989;
+}
+.imglogo{
+	/*border: 1px red solid;*/
+	position: absolute;
+	background-color: #EAE4DF;
+	top: -20px;
+	width: 72%;
+	text-align: center;
+}
+.gunajia{
+	font-size: 18px;
+}
+.jianshu{
+	font-size: 14px;
+	background-color: #EEEEEE;
+}
+.weibu span{
+	font-size: 40px;
+}
