@@ -2,7 +2,7 @@
 server:
   servlet:
     context-path: /ls_tbs
-  port: 8082
+  port: 80
 
 spring:
   jmx:

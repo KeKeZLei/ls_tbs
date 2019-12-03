@@ -17,4 +17,11 @@ public interface EmprelationMapper {
 
     //通过会员编号查询相关管家信息
     List<Map<String,Object>>selectBySteId(Integer memId);
+
+    /**
+     * 根据管家编号查询雇佣关系的用户信息
+     * @param steId
+     * @return
+     */
+    int selectByEmpId(int steId);
 }

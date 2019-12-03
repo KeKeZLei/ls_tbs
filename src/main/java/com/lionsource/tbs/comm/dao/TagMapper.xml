@@ -33,4 +33,8 @@
     from tag
     where tag_name = #{tagName}
   </select>
+  <!--根据标签编号查询名称-->
+  <select id="selectByTagId" resultType="string" parameterType="int">
+     select tag_name from tag where tag_id = #{tagid}
+  </select>
 </mapper>

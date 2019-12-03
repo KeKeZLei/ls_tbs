@@ -45,6 +45,10 @@ public interface MemberMapper {
      */
     String getMemname(Member member);
 
+
+    //根据管家类型编号查询管家
+    List<Member> selectAllByMemId(int MemId);
+
     /**
      * 判断手机号码是否存在
      * @param mem_tel

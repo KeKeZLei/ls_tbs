@@ -71,4 +71,18 @@ public interface StewardMapper {
      * @return
      */
     String getStetelSteName(Steward steward);
+
+    /**
+     *根据服务人员姓名查询个人信息
+     * @param steName
+     * @return
+     */
+    Steward getSelectAllSteName(String steName);
+
+    /**
+     * 根据用户查询管家的编号
+     * @param steName
+     * @return
+     */
+    int getSelectOneSteId(String steName);
 }

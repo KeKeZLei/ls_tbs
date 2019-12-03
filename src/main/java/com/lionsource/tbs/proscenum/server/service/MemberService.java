@@ -2,6 +2,7 @@ package com.lionsource.tbs.proscenum.server.service;
 
 import com.lionsource.tbs.comm.dao.MemberMapper;
 import com.lionsource.tbs.comm.model.Member;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,4 +37,9 @@ public interface MemberService {
      * @return
      */
     String getMemname(Member member);
+
+
+    //根据管家类型编号查询管家
+    List<Member> selectAllByMemId(int MemId);
+
 }

@@ -31,4 +31,8 @@
     select coun_id, city_id, coun_name
     from county
   </select>
+  <!--根据城市的编号查询区县的编号-->
+  <select id="getAllCounty" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+     select * from county where city_id=#{city_id}
+  </select>
 </mapper>

@@ -8,13 +8,20 @@
         <meta name="description" content="" />
         <link th:href="@{static/css/common.css}" rel="stylesheet" />
         <link rel="stylesheet" type="text/css" th:href="@{static/css/style.css}">
-        <link th:href="@{static/css/register.css}" rel="stylesheet" type="text/css">
+        <link th:src="@{static/css/bootstrap.css}" rel="stylesheet" type="text/css" />
+        <link th:href="@{static/css/city-picker.css}" rel="stylesheet" type="text/css" />
+        <link th:href="@{static/css/main.css}" rel="stylesheet" type="text/css" />
+        <link th:href="@{static/css/register.css}" rel="stylesheet" type="text/css"/>
         <script th:src="@{static/js/jquery-1.12.4.js}"></script>
-        <link th:href="@{static/css/main.css}" rel="stylesheet"/>
         <link th:href="@{static/css/sweetalert.css}" rel="stylesheet" />
         <script th:src="@{static/js/sweetalert.min.js}"></script>
         <script th:src="@{static/js/sweetalert-dev.js}"></script>
         <script th:src="@{static/js/apply.js}"></script>
+        <script th:src="@{static/js/jquery.js}"></script>
+        <script th:src="@{static/js/bootstrap.js}"></script>
+        <script th:src="@{static/js/city-picker.data.js}"></script>
+        <script th:src="@{static/js/city-picker.js}"></script>
+        <script th:src="@{static/js/main.js}"></script>
         </head>
     <body>
         <div class="p-header">
@@ -28,7 +35,6 @@
                     <div class="search">
                         <form action="serverAddApply" method="post">
                             <input type="text" class="keyword" placeholder="请输入关键字" name="keywords" >
-                            <input type="submit" class="btn">
                         </form>
                     </div>
                     <div class="h-icon">
@@ -109,7 +115,19 @@
                             <input type="text" placeholder="请填写您从事这份工作的年数" style="width:220px;"  class="ste_workyear" name="ste_workyear">
                             </li>
                             <li class="telNumber"><span class="dis">籍贯:</span>
-                                <input  class="ste_native" name="ste_native" style="width:220px;" type="text" placeholder="请输入你出生的籍贯">
+                                <div style="position: relative;">
+                                    <input id="city-picker3" class="form-control" name="ste_native" readonly type="text" value="江苏省/常州市/溧阳市" data-toggle="city-picker" style="width:400px;">
+                                </div>
+                                <!--&lt;!&ndash;<input  class="ste_native" name="ste_native" style="width:220px;" type="text" placeholder="请输入你出生的籍贯">&ndash;&gt;-->
+                                <!--<select class="Province" name="ste_province">-->
+                                    <!--<option value="0" >==请选择==</option>-->
+                                <!--</select>-->
+                                <!--<select class="City" name="ste_city">-->
+                                    <!--<option value="0">==请选择==</option>-->
+                                <!--</select>-->
+                                <!--<select class="County" name="coun_id">-->
+                                    <!--<option value="0">==请选择==</option>-->
+                                <!--</select>-->
                             </li>
                             <li> <span class="dis">推 荐 人:</span>
                                 <input type="text" placeholder="此项为选填项" style="width:220px;" class="ref_id" >

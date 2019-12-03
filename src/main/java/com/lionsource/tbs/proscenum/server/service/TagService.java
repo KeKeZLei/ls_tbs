@@ -18,4 +18,6 @@ public interface TagService {
      * @return
      */
     List<Tag> selectAll();
+    //根据标签编号查询名称
+    String selectByTagId(int tagid);
 }

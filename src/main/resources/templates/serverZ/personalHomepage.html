@@ -7,7 +7,7 @@
     <meta name="keywords" content="" />
     <meta name="description" content="" />
     <link th:href="@{/static/css/common.css}" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" th:href="@{/static/css/style.css}">
+    <link rel="stylesheet" th:href="@{/static/css/style.css}">
     <link th:href="@{/static/css/register.css}" rel="stylesheet" type="text/css">
     <script th:src="@{/static/js/jquery-1.12.4.js}"></script>
     <link th:href="@{/static/css/main.css}" rel="stylesheet"/>
@@ -15,62 +15,131 @@
     <script th:src="@{/static/js/sweetalert.min.js}"></script>
     <script th:src="@{/static/js/sweetalert-dev.js}"></script>
     <script th:src="@{/static/js/personalHomepage.js}"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <style>
+        .fw>button{
+            margin: 20px;
+        }
+        .fw>button>img{
+            width:50px;
+            height:50px;
+        }
+    </style>
 </head>
 <body>
-<div class="p-header">
-    <div class="topCon">
-        <div class="wrap">
-            <h1>
-                <a href="http://www.jishiguanjia.com/index.php">
-                    <img th:src="@{/static/images/p-header-logo.png}" alt="">
-                </a>
-            </h1>
-            <div class="search">
-                <form action="" method="post">
-                    <input type="text" class="keyword" placeholder="请输入关键字" name="keywords" >
-                    <input type="submit" class="btn">
-                </form>
+<header>
+    <div class="p-header" th:each="steward:${steward}">
+        <div class="topCon">
+            <div class="wrap">
             </div>
-            <div class="h-icon">
-                <div class="icon">
-                    <img th:src="@{/static/images/p-header-icon01.png}" alt="">
-                    <span>专业管家</span>
-                </div>
-                <div class="icon">
-                    <img th:src="@{/static/images/p-header-icon02.png}" alt="">
-                    <span>六重安全</span>
-                </div>
-                <div class="icon">
-                    <img th:src="@{/static/images/p-header-icon03.png}" alt="">
-                    <span>免费更换</span>
-                </div>
-            </div>
-            <div class="tel">
-                <p><span>24小时服务热线：</span>400-6186-889</p>
+        </div>
+        <div class="menuBox">
+            <div class="wrap">
+                <ul>
+                    <li class="on">
+                        <a href="../homePage">网站首页</a>
+                    </li>
+                    <li><a href="http://www.jishiguanjia.com/list.php?typeid=700#maodian">家庭服务</a></li>
+                    <li><a href="http://www.jishiguanjia.com/list.php?typeid=737#maodian">商业保洁</a></li>
+                    <li><a href="http://www.jishiguanjia.com/list.php?typeid=698#maodian">管家风采</a></li>
+                    <li><a href="http://www.jishiguanjia.com/list.php?typeid=699#maodian">及时百科</a></li>
+                    <li><a href="http://www.jishiguanjia.com/list.php?typeid=702#maodian">服务项目</a></li>
+                    <li><a href="http://www.jishiguanjia.com/list.php?typeid=697#maodian">关于我们</a></li>
+                    <li><a href="register">从业者申请</a></li>
+                    <li><a href="sessionInvalidate"><span th:text="${steward.steName}" class="msg"/></span>退出系统</a></li>
+                </ul>
             </div>
         </div>
     </div>
-    <div class="menuBox">
-        <div class="wrap">
-            <ul>
-                <li class="on">
-                    <a href="three.html">网站首页</a>
-                </li>
-                <li><a href="http://www.jishiguanjia.com/list.php?typeid=700#maodian">家庭服务</a></li>
-                <li><a href="http://www.jishiguanjia.com/list.php?typeid=737#maodian">商业保洁</a></li>
-                <li><a href="http://www.jishiguanjia.com/list.php?typeid=698#maodian">管家风采</a></li>
-                <li><a href="http://www.jishiguanjia.com/list.php?typeid=699#maodian">及时百科</a></li>
-                <li><a href="http://www.jishiguanjia.com/list.php?typeid=702#maodian">服务项目</a></li>
-                <li><a href="http://www.jishiguanjia.com/list.php?typeid=697#maodian">关于我们</a></li>
-                <li><a href="../sessionInvalidate"><span th:text="${ste_name}"></span>退出系统</a></li>
-            </ul>
+</header>
+<div class="wrap" style="background-color: #F1F1F1;">
+    <h2><  个人主页</h2>
+    <div class="tdbModule register" style="background-color: #F1F1F1;">
+        <div style="margin:auto;width:700px;background-color: white;border-radius: 25px;">
+            <div align="center">
+                <table style="text-align: center;">
+                    <tr>
+                        <td><h2><span th:text="${steward.steName}"></span></h2></td>
+                        <td colspan="2">
+                            <span class="btn btn-info"><span th:text="${steward.steRealnamestate}"/></span></span>
+                            <span th:if="${steward.steCerstate eq '无'}" class="btn btn-info">无证书</span>
+                            <span th:if="${steward.steCerstate eq '有'}" class="btn btn-warning">有证书</span>
+                            <span th:if="${steward.steContracttype} eq '1'" class="btn btn-info">个人管家</span>
+                            <span th:if="${steward.steContracttype} eq '2'" class="btn btn-warning">签约管家</span><br />
+                            <span th:text="${steward.steAddress}"/>  | <span th:text="${steward.steAge}"/>岁 | 工作经验
+                            <span th:text="${steward.steWorkyear}"/>年
+                        </td>
+                        <td rowspan="7">
+                            <img th:if="${#strings.isEmpty(steward.steChead)} " th:src="@{/static/images/zwtp.jpg}" width="150px;">
+                            <!--<img th:if="${not #strings.isEmpty(steward.steChead)} " th:src="@{/static/images/lxw.jpg}" />-->
+                            <br />
+                            <span th:if="${steward.steState} eq '0'" class="btn btn-info">暂不找工作</span>
+                            <span th:if="${steward.steState} eq '1'" class="btn btn-warning">正在找工作</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>服务态度：</td>
+                        <td>★ ★ ★ ★ ★  0分</td>
+                    </tr>
+                    <tr>
+                        <td>专业技能：</td>
+                        <td>★ ★ ★ ★ ★  0分</td>
+                    </tr>
+                    <tr>
+                        <td>职业素养：</td>
+                        <td>★ ★ ★ ★ ★  0分</td>
+                    </tr>
+                    <tr>
+                        <td>服务7户  |  评价1条</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" rowspan="3" class="tagName" style="border-spacing: 20px;">
+                            <span class="tag" hidden  th:text="${steward.steTag}"></span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
-    </div>
-</div>
-<div class="wrap">
-    <div class="tdbModule register">
-        <input id="msg" type="hidden" value="${ste_name}" style="color:red;"></input>
-        <div class="registerTitle">个人主页</span></div>
+        <div class="registerTitle">我的雇主</span></div>
+        <div th:if="${EmpId} eq '0'" style="margin:auto;width:700px;background-color: white;border-radius: 25px;">
+           <h3 th:align="center">暂无雇主</h3>
+        </div>
+        <div th:if="${EmpId} eq '1'" style="margin:auto;width:700px;background-color: white;border-radius: 25px;">
+            <div align="center">
+                <table style="text-align: center;" align="center">
+                    <tr>
+                        <td rowspan="3" >
+                            <img th:src="@{/static/images/zwtp.jpg}" style="width: 80px;height: 120px;"/>
+                        </td>&nbsp;
+                        <td>
+                            <b>李先生</b>
+                            <span class="btn btn-warning">VIP会员</span>
+                            <span class="btn btn-warning">已实名</span>
+                        </td>
+                    </tr>&nbsp;
+                    <tr>
+                        <td>
+                            地址：湖南省长沙市开福区五一大厦2栋2单元3305
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            开始服务日期：2019-09-30
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="registerTitle">我的服务</span></div>
+        <div style="margin:auto;width:700px;background-color: white;border-radius: 25px;">
+            <div align="center" class="fw">
+                <button><img th:src="@{/static/images/sfz.png}"><br />申请实名</button>
+                <button><img th:src="@{/static/images/szzs.png}"><br />上传证书</button>
+                <button><img th:src="@{/static/images/xq.png}"><br />用工需求</button>
+                <button><img th:src="@{/static/images/zsck.png}"><br />证书查看</button>
+                <button><img th:src="@{/static/images/bzzx.png}"><br />帮助中心</button>
+            </div>
+        </div>
     </div>
 </div>
 <div class="p-footer">
@@ -182,5 +251,6 @@
         </div>
     </div>
 </div>
+
 </body>
 </html>

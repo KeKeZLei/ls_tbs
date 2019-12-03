@@ -4,8 +4,6 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>及时管家服务平台</title>
-  <meta name="keywords" content="" />
-  <meta name="description" content="" />
   <link th:href="@{/static/css/common.css}" rel="stylesheet" />
   <link th:href="@{/static/css/register.css}" rel="stylesheet" type="text/css">
   <link rel="stylesheet" type="text/css" th:href="@{/static/css/style.css}">
@@ -14,6 +12,7 @@
   <script type="text/javascript" th:src="@{/static/js/serverZlogin.js}"></script>
   <script type="text/javascript" th:src="@{/static/js/sweetalert.min.js}"></script>
   <script type="text/javascript" th:src="@{/static/js/sweetalert-dev.js}"></script>
+
 </head>
 <body>
 <header>
@@ -28,7 +27,6 @@
         <div class="search">
           <form action="" method="post">
             <input type="text" class="keyword" placeholder="请输入关键字" name="keywords">
-            <input type="submit" class="btn">
           </form>
         </div>
         <div class="h-icon">
@@ -91,10 +89,12 @@
               <span class="dis">手 机 号 码：</span>
               <input type="number" class="ste_tel"  name="ste_tel" style="width:200px;height: 40px;" tabindex="1" oninput="if(value.length>11)value=value.slice(0,11)">
             </li>
-            <li>
+            <li class="yzm">
               <span class="dis">验证码：</span><input type="text" style="width:166px;" class="input" id="yzCode" name="yzm" data-msg="验证码" maxlength="4" tabindex="1" autocomplete="off" >
-              <img src="../getimage" id="yanzheng"  style="cursor:pointer;" class="valign">
-              <a id="yzm">看不清？点击图片换一张</a><span id="msg" th:text="${errorMsg}" style="color:red;"></span>
+              <span id="bhyzm">
+                <img src="../getimage" id="yanzheng"  style="cursor:pointer;" class="valign">
+              </span>
+              <sapn id="yzm">看不清？点击图片换一张</sapn>
             </li>
             <li class="btn">
               <input type="submit" value="立即登录" id="submitBtn" />

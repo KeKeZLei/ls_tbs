@@ -59,4 +59,23 @@ public class StewardServiceImpl implements StewardService {
    public  String getStetelSteName(Steward steward){
         return stewardMapper.getStetelSteName(steward);
     }
+
+    /**
+     *根据服务人员姓名查询个人信息
+     * @param steName
+     * @return
+     */
+    public Steward getSelectAllSteName(String steName){
+        return stewardMapper.getSelectAllSteName(steName);
+    }
+
+
+    /**
+     * 根据用户查询管家的编号
+     * @param steName
+     * @return
+     */
+    public int getSelectOneSteId(String steName){
+        return stewardMapper.getSelectOneSteId(steName);
+    }
 }

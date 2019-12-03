@@ -16,4 +16,6 @@ public interface TagMapper {
 
     //根据标签名称查询标签
     Tag selectByTagName(String tagName);
+    //根据标签编号查询名称
+    String selectByTagId(int tagid);
 }

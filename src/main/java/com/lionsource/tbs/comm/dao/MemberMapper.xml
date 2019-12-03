@@ -145,4 +145,8 @@
   <select id="getAllMemnameTel" resultMap="BaseResultMap">
     select * from member where  mem_tel=#{ mem_tel}
   </select>
+
+  <select id="selectAllByMemId" resultMap="BaseResultMap" parameterType="int">
+    select * from member where mem_id = #{mem_id}
+  </select>
 </mapper>
