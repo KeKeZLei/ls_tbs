@@ -57,4 +57,8 @@
     eva_agreestate, eva_state, eva_createtime, eva_time, eva_evastate
     from evaluate
   </select>
+  <!--根据管家编号查询评价信息-->
+  <select id="getBySteid" resultMap="BaseResultMap" parameterType="int">
+     select * from evaluate where ste_id = #{steid}
+  </select>
 </mapper>

@@ -8,7 +8,7 @@ $(function(){
     }
     $(".submit").click(function () {
         if($(".ste_name").val()==""||$(".ste_tel").val()==""||$(".ste_age").val()==""||$("#phonVerify").val()==""||
-        $(".ste_worktype").val()==""||$(".ste_native").val()==""||$(".ste_describe").val()==""
+        $(".ste_worktype").val()==""||$(".ste_describe").val()==""
         ||$(".ste_tag").val()==""||$(".ste_address").val()==""||$(".ste_province").val()=="0"||$(".ste_city").val()=="0"){
             swal("OMG","申请表必填项不能为空，请您输入完整","error");
             return false;
@@ -86,7 +86,6 @@ $(function(){
         //手机验证码
         document.getElementById("btn").onclick=function(){time(this);}
         $("#btn").click(function () {
-            debugger;
             var ste_tel = $(".ste_tel").val();
             if(ste_tel==""){
                 swal("OMG","必填项不能为空，请输入手机号码","error");
@@ -244,6 +243,73 @@ $(function(){
             console.log("出现错误");
         }
     })
+
+    // /**
+    //  * 请求籍贯省份
+    //  */
+    // $.ajax({
+    //     dataType:"json",
+    //     url:"getProvinceCity",//请求路径
+    //     success:function (reponse){
+    //         var provinArr = reponse.provinList;
+    //         for(var i in provinArr){
+    //             var provin=provinArr[i];
+    //             var option=$("<option value='"+provin.provId+"'>"+provin.provName+"</option>");
+    //             $(".Province").append(option);
+    //         }
+    //     },
+    //     error:function (response) {
+    //         console.log("出现错误");
+    //     }
+    // })
+    // /**
+    //  * 请求籍贯省份城市二级联动
+    //  */
+    // $(".Province").change(function() {
+    //     var provinceValue = $(this).val();
+    //     $(".City option:gt(0)").remove();
+    //     $.ajax({
+    //         url: 'getProCity',
+    //         dataType: 'json',
+    //         data: {
+    //             proId: provinceValue
+    //         },
+    //         success: function (response) {
+    //             //往 city select 中 append
+    //             var cityList = response.cityList;
+    //             for (var i = 0; i < cityList.length; i++) {
+    //                 var city = cityList[i];
+    //                 //创建 option
+    //                 var $opt = $("<option value='" + city.cityId + "'>" + city.cityName + "</option>");
+    //                 $(".City").append($opt);
+    //             }
+    //         }
+    //     })
+    // })
+    // /**
+    //  * 请求籍贯城市区县二级联动
+    //  */
+    // $(".City").change(function() {
+    //     var cityValue = $(this).val();
+    //     $(".County option:gt(0)").remove();
+    //     $.ajax({
+    //         url: 'getCityCounty',
+    //         dataType: 'json',
+    //         data: {
+    //             cityid: cityValue
+    //         },
+    //         success: function (response) {
+    //             //往 city select 中 append
+    //             var countList = response.CountList;
+    //             for (var i = 0; i < countList.length; i++) {
+    //                 var county = countList[i];
+    //                 //创建 option
+    //                 var $opt = $("<option value='" + county.counId + "'>" + county.counName + "</option>");
+    //                 $(".County").append($opt);
+    //             }
+    //         }
+    //     })
+    // })
     /**
      * 请求服务范围省份城市二级联动
      */

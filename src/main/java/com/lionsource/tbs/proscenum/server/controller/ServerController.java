@@ -1,21 +1,14 @@
 package com.lionsource.tbs.proscenum.server.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.lionsource.tbs.comm.dao.ReferrerMapper;
-import com.lionsource.tbs.comm.model.Member;
-import com.lionsource.tbs.comm.model.Referrer;
-import com.lionsource.tbs.comm.model.Steward;
-import com.lionsource.tbs.comm.model.Stewardtype;
+import com.lionsource.tbs.comm.model.*;
 import com.lionsource.tbs.comm.utils.sendsms;
 import com.lionsource.tbs.proscenum.server.msg.RandomValidateCodeUtil;
-import com.lionsource.tbs.proscenum.server.response.CommonRetuenType;
-import com.lionsource.tbs.proscenum.server.service.MemberService;
-import com.lionsource.tbs.proscenum.server.service.ReferrerService;
-import com.lionsource.tbs.proscenum.server.service.StewardService;
-import com.lionsource.tbs.proscenum.server.service.StewardtypeService;
+import com.lionsource.tbs.proscenum.server.service.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -54,6 +47,12 @@ public class ServerController {
     //用户
     @Autowired
     MemberService memberService;
+    //评论
+    @Autowired
+    EvaluateService evaluateService;
+    //雇佣关系
+    @Autowired
+    EmprelationService emprelationService;
 
     @RequestMapping("/test")
     public String test(HttpServletRequest request) {
@@ -64,6 +63,12 @@ public class ServerController {
     public String tuijianrenduan(HttpServletRequest request) {
         return "serverZ/tuijianrenduan";
     }
+
+    @RequestMapping("/yonghu")
+    public String yonghu(HttpServletRequest request) {
+            return "serverZ/yonghu";
+        }
+
 
     /**
      * 打开从业者申请表
@@ -212,7 +217,7 @@ public class ServerController {
             if(refnameReftel!=null){
                 String referrerRefname = referrerService.getReferrerRefname(referrer);
                 request.setAttribute("ste_name",referrerRefname);
-                return "serverZ/personalHomepage";
+                return "serverZ/tuijianrenduan";
             }else {
                 request.setAttribute("tisi","登录失败");
                 return "serverZ/login";
@@ -229,8 +234,9 @@ public class ServerController {
                 List<Steward> stetel = stewardService.getStetel(steward);
                 if(stetel!=null){
                     String ste_name = stewardService.getStetelSteName(steward);
-                    request.setAttribute("ste_name",ste_name);
-                    return "serverZ/personalHomepage";
+                    session.setAttribute("tisi","登录成功");
+                    session.setAttribute("ste_name",ste_name);
+                    return "redirect:../getSelectAllSteName";
                 }else{
                     request.setAttribute("tisi","登录失败");
                     return "serverZ/login";
@@ -244,7 +250,7 @@ public class ServerController {
      * @return
      */
     @RequestMapping("/server/serverLogin")
-    public String serverLogin(@RequestParam("type") String type,@RequestParam("ste_name") String ste_name,@RequestParam("ste_tel") String ste_tel,@RequestParam("yzm") String yzm,HttpServletRequest request){
+    public String serverLogin(HttpSession session,@RequestParam("type") String type,@RequestParam("ste_name") String ste_name,@RequestParam("ste_tel") String ste_tel,@RequestParam("yzm") String yzm,HttpServletRequest request){
         //判断用户是怎么进行登录的
         if(type.equals("用户登录")){
             //用户登录
@@ -276,7 +282,7 @@ public class ServerController {
             }else{
                 request.setAttribute("tisiLogin","登录成功");
                 request.setAttribute("ste_name",ste_name);
-                return "serverZ/personalHomepage";
+                return "serverZ/tuijianrenduan";
             }
         }else if(type.equals("服务人员登录")){
             //服务人员登录
@@ -289,14 +295,19 @@ public class ServerController {
                 request.setAttribute("tisiLogin","登录失败");
                 return "serverZ/login";
             }else{
-                request.setAttribute("tisiLogin","登录成功");
-                request.setAttribute("ste_name",ste_name);
-                return "serverZ/personalHomepage";
+                session.setAttribute("tisiLogin","登录成功");
+                session.setAttribute("ste_name",ste_name);
+                return "redirect:../getSelectAllSteName";
             }
         }
         return "serverZ/personalHomepage";
     }
 
+    /**
+     * 服务人员从业申请
+     * @return
+     * @throws ParseException
+     */
     @RequestMapping("/serverAddApply")
     public String serverAddApply(@RequestParam("ste_name") String ste_name, @RequestParam("ste_worktype") String ste_worktype
             ,@RequestParam("yzm") String yzm, @RequestParam("ste_tel") String ste_tel, @RequestParam("ste_age") int ste_age, @RequestParam("ste_workyear") int ste_workyear
@@ -306,6 +317,7 @@ public class ServerController {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
         Date steCreatetime = null;
         steCreatetime=df.parse(df.format(new Date()));
+
         Steward steward;
         //验证验证码是否和手机上收到的一样
         if (!yzm.equals(phcode)) {
@@ -315,15 +327,15 @@ public class ServerController {
         } else if(request.getParameter("ref_id")==""){
              steward=new Steward(0, null,null ,null,null,ste_name,ste_tel,null,
                     null,null,null,ste_sex,ste_age,ste_native,ste_address,
-                    null,null,null,ste_workyear,money,null,
-                    null, steCreatetime, 0,ste_province,
+                    null,"未实名",1,ste_workyear,money,null,
+                    "无", steCreatetime, 1,ste_province,
                     ste_city, null,ste_worktype,null,ste_tag,ste_describe);
         }else{
            int ref_id = Integer.parseInt(request.getParameter("ref_id"));
              steward=new Steward(0, ref_id,null ,null,null,ste_name,ste_tel,null,
                     null,null,null,ste_sex,ste_age,ste_native,ste_address,
-                    null,null,null,ste_workyear,money,null,
-                    null, steCreatetime, 0,ste_province,
+                    null,"未实名",1,ste_workyear,money,null,
+                    "无", steCreatetime, 1,ste_province,
                     ste_city, null,ste_worktype,null,ste_tag,ste_describe);
         }
 
@@ -371,6 +383,43 @@ public class ServerController {
     }
 
     /**
+     * 根据服务人员姓名查询个人信息
+     * @param
+     * @return
+     */
+    @RequestMapping("/getSelectAllSteName")
+    public String getSelectAllSteName(Model model, HttpSession session, HttpServletRequest request){
+        String ste_name = (String) session.getAttribute("ste_name");
+        System.out.println("姓名:"+ste_name);
+        Steward steward = stewardService.getSelectAllSteName(ste_name);
+        System.out.println("查询信息："+steward);
+        if(steward!=null){
+            int steId = stewardService.getSelectOneSteId(ste_name);
+            //根据管家编号查询雇佣关系
+            int empId = emprelationService.selectByEmpId(steId);
+            int MepId;
+            List<Member> memList = null;
+            /**
+             * 如果empId
+             * 代表没有查询到雇佣关系
+             * 在页面不用显示我的雇主
+             */
+            if(empId==0){
+               MepId=0;
+            }else{
+                memList = memberService.selectAllByMemId(empId);
+                System.out.println("memList"+memList);
+                MepId=1;
+            }
+            request.setAttribute("EmpId",empId);
+            model.addAttribute("memList",memList);
+            model.addAttribute("steward",steward);
+            return "serverZ/personalHomepage";
+        }
+        return "serverZ/personalHomepage";
+    }
+
+    /**
      * 服务人员退出系统
      * @throws IOException
      */
@@ -382,4 +431,5 @@ public class ServerController {
         session.invalidate();
         return "serverZ/homePage";
     }
+
 }

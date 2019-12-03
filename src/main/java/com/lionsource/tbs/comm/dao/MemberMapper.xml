@@ -141,4 +141,8 @@
   <select id="getMemname" resultType="String" parameterType="com.lionsource.tbs.comm.model.Member">
     select mem_name from member where mem_tel = #{memTel,jdbcType=VARCHAR},
   </select>
+
+  <select id="selectAllByMemId" resultMap="BaseResultMap" parameterType="int">
+    select * from member where mem_id = #{mem_id}
+  </select>
 </mapper>

@@ -143,6 +143,10 @@
     ste_worktype, ste_skill, ste_tag, ste_describe
     from steward where ste_tag like '%${tagId}%'
   </select>
+  <!--根据服务人员的姓名查询个人信息-->
+  <select id="getSelectAllSteName" resultMap="BaseResultMap" parameterType="string">
+      select * from steward where ste_name =  #{steName}
+  </select>
   <!--根据用户名和手机号码进行登录-->
   <select id="getStenameStetel" resultMap="BaseResultMap" parameterType="com.lionsource.tbs.comm.model.Steward">
     select * from steward where ste_name = #{steName,jdbcType=VARCHAR} and ste_tel = #{steTel,jdbcType=VARCHAR}
@@ -153,6 +157,9 @@
   <!--根据电话号码查询服务人员姓名-->
   <select id="getStetelSteName" resultType="String" parameterType="com.lionsource.tbs.comm.model.Steward">
     select ste_name from steward where ste_tel = #{steTel,jdbcType=VARCHAR}
+  </select>
+  <select id="getSelectOneSteId" resultType="int" parameterType="string">
+    select ste_id from steward where ste_name = #{steName}
   </select>
   <!--从业者申请-->
   <insert id="serverAddApply" parameterType="com.lionsource.tbs.comm.model.Steward">

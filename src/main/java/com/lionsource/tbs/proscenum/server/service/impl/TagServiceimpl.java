@@ -26,4 +26,8 @@ public class TagServiceimpl implements TagService {
     public List<Tag> selectAll(){
         return tagMapper.selectAll();
     }
+    //根据标签编号查询名称
+    public  String selectByTagId(int tagid){
+        return tagMapper.selectByTagId(tagid);
+    }
 }

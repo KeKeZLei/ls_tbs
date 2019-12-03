@@ -222,6 +222,43 @@ public class Steward implements Serializable {
         return steProvince;
     }
 
+    @Override
+    public String toString() {
+        return "Steward{" +
+                "steId=" + steId +
+                ", refId=" + refId +
+                ", steOpenid='" + steOpenid + '\'' +
+                ", steWhead='" + steWhead + '\'' +
+                ", steChead='" + steChead + '\'' +
+                ", steName='" + steName + '\'' +
+                ", steTel='" + steTel + '\'' +
+                ", steIdcardnum='" + steIdcardnum + '\'' +
+                ", steIdcardfront='" + steIdcardfront + '\'' +
+                ", steIdcardreverse='" + steIdcardreverse + '\'' +
+                ", steIdcardreason='" + steIdcardreason + '\'' +
+                ", steSex=" + steSex +
+                ", steAge=" + steAge +
+                ", steNative='" + steNative + '\'' +
+                ", steAddress='" + steAddress + '\'' +
+                ", steWorkstate='" + steWorkstate + '\'' +
+                ", steRealnamestate='" + steRealnamestate + '\'' +
+                ", steContracttype=" + steContracttype +
+                ", steWorkyear=" + steWorkyear +
+                ", steExpsalary=" + steExpsalary +
+                ", steWorkform='" + steWorkform + '\'' +
+                ", steCerstate='" + steCerstate + '\'' +
+                ", steCreatetime=" + steCreatetime +
+                ", steState=" + steState +
+                ", steProvince=" + steProvince +
+                ", steCity=" + steCity +
+                ", steNickname='" + steNickname + '\'' +
+                ", steWorktype='" + steWorktype + '\'' +
+                ", steSkill='" + steSkill + '\'' +
+                ", steTag='" + steTag + '\'' +
+                ", steDescribe='" + steDescribe + '\'' +
+                '}';
+    }
+
     public void setSteProvince(Integer steProvince) {
         this.steProvince = steProvince;
     }

@@ -13,4 +13,11 @@ public interface EvaluateMapper {
     List<Evaluate> selectAll();
 
     int updateByPrimaryKey(Evaluate record);
+
+    /**
+     * 根据管家编号查询用户评价信息
+     * @param steid
+     * @return
+     */
+    Evaluate getBySteid(int steid);
 }

@@ -44,4 +44,8 @@
     select emprel_id, mem_id, e.ste_id, emprel_state, emprel_starttime, emprel_endtime,
     from emprelation e left join steward s on e.ste_id = s.ste_id
   </select>
+  <!--根据管家编号查询雇佣关系的用户信息-->
+  <select id="selectByEmpId" resultType="int" parameterType="int">
+    select  IFNULL((select mem_id from emprelation where ste_id = #{steId}) ,0) ;
+  </select>
 </mapper>

@@ -2,13 +2,14 @@ package com.lionsource.tbs.proscenum.server.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.lionsource.tbs.comm.model.City;
 import com.lionsource.tbs.comm.model.Stewardtype;
 import com.lionsource.tbs.comm.model.Tag;
 import com.lionsource.tbs.proscenum.server.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -39,5 +40,13 @@ public class TagController {
         jsonObject.put("tagList", list);
         //输出到 ajax 对象中
         writer.write(jsonObject.toString());
+    }
+    @RequestMapping("/tagGetId")
+    public void tagGetId(@RequestParam("msgID")int msgID, HttpServletResponse response) throws IOException {
+        String tagName = tagService.selectByTagId(msgID);
+        //输出流
+        response.setContentType("text/html;charset=utf-8");
+        PrintWriter writer = response.getWriter();
+        response.getWriter().write(tagName);
     }
 }
