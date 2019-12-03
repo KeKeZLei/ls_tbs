@@ -3,13 +3,13 @@ package com.lionsource.tbs.proscenum.serverY.service.impl;
 
 import com.lionsource.tbs.comm.dao.StewardMapper;
 import com.lionsource.tbs.comm.model.Steward;
-import com.lionsource.tbs.proscenum.serverY.service.StewardServiceI;
+import com.lionsource.tbs.proscenum.serverY.service.StewardyServiceI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
-public class StewardServiceImply implements StewardServiceI {
+public class StewardServiceImply implements StewardyServiceI {
 
     @Autowired
     private StewardMapper stewardMapper;

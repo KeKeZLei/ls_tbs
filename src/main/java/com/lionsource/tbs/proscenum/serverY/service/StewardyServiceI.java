@@ -4,7 +4,7 @@ import com.lionsource.tbs.comm.model.Steward;
 
 import java.util.List;
 
-public interface StewardServiceI {
+public interface StewardyServiceI {
 
     /**
      * 定制管家

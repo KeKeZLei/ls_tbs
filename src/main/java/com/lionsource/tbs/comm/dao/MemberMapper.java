@@ -44,4 +44,11 @@ public interface MemberMapper {
      * @return
      */
     String getMemname(Member member);
+
+    /**
+     * 判断手机号码是否存在
+     * @param mem_tel
+     * @return
+     */
+    List<Member> getAllMemnameTel(String mem_tel);
 }

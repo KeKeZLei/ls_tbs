@@ -141,4 +141,8 @@
   <select id="getMemname" resultType="String" parameterType="com.lionsource.tbs.comm.model.Member">
     select mem_name from member where mem_tel = #{memTel,jdbcType=VARCHAR},
   </select>
+  <!--判断手机号码是否存在-->
+  <select id="getAllMemnameTel" resultMap="BaseResultMap">
+    select * from member where  mem_tel=#{ mem_tel}
+  </select>
 </mapper>

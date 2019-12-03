@@ -27,12 +27,17 @@ public class ServerControllerY {
      * @return
      */
     @RequestMapping("/fbxp")
-    public String test(HttpServletRequest request, Model model) {
+    public String fbxp(HttpServletRequest request, Model model) {
         List<Stewardtype> list = stewardtypeService.selectAll();
         List<Tag> tagslist = tagServiceimpl.selectAll();
         model.addAttribute("zylist",list);
         model.addAttribute("tagslist",tagslist);
         System.out.println(tagslist);
         return "serverZ/yit/fbxp";
+    }
+
+    @RequestMapping("/text")
+    public String text(){
+        return "test.html";
     }
 }
