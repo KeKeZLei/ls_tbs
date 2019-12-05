@@ -21,7 +21,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -55,20 +54,17 @@ public class ServerController {
     @Autowired
     EmprelationService emprelationService;
 
-    @RequestMapping("/test")
-    public String test(HttpServletRequest request) {
-        return "serverZ/test";
-    }
 
-    @RequestMapping("/tuijianrenduan")
-    public String tuijianrenduan(HttpServletRequest request) {
-        return "serverZ/tuijianrenduan";
-    }
 
-    @RequestMapping("/yonghu")
-    public String yonghu(HttpServletRequest request) {
-            return "serverZ/yonghu";
-        }
+//    @RequestMapping("/tuijianrenduan")
+//    public String tuijianrenduan(HttpServletRequest request) {
+//        return "serverZ/tuijianrenduan";
+//    }
+//
+//    @RequestMapping("/yonghu")
+//    public String yonghu(HttpServletRequest request) {
+//            return "serverZ/yonghu";
+//        }
 
 
     /**
@@ -176,6 +172,7 @@ public class ServerController {
     @RequestMapping("/serverImages")
     public void serverImages(@RequestParam("yzCode") String yzCode,HttpServletRequest request,HttpServletResponse response) throws IOException {
         //获取存储的验证码
+        //获取存储的验证码
         String yzCodes = (String) request.getSession().getAttribute("imageCode");
         //判断验证码是否正确
         if(!(yzCode).equalsIgnoreCase(yzCodes)||yzCode==null||StringUtils.isEmpty(yzCode)) {
@@ -196,7 +193,7 @@ public class ServerController {
      */
     @RequestMapping("/server/mobilePhone")
     public String mobilePhone(@RequestParam("type") String type,@RequestParam("ste_tel")String ste_tel,@RequestParam("yzm") String yzm,
-                              @RequestParam("phcode")String phcode,HttpSession session,HttpServletRequest request){
+                              @RequestParam("phcode")String phcode,HttpSession session,HttpServletRequest request,HttpServletResponse response){
         //判断用户是怎么进行登录的
         if(type.equals("用户登录")){
             Member member = new Member();
@@ -217,6 +214,30 @@ public class ServerController {
             if(refnameReftel!=null){
                 String referrerRefname = referrerService.getReferrerRefname(referrer);
                 request.setAttribute("ste_name",referrerRefname);
+                 String ste_tels= ste_tel;
+                //根据id查询用户相关信息
+                List<Referrer> list=  referrerService.getReferrers(ste_tels);
+
+                int id=0;
+                for (Referrer ls:list) {
+                    id=ls.getRefId();
+                }
+                //查询推荐管家数
+                int membercount=  referrerService.getMemberCount(id);
+                request.setAttribute("membercount",membercount);
+//                System.out.println(count);
+                //查询推荐实名管家数
+                int membercounts= referrerService.getMemberCountsm(id);
+                request.setAttribute("membercounts",membercounts);
+//                System.out.println(counts);
+                //查询推荐用户数
+                int stewardcount=  referrerService.getStewardCount(id);
+                request.setAttribute("stewardcount",stewardcount);
+                //查询推荐实名用户数
+                int stewardcounts= referrerService.getStewardCountsm(id);
+                request.setAttribute("stewardcounts",stewardcounts);
+                //登录用户查询
+                request.setAttribute("referrers",list);
                 return "serverZ/tuijianrenduan";
             }else {
                 request.setAttribute("tisi","登录失败");
@@ -282,6 +303,31 @@ public class ServerController {
             }else{
                 request.setAttribute("tisiLogin","登录成功");
                 request.setAttribute("ste_name",ste_name);
+                String ste_tels= ste_tel;
+                //根据id查询用户相关信息
+                List<Referrer> list=  referrerService.getReferrers(ste_tels);
+//                System.out.println(list);
+                int id=0;
+                for (Referrer ls:list) {
+                     id=ls.getRefId();
+//                    System.out.println(id);
+                }
+                //查询推荐管家数
+                int membercount=  referrerService.getMemberCount(id);
+                request.setAttribute("membercount",membercount);
+//                System.out.println(count);
+                //查询推荐实名管家数
+                int membercounts= referrerService.getMemberCountsm(id);
+                request.setAttribute("membercounts",membercounts);
+//                System.out.println(counts);
+                //查询推荐用户数
+                int stewardcount=  referrerService.getStewardCount(id);
+                request.setAttribute("stewardcount",stewardcount);
+                //查询推荐实名用户数
+                int stewardcounts= referrerService.getStewardCountsm(id);
+                request.setAttribute("stewardcounts",stewardcounts);
+                //登录用户查询
+                request.setAttribute("referrers",list);
                 return "serverZ/tuijianrenduan";
             }
         }else if(type.equals("服务人员登录")){
@@ -418,7 +464,6 @@ public class ServerController {
         }
         return "serverZ/personalHomepage";
     }
-
     /**
      * 服务人员退出系统
      * @throws IOException
