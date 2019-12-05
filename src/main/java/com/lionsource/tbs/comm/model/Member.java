@@ -33,6 +33,42 @@ public class Member implements Serializable {
 
     private String memCall;
 
+    public Member() {
+    }
+
+    public Member(Integer memId, Integer refId, String memOpenid, String memHead, String memName, String memTel, String memIdcardnum, String memIdcardfront, String memIdcardreverse, String memIdcardreason, Integer memSex, String memCall, String memRealnamestate, Integer memVipstate, Date memVipterm, String memEmployment, String memWorkform, Integer memContracttype, Integer memWorkyear, String memAgerange, String memNativedemand, String memWorktime, Integer memServicetime, Integer memExpectpay, String memOtherdemand, Date memCreatetime, Integer memState, String memNickname, String memStewardtype, String memSkilldemand) {
+        this.memId = memId;
+        this.refId = refId;
+        this.memOpenid = memOpenid;
+        this.memHead = memHead;
+        this.memName = memName;
+        this.memTel = memTel;
+        this.memIdcardnum = memIdcardnum;
+        this.memIdcardfront = memIdcardfront;
+        this.memIdcardreverse = memIdcardreverse;
+        this.memIdcardreason = memIdcardreason;
+        this.memSex = memSex;
+        this.memCall = memCall;
+        this.memRealnamestate = memRealnamestate;
+        this.memVipstate = memVipstate;
+        this.memVipterm = memVipterm;
+        this.memEmployment = memEmployment;
+        this.memWorkform = memWorkform;
+        this.memContracttype = memContracttype;
+        this.memWorkyear = memWorkyear;
+        this.memAgerange = memAgerange;
+        this.memNativedemand = memNativedemand;
+        this.memWorktime = memWorktime;
+        this.memServicetime = memServicetime;
+        this.memExpectpay = memExpectpay;
+        this.memOtherdemand = memOtherdemand;
+        this.memCreatetime = memCreatetime;
+        this.memState = memState;
+        this.memNickname = memNickname;
+        this.memStewardtype = memStewardtype;
+        this.memSkilldemand = memSkilldemand;
+    }
+
     private String memRealnamestate;
 
     private Integer memVipstate;

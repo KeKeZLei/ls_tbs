@@ -284,17 +284,29 @@
                                             ste_workyear:$("[name=gzjy]:checked").val(),
                                             ste_expsalary:$("[name=yuan]").val(),
                                             ste_native:$("[name=jiguan]").val(),
-                                            ste_tag:stetag
+                                            ste_tag:stetag,
+                                            mem_name:$("[name=name]").val(),
+											mem_tel:$("[name=sjhm]").val(),
+											yzm:$("[name=yzms]").val()
                                         },
                                         dataType:"text",
                                         success:function(e){
-                                            swal("",e,"success");return false;
-                                            // if(e=="修改成功！"){
-                                            //     window.location.href = '';
-                                            // }
+                                          if(e=="手机号码已存在，是否登录!"){
+                                              if(window.confirm(e)){
+                                                  window.location.href = 'server/login';
+                                                  return true;
+                                              }else{
+                                                  //alert("取消");
+                                                  return false;
+                                              }
+										  }else{
+                                              swal("",e,"success");
+                                              window.location.href = 'test';
+										  }
+
                                         }
                                     })
-								}
+								 }
 
                             })
 							//金额只能是数字
@@ -303,7 +315,7 @@
                                 var e=$(this).val();
                                 if (e != "") {
                                     if (!re.test(e)) {
-                                        alert("请输入正确格式");
+                                        swal("错误","请输入正确格式！","error");return false;
                                         $(this).val("1000");
 									}
                                 }
@@ -317,7 +329,7 @@
 
                             $("#min").click(function(){
                                 if($(this).next().val()=="0"){
-                                    alert("工资不能为0")
+                                    swal("错误","工资不能为0！","error");return false;
                                 }else{
                                     var gz= parseInt($(this).next().val());
                                     gz=gz-100;
@@ -329,10 +341,31 @@
 							$("[name=sjhm]").blur(function () {
                                 var reg=/^1[3|4|5|7|8][0-9]\d{4,8}$/;
                                 var mobile = $(this).val();
-                                if(mobile==null || mobile=="" || !reg.exec(mobile))
+                                if(!reg.exec(mobile))
                                 {
-                                    alert("电话有误，请重新填写");
-                                }
+									$(this).val(" ");
+									swal("错误","电话有误，请重新填写！","error");
+                                }else{
+                                    $.ajax({
+                                        type:"post",
+                                        url:"sjhmyz",
+                                        data:{
+                                            mem_tel:$("[name=sjhm]").val()
+                                        },
+                                        dataType:"text",
+                                        success:function(e){
+											if(e=="手机号码已存在，是否登录!"){
+                                                if(window.confirm(e)){
+                                                    window.location.href = 'server/login';
+                                                    return true;
+                                                }else{
+                                                    //alert("取消");
+                                                    return false;
+                                                }
+											}
+                                        }
+                                    })
+								}
                             })
 
 							//短信倒计时
@@ -354,7 +387,27 @@
                                         settime(obj)
                                     },1000)
                                 }
+                                //发送验证码
+                                $.ajax({
+                                    type:"post",
+                                    url:"fsyzm",
+                                    data:{
+                                        mem_tel:$("[name=sjhm]").val()
+                                    },
+                                    dataType:"text",
+                                    success:function(e){
+                                        swal("",e,"success");return false;
+                                    }
+                                })
+                            })
 
+							//验证码只能是6为数字
+							$("[name=yzms]").blur(function () {
+                                var reg = new RegExp(/^\d{6}$/);
+                                var yzmms=$(this).val();
+                                if(!reg.test(yzmms)){
+                                    swal("错误","验证码只能是6为数字","error");
+                            }
                             })
 
 						})

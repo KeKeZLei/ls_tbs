@@ -17,7 +17,7 @@ public interface MemberMapper {
 
     int updateByPrimaryKey(Member record);
 
-    //根据管家类型编号查询用户信息
+    //根据管家类型编号查询会员
     List<Member> selectAllByStId(@Param("stId") String s);
 
     //根据技能编号查询会员
@@ -45,6 +45,14 @@ public interface MemberMapper {
      */
     String getMemname(Member member);
 
+
     //根据管家类型编号查询管家
     List<Member> selectAllByMemId(int MemId);
+
+    /**
+     * 判断手机号码是否存在
+     * @param mem_tel
+     * @return
+     */
+    List<Member> getAllMemnameTel(String mem_tel);
 }
