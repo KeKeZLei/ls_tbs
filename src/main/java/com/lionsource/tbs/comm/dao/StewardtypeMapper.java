@@ -19,4 +19,7 @@ public interface StewardtypeMapper {
 
     //根据名称查询管家类型
     Stewardtype selectByStName(String stName);
+
+    //根据工作编号查询工作名称
+    String selectWardType(int steWardTypeId);
 }

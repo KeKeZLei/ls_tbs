@@ -64,6 +64,15 @@ public class ReferrerServiceImpl implements ReferrerService {
     }
 
     /**
+     * 根据推荐人的编号查询推荐人姓名
+     * @param ref_id
+     * @return
+     */
+    public String getRef_Id(int ref_id){
+        return referrerMapper.getRef_Id(ref_id);
+    }
+
+    /**
      *
      * @param ref_tel
      * @return

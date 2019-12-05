@@ -7,6 +7,7 @@ import org.apache.http.HttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,6 +41,22 @@ public class ReferrerController {
         if(null!=list&&!list.isEmpty()){
             int ref_id = referrerService.selectByref_id(getRef_name);
             response.getWriter().write(ref_id);
+        }else{
+            response.getWriter().write("false");
+        }
+    }
+
+    /**
+     * 根据编号查询推荐人的姓名
+     * @param refId
+     * @param request
+     * @param response
+     */
+    @RequestMapping("/getRef_Id")
+    public void getRef_Id(@RequestParam("refId")int refId, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String refName = referrerService.getRef_Id(refId);
+        if(null!=refName){
+            response.getWriter().write(refName);
         }else{
             response.getWriter().write("false");
         }

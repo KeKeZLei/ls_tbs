@@ -24,6 +24,13 @@ public interface ReferrerMapper {
     public List<Referrer> getRef_name(String ref_name);
 
     /**
+     * 根据推荐人的编号查询推荐人姓名
+     * @param ref_id
+     * @return
+     */
+    public String getRef_Id(int ref_id);
+
+    /**
      * 根据姓名查询推荐人ID
      * @param ref_name
      * @return

@@ -49,38 +49,33 @@ public interface ReferrerService {
     String getReferrerRefname(Referrer referrer);
 
     /**
-     * 根据ref_tel查询相关用户信息
-     * @param ref_tel
-     * @return
-     * yc
-     */
-    List<Referrer> getReferrers(String ref_tel);
-    /**
-     * 根据ref_id查询推荐管家人数
+     * 根据推荐人的编号查询推荐人姓名
      * @param ref_id
      * @return
-     * yc
      */
-    int getMemberCount(Integer ref_id);
+    public String getRef_Id(int ref_id);
+
+    public int getMemberCount(Integer ref_id);
     /**
      * 根据ref_id查询推荐实名管家人数
-     * @param ref_id
-     * @return
      * yc
      */
-    int getMemberCountsm(Integer ref_id);
+
+    public int getMemberCountsm(Integer ref_id);
     /**
      *根据ref_id查询推荐用户人数
      * @param ref_id
      * @return
      * yc
      */
-    int getStewardCount(Integer ref_id);
+
+    public int getStewardCount(Integer ref_id);
     /**
      *根据ref_id查询推荐实名用户人数
      * @param ref_id
      * @return
      * yc
      */
-    int getStewardCountsm(Integer ref_id);
+
+    public int getStewardCountsm(Integer ref_id);
 }

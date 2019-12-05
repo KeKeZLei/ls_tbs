@@ -48,4 +48,8 @@
     from stewardtype
     where st_name = #{stName}
   </select>
+  <!---->
+  <select id="selectWardType" resultType="string" parameterType="int">
+    select st_name from stewardtype where st_id = #{st_id}
+  </select>
 </mapper>

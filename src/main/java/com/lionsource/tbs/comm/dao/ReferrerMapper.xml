@@ -160,6 +160,10 @@
   <select id="getRef_name" resultMap="BaseResultMap" parameterType="string">
      select * from referrer where ref_name=#{ref_name.jdbcType=INTEGER}
   </select>
+  <!--根据编号查询推荐人姓名-->
+  <select id="getRef_Id" resultType="String" parameterType="int">
+    select ref_name from referrer where ref_id = #{ref_id}
+  </select>
   <select id="selectByref_id" resultType="java.lang.Integer" parameterType="string">
     select ref_id
     from referrer
@@ -170,8 +174,6 @@
     select * from referrer where ref_name = #{refName,jdbcType=VARCHAR} and ref_tel = #{refTel,jdbcType=VARCHAR}
   </select>
   <!--根据手机号码进行登录-->
-
-
   <select id="getReftel" resultMap="BaseResultMap" parameterType="com.lionsource.tbs.comm.model.Referrer">
     select * from referrer where ref_tel = #{refTel,jdbcType=VARCHAR}
   </select>

@@ -17,4 +17,6 @@ public interface StewardtypeService {
      * @return
      */
     List<Stewardtype> selectAll();
+    //根据工作编号查询工作名称
+    String selectWardType(int steWardTypeId);
 }

@@ -1,7 +1,10 @@
 $(function () {
-    // if($(".msg").text()!=""){
-    //     swal("登录成功","提示","success");
-    // }
+    if($(".msg").text()!=""){
+        swal("登录成功","提示","success");
+    }
+    /**
+     * 根据个人标签编号查询标签名称
+     */
     if($(".tag").text()!=null){
         var tag = $(".tag").text();
         if(tag[0]==","){

@@ -30,5 +30,10 @@ public class StewardtypeServiceImpl implements StewardtypeService {
     public List<Stewardtype> selectAll(){
         return stewardtypeMapper.selectAll();
     }
+
+    //根据工作编号查询工作名称
+    public String selectWardType(int steWardTypeId){
+        return stewardtypeMapper.selectWardType(steWardTypeId);
+    }
 }
 
