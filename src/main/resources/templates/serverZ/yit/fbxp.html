@@ -156,26 +156,6 @@
 					<div style="text-align: right;">
 						<input type="text" name="jiguan" placeholder="请输入籍贯" style="text-align: right;border: 0px;"/>
 					</div>
-					<!--<div class="col-xs-12">-->
-						<!--籍贯要求-->
-					<!--</div>-->
-					<!--<div class="col-xs-12" >-->
-						<!--<div class="docs-methods">-->
-							<!--<form class="form-inline">-->
-								<!--<div id="distpicker">-->
-									<!--<div class="form-group">-->
-										<!--<div style="position: relative;" >-->
-											<!--<input id="city-picker3" style="width: 100%;" class="form-control" readonly type="text" value="湖南省/长沙市/岳麓区" data-toggle="city-picker" ..>-->
-										<!--</div>-->
-									<!--</div>-->
-									<!--<div class="form-group">-->
-										<!--<button class="btn btn-warning" id="reset" type="button">重置</button>-->
-										<!--<button class="btn btn-danger" id="destroy" type="button">确定</button>-->
-									<!--</div>-->
-								<!--</div>-->
-							<!--</form>-->
-						<!--</div>-->
-					<!--</div>-->
 					<div class="col-xs-12">
 						<h3><b>详细服务需求？<font color="#ABABAB">(可多选)</font></b></h3>
 					</div>
@@ -277,6 +257,7 @@
                                     $.ajax({
                                         type:"post",
                                         url:"dzgj",
+                                        // async:false,
                                         data:{
                                             ste_worktype:vals,
                                             ste_workform:$("[name=hom]:checked").val(),
@@ -301,7 +282,7 @@
                                               }
 										  }else{
                                               swal("",e,"success");
-                                              window.location.href = 'test';
+                                              window.location.href = 'tests';
 										  }
 
                                         }

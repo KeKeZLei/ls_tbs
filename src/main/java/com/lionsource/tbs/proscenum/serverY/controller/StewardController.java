@@ -12,7 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
@@ -33,7 +35,7 @@ public class StewardController {
      * @return
      */
     @RequestMapping("/dzgj")
-    public void dzgj(Model model, HttpServletResponse response, String ste_worktype, String ste_workform, String ste_contracttype, String ste_workyear, String ste_expsalary, String ste_native, String ste_tag, String mem_name, String mem_tel, String yzm) throws IOException {
+    public void dzgj(HttpServletRequest request, Model model, HttpServletResponse response, String ste_worktype, String ste_workform, String ste_contracttype, String ste_workyear, String ste_expsalary, String ste_native, String ste_tag, String mem_name, String mem_tel, String yzm) throws IOException {
         //乱码处理
         response.setContentType("text/html;charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
@@ -79,28 +81,6 @@ public class StewardController {
         member.setMemCreatetime(new Date());        //注册时间
         System.out.println("当前系统时间："+new Date());
         System.out.println("已发送的验证码:"+pdyzm);
-        //管家工作形式
-        //判断手机号码是否重复
-        List<Member> allMemnameTel = memberyServerI.getAllMemnameTel(mem_tel);
-        if(allMemnameTel.size()>0){//手机号码存在
-            out.print("手机号码已存在，是否登录!");
-            System.out.println("手机号码已存在，是否登录!");
-        }else
-        //判断验证码是否一致;
-        if(!pdyzm.equals(yzm)) {
-            out.print("输入的验证码不一至，请重新输入！");
-        }else{
-            //调用添加方法
-            if(memberyServerI.insert(member)>0){
-                //调用查询方法方法
-                List<Steward> list = serviceI.selectAllfbxp(ste_worktype,ste_workform,ste_contracttype,ste_workyears,ste_expsalarys,ste_native,ste_tag);
-                System.out.println(list);
-                model.addAttribute("list",list);
-                out.print("定制成功！");
-            }else{
-                out.print("定制失败！");
-            }
-        }
         System.out.println("职位类别："+ste_worktype);
         System.out.println("是否住家："+ste_workform);
         System.out.println("管家签约形式(1=中介制,2=雇佣制)："+ste_contracttype);
@@ -111,6 +91,31 @@ public class StewardController {
         System.out.println("用户名："+mem_name);
         System.out.println("电话号码："+mem_tel);
         System.out.println("验证码："+yzm);
+        //管家工作形式
+        //判断手机号码是否重复
+        List<Member> allMemnameTel = memberyServerI.getAllMemnameTel(mem_tel);
+        if(allMemnameTel.size()>0){//手机号码存在
+            out.print("手机号码已存在，是否登录!");
+            System.out.println("手机号码已存在，是否登录!");
+        }else
+
+        if(!pdyzm.equals(yzm)) {
+            out.print("输入的验证码不一至，请重新输入！");
+        }else{
+            //调用添加方法
+            if(memberyServerI.insert(member)>0){
+                //调用查询方法方法
+                List<Steward> list = serviceI.selectAllfbxp(ste_worktype,ste_workform,ste_contracttype,ste_workyears,ste_expsalarys,ste_native,ste_tag);
+                System.out.println(list);
+                HttpSession session = request.getSession();
+                session.setAttribute("fblist",list);
+                out.print("定制成功！");
+                //model.addAttribute("list",list);
+            }else{
+                out.print("定制失败！");
+            }
+        }
+
     }
 
     /**

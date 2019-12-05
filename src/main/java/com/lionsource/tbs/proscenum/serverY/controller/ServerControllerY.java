@@ -36,8 +36,14 @@ public class ServerControllerY {
         return "serverZ/yit/fbxp";
     }
 
-    @RequestMapping("/text")
-    public String text(){
-        return "test.html";
+    @RequestMapping("/tests")
+    public String text(Model model){
+        System.out.println("进入 tests");
+        List<Stewardtype> list = stewardtypeService.selectAll();
+        List<Tag> tagslist = tagServiceimpl.selectAll();
+        model.addAttribute("zylist",list);
+        model.addAttribute("tagslist",tagslist);
+        System.out.println(tagslist);
+        return "serverZ/test";
     }
 }
