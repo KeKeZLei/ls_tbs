@@ -1,5 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>及时管家管理平台</title>
@@ -72,16 +73,22 @@
 <!--注册-->
 <div class="wrap ">
 
-    <div class="tdbModule register">
-        <div class="registerTitle">站长登录后</div>
+    <div class="tdbModule register" th:each="ref:${referrers}">
+
+        <div class="registerTitle">欢迎<span th:text="${ref.refName}" />登录</div>
+
         <div class="container-fluid">
             <div class="row colxs-12 ">
                 <div class="row col-xs-2 col-xs-offset-2 ">
-                    <img th:src="@{/static/yuyueguanjia/img/11.jpg}" class="img-circle image"  >
+                    <img th:src="@{${ref.refHead}}" class="img-circle image"  >
                 </div>
                 <div class="row col-xs-8 ">
-                    <h4>姓名  电话</h4>
-                    <span class="text-muted">推荐人编号: 编号</span>
+                    <h4>
+                        <span th:text="${ref.refName}"></span>
+                        <span th:text="${ref.refOpenid}"></span>
+                    </h4>
+
+                    <span class="text-muted">推荐人编号: <span th:text="${ref.refId}"></span></span>
                 </div>
             </div>
             <p></p>
@@ -91,7 +98,7 @@
                         <h4 class="text-muted text-right">推荐管家数</h4>
                     </div>
                     <div class="col-xs-5 ">
-                        <h5>num人</h5>
+                        <h5><span th:text="${membercount}"></span>人</h5>
                     </div>
                     <div class="col-xs-1 col-xs-offset-2 os">
                         <h4 class="glyphicon glyphicon-menu-right text-muted"></h4>
@@ -105,7 +112,7 @@
                         <h4 class="text-muted text-right">推荐实名管家数</h4>
                     </div>
                     <div class="col-xs-5 ">
-                        <h5>num人</h5>
+                        <h5><span th:text="${membercounts}"></span>人</h5>
                     </div>
                     <div class="col-xs-1 col-xs-offset-2 os">
                         <h4 class="glyphicon glyphicon-menu-right text-muted"></h4>
@@ -119,7 +126,7 @@
                         <h4 class="text-muted text-right">推荐用户数</h4>
                     </div>
                     <div class="col-xs-5 ">
-                        <h5>num人</h5>
+                        <h5><span th:text="${stewardcount}"></span>人</h5>
                     </div>
                     <div class="col-xs-1 col-xs-offset-2 os">
                         <h4 class="glyphicon glyphicon-menu-right text-muted"></h4>
@@ -133,7 +140,7 @@
                         <h4 class="text-muted text-right">推荐实名用户数</h4>
                     </div>
                     <div class="col-xs-5 ">
-                        <h5>num人</h5>
+                        <h5><span th:text="${stewardcounts}"></span>人</h5>
                     </div>
                     <div class="col-xs-1 col-xs-offset-2 os">
                         <h4 class="glyphicon glyphicon-menu-right text-muted"></h4>

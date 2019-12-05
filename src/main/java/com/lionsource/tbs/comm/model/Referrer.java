@@ -5,10 +5,30 @@ import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @ToString
-@Data
+//@Data
 public class Referrer implements Serializable {
+    private List<Steward> steward;
+    private List<Member> member;
+
+    public List<Steward> getSteward() {
+        return steward;
+    }
+
+    public void setSteward(List<Steward> steward) {
+        this.steward = steward;
+    }
+
+    public List<Member> getMember() {
+        return member;
+    }
+
+    public void setMember(List<Member> member) {
+        this.member = member;
+    }
+
     private Integer refId;
 
     private String refOpenid;

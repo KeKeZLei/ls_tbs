@@ -62,4 +62,54 @@ public class ReferrerServiceImpl implements ReferrerService {
     public String getReferrerRefname(Referrer referrer){
         return referrerMapper.getReferrerRefname(referrer);
     }
+
+    /**
+     *
+     * @param ref_tel
+     * @return
+     * yc
+     */
+    public List<Referrer> getReferrers(String ref_tel) {
+            return referrerMapper.getReferrers(ref_tel);
+    }
+    /**
+     * 根据ref_id查询推荐管家人数
+     * @param ref_id
+     * @return
+     * yc
+     */
+    @Override
+    public int getMemberCount(Integer ref_id) {
+        return referrerMapper.getMemberCount(ref_id);
+    }
+    /**
+     * 根据ref_id查询推荐实名管家人数
+     * yc
+     */
+    @Override
+    public int getMemberCountsm(Integer ref_id) {
+        return referrerMapper.getMemberCountsm(ref_id);
+    }
+    /**
+     *根据ref_id查询推荐用户人数
+     * @param ref_id
+     * @return
+     * yc
+     */
+    @Override
+    public int getStewardCount(Integer ref_id) {
+        return referrerMapper.getMemberCount(ref_id);
+    }
+    /**
+     *根据ref_id查询推荐实名用户人数
+     * @param ref_id
+     * @return
+     * yc
+     */
+    @Override
+    public int getStewardCountsm(Integer ref_id) {
+        return referrerMapper.getStewardCountsm(ref_id);
+    }
+
+
 }
