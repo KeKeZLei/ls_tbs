@@ -59,14 +59,13 @@ public class StewardServiceImpl implements StewardService {
    public  String getStetelSteName(Steward steward){
         return stewardMapper.getStetelSteName(steward);
     }
-
     /**
-     *根据服务人员姓名查询个人信息
+     *根据服务人员姓名和手机号码查询个人信息
      * @param steName
      * @return
      */
-    public Steward getSelectAllSteName(String steName){
-        return stewardMapper.getSelectAllSteName(steName);
+    public Steward getSelectAllSteName(String steName,String ste_tel){
+        return stewardMapper.getSelectAllSteName(steName,ste_tel);
     }
 
 
@@ -77,5 +76,14 @@ public class StewardServiceImpl implements StewardService {
      */
     public int getSelectOneSteId(String steName){
         return stewardMapper.getSelectOneSteId(steName);
+    }
+
+    /**
+     * 根据姓名和手机号修改管家信息
+     * @param steward
+     * @return
+     */
+    public int updateByNameTel(Steward steward){
+        return stewardMapper.updateByNameTel(steward);
     }
 }

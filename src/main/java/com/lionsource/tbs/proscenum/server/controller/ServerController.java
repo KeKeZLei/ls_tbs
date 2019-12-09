@@ -56,17 +56,6 @@ public class ServerController {
 
 
 
-//    @RequestMapping("/tuijianrenduan")
-//    public String tuijianrenduan(HttpServletRequest request) {
-//        return "serverZ/tuijianrenduan";
-//    }
-//
-//    @RequestMapping("/yonghu")
-//    public String yonghu(HttpServletRequest request) {
-//            return "serverZ/yonghu";
-//        }
-
-
     /**
      * 打开从业者申请表
      * @param request
@@ -352,6 +341,7 @@ public class ServerController {
             }else{
                 session.setAttribute("tisiLogin","登录成功");
                 session.setAttribute("ste_name",ste_name);
+                session.setAttribute("ste_tel",ste_tel);
                 return "redirect:../getSelectAllSteName";
             }
         }
@@ -436,7 +426,30 @@ public class ServerController {
             response.getWriter().write("true");
         }
     }
-
+    /**
+     * 根据姓名查询个人信息到我的名片
+     */
+    @RequestMapping("/getSelectAllz")
+    public String getSelectAllz(Model model,HttpSession session,HttpServletRequest request,HttpServletResponse response) throws IOException {
+        String steName = (String) session.getAttribute("ste_name");
+        String steTel =(String) session.getAttribute("ste_tel");
+        Steward allSteName = stewardService.getSelectAllSteName(steName,steTel);
+        System.out.println("查询结果:"+allSteName);
+        model.addAttribute("allSteName",allSteName);
+        return "serverZ/callingCard";
+    }
+    /**
+     * 根据姓名查询个人信息到我的名片
+     */
+    @RequestMapping("/updatePersonage")
+    public String updatePersonage(Model model,HttpSession session,HttpServletRequest request,HttpServletResponse response) throws IOException {
+        String steName = (String) session.getAttribute("ste_name");
+        String steTel =(String) session.getAttribute("ste_tel");
+        Steward allSteName = stewardService.getSelectAllSteName(steName,steTel);
+        System.out.println("查询结果:"+allSteName);
+        model.addAttribute("allSteName",allSteName);
+        return "serverZ/updatePersonage";
+    }
     /**
      * 根据服务人员姓名查询个人信息
      * @param
@@ -445,8 +458,9 @@ public class ServerController {
     @RequestMapping("/getSelectAllSteName")
     public String getSelectAllSteName(Model model, HttpSession session, HttpServletRequest request){
         String ste_name = (String) session.getAttribute("ste_name");
+        String ste_tel = (String) session.getAttribute("ste_tel");
         System.out.println("姓名:"+ste_name);
-        Steward steward = stewardService.getSelectAllSteName(ste_name);
+        Steward steward = stewardService.getSelectAllSteName(ste_name,ste_tel);
         System.out.println("查询信息："+steward);
         if(steward!=null){
             int steId = stewardService.getSelectOneSteId(ste_name);
@@ -473,6 +487,44 @@ public class ServerController {
         }
         return "serverZ/personalHomepage";
     }
+
+    /**
+     * 根据姓名和手机号修改管家信息
+     * @param steName
+     * @param steTel
+     * @param steWorkform
+     * @param steWorkstate
+     * @param steTag
+     * @param money
+     * @param steDescribe
+     * @param ste_province
+     * @param serverCity
+     * @return
+     */
+    @RequestMapping("/updateByNameTel")
+    public String updateByNameTel(HttpServletRequest request,@RequestParam("steName")String steName,@RequestParam("steTel")String steTel,@RequestParam("steWorkstate")String steWorkstate,
+                                  @RequestParam("steTag")String steTag,@RequestParam("money")int money,@RequestParam("steDescribe")String steDescribe,
+                                  @RequestParam("serverProvince")int ste_province,@RequestParam("serverCity") int serverCity,@RequestParam("steWorkform")String steWorkform){
+        Steward steward = new Steward();
+        steward.setSteName(steName);
+        steward.setSteTel(steTel);
+        steward.setSteTag(steTag);
+        steward.setSteProvince(ste_province);
+        steward.setSteCity(serverCity);
+        steward.setSteExpsalary(money);
+        steward.setSteDescribe(steDescribe);
+        steward.setSteWorkform(steWorkform);
+        steward.setSteWorkstate(steWorkstate);
+        int result = stewardService.updateByNameTel(steward);
+        if(result>0){
+            request.setAttribute("show","修改成功");
+            return "serverZ/callingCard";
+        }else{
+            request.setAttribute("show","修改失败");
+            return "serverZ/updatePersonage";
+        }
+    }
+
     /**
      * 服务人员退出系统
      * @throws IOException
