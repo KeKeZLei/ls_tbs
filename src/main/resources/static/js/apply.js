@@ -40,6 +40,7 @@ $(function(){
     $(".money").blur(function () {
         if(isNaN($(".money").val())){
             swal("OMG","请输入您希望的月工资","error");
+            $(".money").val(3800);
             return false;
         }else if($(".money").val()<0){
             swal("OMG","工资不能为负数哦，请重新输入","error");
@@ -244,72 +245,6 @@ $(function(){
         }
     })
 
-    // /**
-    //  * 请求籍贯省份
-    //  */
-    // $.ajax({
-    //     dataType:"json",
-    //     url:"getProvinceCity",//请求路径
-    //     success:function (reponse){
-    //         var provinArr = reponse.provinList;
-    //         for(var i in provinArr){
-    //             var provin=provinArr[i];
-    //             var option=$("<option value='"+provin.provId+"'>"+provin.provName+"</option>");
-    //             $(".Province").append(option);
-    //         }
-    //     },
-    //     error:function (response) {
-    //         console.log("出现错误");
-    //     }
-    // })
-    // /**
-    //  * 请求籍贯省份城市二级联动
-    //  */
-    // $(".Province").change(function() {
-    //     var provinceValue = $(this).val();
-    //     $(".City option:gt(0)").remove();
-    //     $.ajax({
-    //         url: 'getProCity',
-    //         dataType: 'json',
-    //         data: {
-    //             proId: provinceValue
-    //         },
-    //         success: function (response) {
-    //             //往 city select 中 append
-    //             var cityList = response.cityList;
-    //             for (var i = 0; i < cityList.length; i++) {
-    //                 var city = cityList[i];
-    //                 //创建 option
-    //                 var $opt = $("<option value='" + city.cityId + "'>" + city.cityName + "</option>");
-    //                 $(".City").append($opt);
-    //             }
-    //         }
-    //     })
-    // })
-    // /**
-    //  * 请求籍贯城市区县二级联动
-    //  */
-    // $(".City").change(function() {
-    //     var cityValue = $(this).val();
-    //     $(".County option:gt(0)").remove();
-    //     $.ajax({
-    //         url: 'getCityCounty',
-    //         dataType: 'json',
-    //         data: {
-    //             cityid: cityValue
-    //         },
-    //         success: function (response) {
-    //             //往 city select 中 append
-    //             var countList = response.CountList;
-    //             for (var i = 0; i < countList.length; i++) {
-    //                 var county = countList[i];
-    //                 //创建 option
-    //                 var $opt = $("<option value='" + county.counId + "'>" + county.counName + "</option>");
-    //                 $(".County").append($opt);
-    //             }
-    //         }
-    //     })
-    // })
     /**
      * 请求服务范围省份城市二级联动
      */

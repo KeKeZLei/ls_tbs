@@ -145,7 +145,7 @@
   </select>
   <!--根据服务人员的姓名查询个人信息-->
   <select id="getSelectAllSteName" resultMap="BaseResultMap" parameterType="string">
-      select * from steward where ste_name =  #{steName}
+      select * from steward where ste_name =  #{steName} and ste_tel = #{ste_tel}
   </select>
   <!--根据用户名和手机号码进行登录-->
   <select id="getStenameStetel" resultMap="BaseResultMap" parameterType="com.lionsource.tbs.comm.model.Steward">
@@ -186,7 +186,19 @@
       #{steWorktype,jdbcType=LONGVARCHAR}, #{steSkill,jdbcType=VARCHAR}, #{steTag,jdbcType=VARCHAR},
       #{steDescribe,jdbcType=LONGVARCHAR})
   </insert>
-
+  <!--根据姓名和手机号修改管家信息-->
+  <update id="updateByNameTel" parameterType="com.lionsource.tbs.comm.model.Steward" >
+    update steward
+    set
+      ste_workform = #{steWorkform,jdbcType=VARCHAR},
+      ste_workstate = #{steWorkstate,jdbcType=VARCHAR},
+      ste_describe = #{steDescribe,jdbcType=LONGVARCHAR},
+      ste_tag = #{steTag,jdbcType=VARCHAR},
+      ste_expsalary = #{steExpsalary,jdbcType=INTEGER},
+      ste_province = #{steProvince,jdbcType=INTEGER},
+      ste_city = #{steCity,jdbcType=INTEGER}
+    where ste_name = #{steName,jdbcType=VARCHAR} and  ste_tel = #{steTel,jdbcType=VARCHAR}
+  </update>
   <select id="selectAllfbxp" resultMap="BaseResultMap" >
    select *  from steward where ste_worktype
 -- 管家类型

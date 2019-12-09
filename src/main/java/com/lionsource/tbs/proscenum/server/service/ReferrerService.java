@@ -84,4 +84,10 @@ public interface ReferrerService {
      * yc
      */
     int getStewardCountsm(Integer ref_id);
+    /**
+     * 根据推荐人的编号查询推荐人姓名
+     * @param ref_id
+     * @return
+     */
+    public String getRef_Id(int ref_id);
 }

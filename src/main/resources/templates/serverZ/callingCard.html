@@ -11,7 +11,7 @@
     <script th:src="@{/static/js/jquery-1.12.4.js}"></script>
     <link rel="stylesheet" th:href="@{/static/css/sweetalert.css}">
     <link rel="stylesheet" th:href="@{/static/css/j-forms.css}">
-    <script src="static/js/jquery.js"></script>
+    <script th:src="@{/static/js/jquery.js}"></script>
     <link rel="stylesheet" th:href="@{/static/css/updatePers.css}" >
     <link rel="stylesheet" th:href="@{/static/css/updatePersonage.css}" />
     <link th:href="@{static/css/sweetalert.css}" rel="stylesheet" />
@@ -22,6 +22,26 @@
     <script th:src="@{/static/js/jquery-1.8.3.min.js}"></script>
     <link th:href="@{/static/css/font-awesome.min.css}" rel="stylesheet" type="text/css">
     <script type="text/javascript" th:src="@{/static/js/updatePersonage.js}"></script>
+    <style>
+        .fileInputContainer{
+            height:100px;
+            background:url(static/images/add.png) no-repeat;
+            background-size:100px 80px;
+            position:relative;
+            width: 120px;
+        }
+        .fileInput{
+            height:100px;
+            overflow: hidden;
+            position:absolute;
+            right:0;
+            top:0;
+            opacity: 0;
+            filter:alpha(opacity=0);
+            cursor:pointer;
+        }
+
+    </style>
 </head>
 <body>
 <div class="p-header">
@@ -100,7 +120,7 @@
             <div class="listbox">
                 <div class="centers_listm_one_in"><i class="fa fa-photo"></i><span>我的服务</span><b></b></div>
                 <div class="gjszmdm">
-                    <a href="getSelectAllz" class="center_in_self"><span><img th:src="@{/static/images/sfz.png}" style="width: 20px;height: 20px;">我的名片</span></a>
+                    <a href="updatePersonage" class="center_in_self"><span><img th:src="@{/static/images/sfz.png}" style="width: 20px;height: 20px;">修改我的名片</span></a>
                     <a href="" class="center_in_self"><span><img th:src="@{/static/images/sfz.png}" style="width: 20px;height: 20px;">申请实名</span></a>
                     <a href="" class="center_in_self"><span><img th:src="@{/static/images/szzs.png}" style="width: 20px;height: 20px;">上传证书</span></a>
                     <a href="" class="center_in_self"><span><img th:src="@{/static/images/xq.png}" style="width: 20px;height: 20px;">用工需求</span></a>
@@ -110,34 +130,50 @@
             </div>
         </div>
     </div>
+    <input type="hidden" th:value="${show}" class="show1">
     <!--right-->
     <div class="centers_mr" style="background-color: #F1F1F1;">
-        <div class="centers_r_items">
+        <div class="centers_r_items" th:each="allSte:${allSteName}">
             <div class="items-tit">
-                <a class="tit-name active">个人主页</a>
+                <a class="tit-name active">我的名片</a>
                 <div class="wrap" style="background-color: #F1F1F1;">
                     <div class="tdbModule register" style="background-color: #F1F1F1;">
                         <div style="margin:auto;width:700px;background-color: white;border-radius: 25px;">
                             <div align="center">
-                                <table style="text-align: center;">
+                                <table style="text-align: center;line-height: 30px;">
                                     <tr>
-                                        <td><h2><span th:text="${steward.steName}"></span></h2></td>
-                                        <td colspan="2">
-                                            <span class="btn btn-info"><span th:text="${steward.steRealnamestate}"/></span></span>
-                                            <span th:if="${steward.steCerstate eq '无'}" class="btn btn-info">无证书</span>
-                                            <span th:if="${steward.steCerstate eq '有'}" class="btn btn-warning">有证书</span>
-                                            <span th:if="${steward.steContracttype} eq '1'" class="btn btn-info">个人管家</span>
-                                            <span th:if="${steward.steContracttype} eq '2'" class="btn btn-warning">签约管家</span><br />
-                                            <span th:text="${steward.steAddress}"/>  | <span th:text="${steward.steAge}"/>岁 | 工作经验
-                                            <span th:text="${steward.steWorkyear}"/>年
+                                        <td rowspan="3" align="center">
+                                            <div class="fileInputContainer">
+                                                <input class="fileInput" type="file" name="" id="" />
+                                            </div>
                                         </td>
-                                        <td rowspan="7">
-                                            <img th:if="${#strings.isEmpty(steward.steChead)} " th:src="@{/static/images/zwtp.jpg}" width="150px;">
-                                            <!--<img th:if="${not #strings.isEmpty(steward.steChead)} " th:src="@{/static/images/lxw.jpg}" />-->
-                                            <br />
-                                            <span th:if="${steward.steState} eq '0'" class="btn btn-info">暂不找工作</span>
-                                            <span th:if="${steward.steState} eq '1'" class="btn btn-warning">正在找工作</span>
+                                        <td>
+                                            <b><span th:text="${allSte.steName}" style="font-size: 30px;"></span></b>
+                                             <span th:if="${allSte.steContracttype} eq '1'" class="btn btn-info">个人管家</span>
+                                                <span th:if="${allSte.steContracttype} eq '2'" class="btn btn-warning">签约管家</span>                                            <a>
+                                                <span th:if="${allSte.steRealnamestate eq '未实名'}" class="btn btn-info">去实名</span>
+                                                <span th:if="${allSte.steRealnamestate eq '已实名'}" class="btn btn-success">已实名</span>
+                                            </a>
+
                                         </td>
+                                    <tr>
+                                        <td>
+                                            <span th:text="${allSte.steAddress}"/>  | <span th:text="${allSte.steAge}"/>岁 | 工作经验
+                                            <span th:text="${allSte.steWorkyear}"/>年
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="btn btn-success">正在求职</span></td>
+                                        <td colspan="2" style="right: auto;"><a href="updatePersonage" style="font-size: 20px;">修改></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>服务7户|评价1条</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4" id="workType">
+                                            <span hidden class="steWorktype" th:text="${allSte.steWorktype}"/>
+                                        </td>
+                                    </tr>
                                     </tr>
                                     <tr>
                                         <td>服务态度：</td>
@@ -152,7 +188,47 @@
                                         <td>★ ★ ★ ★ ★  0分</td>
                                     </tr>
                                     <tr>
-                                        <td>服务户  |  评价1条</td>
+                                        <td colspan="4">
+                                            <hr />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b>工作形式</b><br />
+                                            住家、白班、钟点工
+                                        </td>
+                                        <td colspan="2">
+                                            <a href="updatePersonage" style="font-size: 20px;text-align: right;">修改></a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b>个人标签</b><br />
+                                            <span class="btn btn-success">擅长面食</span>
+                                            <span class="btn btn-success">擅长面食</span>
+                                            <span class="btn btn-success">擅长面食</span>
+                                        </td>
+                                        <td colspan="2">
+                                            <a href="" style="font-size: 20px;text-align: right;">修改></a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b>证书</b><br />
+                                            <img th:src="@{/static/images/add.png}" width="150px;" height="100px;"/><img th:src="@{/static/images/add.png}" width="150px;" height="100px;"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b>个人介绍</b><br />
+                                            我是一个勤劳善良，为人正直的好管家~
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b>常驻地址</b><br />
+                                            我是一个勤劳善良，为人正直的好管家~
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td colspan="2" rowspan="3" class="tagName" style="border-spacing: 20px;">
@@ -162,37 +238,6 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="registerTitle">我的雇主</span></div>
-                        <div th:if="${EmpId} eq '0'" style="margin:auto;width:700px;background-color: white;border-radius: 25px;">
-                            <h3 th:align="center">暂无雇主</h3>
-                        </div>
-                        <div th:if="${EmpId} eq '1'" style="margin:auto;width:700px;background-color: white;border-radius: 25px;">
-                            <div align="center">
-                                <table style="text-align: center;" align="center">
-                                    <tr>
-                                        <td rowspan="3" >
-                                            <img th:src="@{/static/images/zwtp.jpg}" style="width: 80px;height: 120px;"/>
-                                        </td>&nbsp;
-                                        <td>
-                                            <b>李先生</b>
-                                            <span class="btn btn-warning">VIP会员</span>
-                                            <span class="btn btn-warning">已实名</span>
-                                        </td>
-                                    </tr>&nbsp;
-                                    <tr>
-                                        <td>
-                                            地址：湖南省长沙市开福区五一大厦2栋2单元3305
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            开始服务日期：2019-09-30
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
             </div>

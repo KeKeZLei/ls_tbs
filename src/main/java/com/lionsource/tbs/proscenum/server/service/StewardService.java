@@ -45,11 +45,11 @@ public interface StewardService {
      */
     String getStetelSteName(Steward steward);
     /**
-     *根据服务人员姓名查询个人信息
+     *根据服务人员姓名和手机号码查询个人信息
      * @param steName
      * @return
      */
-    Steward getSelectAllSteName(String steName);
+    Steward getSelectAllSteName(String steName,String ste_tel);
 
     /**
      * 根据用户查询管家的编号
@@ -57,4 +57,11 @@ public interface StewardService {
      * @return
      */
     int getSelectOneSteId(String steName);
+
+    /**
+     * 根据姓名和手机号修改管家信息
+     * @param steward
+     * @return
+     */
+    int updateByNameTel(Steward steward);
 }
