@@ -66,20 +66,6 @@ public interface ReferrerMapper {
      */
     List<Referrer> getReferrers(String ref_tel);
 
-    /**
-     * 根据ref_id查询推荐管家人数
-     * @param ref_id
-     * @return
-     * yc
-     */
-    int getMemberCount(Integer ref_id);
-    /**
-     * 根据ref_id查询推荐实名管家人数
-     * @param ref_id
-     * @return
-     * yc
-     */
-    int getMemberCountsm(Integer ref_id);
 
     /**
      *根据ref_id查询推荐用户人数
@@ -87,12 +73,36 @@ public interface ReferrerMapper {
      * @return
      * yc
      */
-    int getStewardCount(Integer ref_id);
+    int getMemberCount(Integer ref_id);
+
     /**
      *根据ref_id查询推荐实名用户人数
      * @param ref_id
      * @return
      * yc
      */
+    int getMemberCountsm(Integer ref_id);
+
+    /**
+     * 根据ref_id查询推荐管家人数
+     * @param ref_id
+     * @return
+     * yc
+     */
+    int getStewardCount(Integer ref_id);
+    /**
+     * 根据ref_id查询推荐实名管家人数
+     * @param ref_id
+     * @return
+     * yc
+     */
     int getStewardCountsm(Integer ref_id);
+
+    /**
+     * 根据ref_id查询推荐用户信息
+     * @param ref_id
+     * @return
+     */
+    List<Referrer> getMemberList(Integer ref_id);
+
 }

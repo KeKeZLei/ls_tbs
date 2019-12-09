@@ -192,11 +192,11 @@
      select * from referrer where ref_tel=#{ref_tel}
   </select>
 
-   <!--查询管家人数 yc-->
+   <!--查询用户人数 yc-->
   <select id="getMemberCount" resultType="int" parameterType="int">
       select count(*) from referrer right join member on referrer.ref_id=member.ref_id where  referrer.ref_id=#{ref_id}
   </select>
-  <!--查询实名管家人数 yc-->
+  <!--查询实名用户人数 yc-->
   <select id="getMemberCountsm" resultType="int" parameterType="int">
       select count(*) from referrer right join member on referrer.ref_id=member.ref_id where  referrer.ref_id=#{ref_id} and mem_realnamestate='已实名'
   </select>
@@ -209,4 +209,10 @@
   <select id="getStewardCountsm" resultType="int" parameterType="int">
       select count(*) from referrer right join steward on referrer.ref_id=steward.ref_id where  referrer.ref_id=#{ref_id} and ste_realnamestate='已实名'
   </select>
+
+  <!--查询用户信息 yc-->
+  <select id="getMemberList" resultMap="BaseResultMap" parameterType="int">
+      select * from referrer right join member on referrer.ref_id=member.ref_id where referrer.ref_id=#{ref_id}
+  </select>
+
 </mapper>

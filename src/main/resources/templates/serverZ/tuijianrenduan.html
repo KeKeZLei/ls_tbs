@@ -98,7 +98,7 @@
                         <h4 class="text-muted text-right">推荐管家数</h4>
                     </div>
                     <div class="col-xs-5 ">
-                        <h5><span th:text="${membercount}"></span>人</h5>
+                        <h5><span th:text="${stewardcount}"></span>人</h5>
                     </div>
                     <div class="col-xs-1 col-xs-offset-2 os">
                         <h4 class="glyphicon glyphicon-menu-right text-muted"></h4>
@@ -112,7 +112,9 @@
                         <h4 class="text-muted text-right">推荐实名管家数</h4>
                     </div>
                     <div class="col-xs-5 ">
-                        <h5><span th:text="${membercounts}"></span>人</h5>
+                        <h5>
+                            <span th:text="${stewardcounts}"></span>人
+                        </h5>
                     </div>
                     <div class="col-xs-1 col-xs-offset-2 os">
                         <h4 class="glyphicon glyphicon-menu-right text-muted"></h4>
@@ -120,13 +122,13 @@
                 </div>
             </a>
             <p></p>
-            <a href="templates/serverZ/yonghu.html">
+            <a href="../yonghu">
                 <div class="row col-xs-10 col-xs-offset-1 os">
                     <div class="col-xs-3 col-xs-offset-1">
                         <h4 class="text-muted text-right">推荐用户数</h4>
                     </div>
                     <div class="col-xs-5 ">
-                        <h5><span th:text="${stewardcount}"></span>人</h5>
+                        <h5><span th:text="${session.membercount}"></span>人</h5>
                     </div>
                     <div class="col-xs-1 col-xs-offset-2 os">
                         <h4 class="glyphicon glyphicon-menu-right text-muted"></h4>
@@ -140,7 +142,7 @@
                         <h4 class="text-muted text-right">推荐实名用户数</h4>
                     </div>
                     <div class="col-xs-5 ">
-                        <h5><span th:text="${stewardcounts}"></span>人</h5>
+                        <h5><span th:text="${membercounts}"></span>人</h5>
                     </div>
                     <div class="col-xs-1 col-xs-offset-2 os">
                         <h4 class="glyphicon glyphicon-menu-right text-muted"></h4>

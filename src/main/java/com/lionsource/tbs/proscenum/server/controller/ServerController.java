@@ -312,20 +312,29 @@ public class ServerController {
                      id=ls.getRefId();
 //                    System.out.println(id);
                 }
-                //查询推荐管家数
+                //查询推荐用户数
                 int membercount=  referrerService.getMemberCount(id);
-                request.setAttribute("membercount",membercount);
+                session.setAttribute("membercount",membercount);
 //                System.out.println(count);
-                //查询推荐实名管家数
+                //查询推荐实名用户数
                 int membercounts= referrerService.getMemberCountsm(id);
                 request.setAttribute("membercounts",membercounts);
 //                System.out.println(counts);
-                //查询推荐用户数
+                //查询推荐管家数
                 int stewardcount=  referrerService.getStewardCount(id);
                 request.setAttribute("stewardcount",stewardcount);
-                //查询推荐实名用户数
+                //查询推荐实名管家数
                 int stewardcounts= referrerService.getStewardCountsm(id);
                 request.setAttribute("stewardcounts",stewardcounts);
+                //根据ref_id查询推荐用户信息
+                List<Member> MemberList=referrerService.getMemberList(id);
+                session.setAttribute("MemberList",MemberList);
+//                System.out.println("MemberList:"+MemberList);
+//                for (Object lis:MemberList
+//                     ) {
+//                    System.out.println("lis:"+lis);
+//                }
+
                 //登录用户查询
                 request.setAttribute("referrers",list);
                 return "serverZ/tuijianrenduan";

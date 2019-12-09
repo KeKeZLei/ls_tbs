@@ -1,7 +1,9 @@
 package com.lionsource.tbs.proscenum.server.service.impl;
 
 import com.lionsource.tbs.comm.dao.ReferrerMapper;
+import com.lionsource.tbs.comm.model.Member;
 import com.lionsource.tbs.comm.model.Referrer;
+import com.lionsource.tbs.comm.model.Steward;
 import com.lionsource.tbs.proscenum.server.service.ReferrerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -82,7 +84,7 @@ public class ReferrerServiceImpl implements ReferrerService {
             return referrerMapper.getReferrers(ref_tel);
     }
     /**
-     * 根据ref_id查询推荐管家人数
+     * 根据ref_id查询推荐用户人数
      * @param ref_id
      * @return
      * yc
@@ -92,7 +94,7 @@ public class ReferrerServiceImpl implements ReferrerService {
         return referrerMapper.getMemberCount(ref_id);
     }
     /**
-     * 根据ref_id查询推荐实名管家人数
+     * 根据ref_id查询推荐实名用户人数
      * yc
      */
     @Override
@@ -100,7 +102,7 @@ public class ReferrerServiceImpl implements ReferrerService {
         return referrerMapper.getMemberCountsm(ref_id);
     }
     /**
-     *根据ref_id查询推荐用户人数
+     *根据ref_id查询推荐管家人数
      * @param ref_id
      * @return
      * yc
@@ -110,14 +112,30 @@ public class ReferrerServiceImpl implements ReferrerService {
         return referrerMapper.getMemberCount(ref_id);
     }
     /**
-     *根据ref_id查询推荐实名用户人数
+     *根据ref_id查询推荐实名管家人数
      * @param ref_id
      * @return
      * yc
      */
     @Override
     public int getStewardCountsm(Integer ref_id) {
+
         return referrerMapper.getStewardCountsm(ref_id);
+    }
+    /**
+     * 根据ref_id查询推荐用户信息
+     * @param ref_id
+     * @return
+     */
+    @Override
+    public List<Member> getMemberList(Integer ref_id) {
+        List<Member> listMebe=null;
+        //联查结果
+        List<Referrer> list = referrerMapper.getMemberList(ref_id);
+        for(Referrer eferrt:list){
+            listMebe = eferrt.getMember();
+        }
+        return listMebe;
     }
 
 
