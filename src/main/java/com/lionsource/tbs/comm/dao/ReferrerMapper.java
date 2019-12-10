@@ -102,7 +102,31 @@ public interface ReferrerMapper {
      * 根据ref_id查询推荐用户信息
      * @param ref_id
      * @return
+     * yc
      */
     List<Referrer> getMemberList(Integer ref_id);
 
+    /**
+     * 根据ref_id查询推荐实名用户信息
+     * @param ref_id
+     * @return
+     * yc
+     */
+    List<Referrer> getMembersmList(Integer ref_id);
+
+    /**
+     * 根据ref_id查询推荐管家信息
+     * @param ref_id
+     * @return
+     * yc
+     */
+    List<Referrer> getStewardList(Integer ref_id);
+
+    /**
+     * 根据ref_id查询推荐实名管家信息
+     * @param ref_id
+     * @return
+     * yc'
+     */
+    List<Referrer> getStewardsmList(Integer ref_id);
 }

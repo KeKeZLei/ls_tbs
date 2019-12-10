@@ -1,6 +1,8 @@
 package com.lionsource.tbs.proscenum.server.service;
 
+import com.lionsource.tbs.comm.model.Member;
 import com.lionsource.tbs.comm.model.Referrer;
+import com.lionsource.tbs.comm.model.Steward;
 
 import java.util.List;
 
@@ -88,6 +90,38 @@ public interface ReferrerService {
      * 根据推荐人的编号查询推荐人姓名
      * @param ref_id
      * @return
+     * yc
      */
     public String getRef_Id(int ref_id);
+    /**
+     * 根据ref_id查询推荐用户信息
+     * @param ref_id
+     * @return
+     * yc
+     */
+    public List<Member> getMemberList(Integer ref_id);
+    /**
+     * 根据ref_id查询推荐实名用户信息
+     * @param ref_id
+     * @return
+     * yc
+     */
+    List<Member> getMembersmList(Integer ref_id);
+    /**
+     * 根据ref_id查询推荐管家信息
+     * @param ref_id
+     * @return
+     * yc
+     */
+    List<Steward> getStewardList(Integer ref_id);
+
+    /**
+     * 根据ref_id查询推荐实名管家信息
+     * @param ref_id
+     * @return
+     * yc'
+     */
+    List<Steward> getStewardsmList(Integer ref_id);
+
+
 }

@@ -45,23 +45,25 @@
         <!--<div class="registerTitle">管家列表</div>-->
         <div class="container-fluid " >
             <div class="row col-xs-12  logos">
-                <h3 class="glyphicon glyphicon-menu-left">推荐用户数<span th:text="${session.membercount}"></span>人</h3>
+                <a href="">
+                   <h3 class="glyphicon glyphicon-menu-left">推荐实名用户数<span th:text="${session.membercounts}"></span>人</h3>
+                </a>
             </div>
             <p></p>
-            <div class="row col-xs-10 col-xs-offset-1 bs" th:each="Memberlist:${session.MemberList}">
+            <div class="row col-xs-10 col-xs-offset-1 bs" th:each="MembersmList:${session.MembersmList}">
                 <br />
                 <div class="col-xs-3">
                     <div class="col-xs-12">
-                        <img th:src="@{${Memberlist.memHead}}" class="img-responsive" alt="家政">
+                        <img th:src="@{${MembersmList.memHead}}" class="img-responsive" alt="家政">
                         <br />
                     </div>
                 </div>
                 <div class="col-xs-9">
-                    <span class="gunajia" th:text="${Memberlist.memCall}"></span>
-                    <span class="jianshu" th:text="${Memberlist.memRealnamestate}"></span>
+                    <span class="gunajia" th:text="${MembersmList.memCall}"></span>
+                    <span class="jianshu" th:text="${MembersmList.memRealnamestate}"></span>
                     <br /><br />
                     <div class="jieshao">
-                        已达成雇佣:<span th:text="${Memberlist.memId}"></span>次
+                        已达成雇佣:<span th:text="${MembersmList.memId}"></span>次
                     </div>
                 </div>
             </div>

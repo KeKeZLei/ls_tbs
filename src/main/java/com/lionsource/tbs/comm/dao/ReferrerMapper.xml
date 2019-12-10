@@ -214,5 +214,16 @@
   <select id="getMemberList" resultMap="BaseResultMap" parameterType="int">
       select * from referrer right join member on referrer.ref_id=member.ref_id where referrer.ref_id=#{ref_id}
   </select>
-
+  <!--查询实名用户信息 yc-->
+  <select id="getMembersmList" resultMap="BaseResultMap" parameterType="int">
+      select * from referrer right join member on referrer.ref_id=member.ref_id where referrer.ref_id=#{ref_id} and mem_realnamestate='已实名'
+  </select>
+  <!--查询管家信息 yc-->
+  <select id="getStewardList" resultMap="BaseResultMap" parameterType="int">
+      select * from referrer right join steward on referrer.ref_id=steward.ref_id where  referrer.ref_id=#{ref_id}
+  </select>
+  <!--查询实名管家信息 yc-->
+  <select id="getStewardsmList" resultMap="BaseResultMap" parameterType="int">
+      select * from referrer right join steward on referrer.ref_id=steward.ref_id where  referrer.ref_id=#{ref_id} and ste_realnamestate='已实名'
+  </select>
 </mapper>

@@ -126,6 +126,7 @@ public class ReferrerServiceImpl implements ReferrerService {
      * 根据ref_id查询推荐用户信息
      * @param ref_id
      * @return
+     * yc
      */
     @Override
     public List<Member> getMemberList(Integer ref_id) {
@@ -136,6 +137,57 @@ public class ReferrerServiceImpl implements ReferrerService {
             listMebe = eferrt.getMember();
         }
         return listMebe;
+    }
+    /**
+     * 根据ref_id查询推荐实名用户信息
+     * @param ref_id
+     * @return
+     * yc
+     */
+    @Override
+    public List<Member> getMembersmList(Integer ref_id) {
+        List<Member> listMember=null;
+        //联查结果
+        List<Referrer> list = referrerMapper.getMembersmList(ref_id);
+        for (Referrer referrer:list
+             ) {
+            listMember = referrer.getMember();
+        }
+        return listMember;
+    }
+    /**
+     * 根据ref_id查询推荐管家信息
+     * @param ref_id
+     * @return
+     * yc
+     */
+    @Override
+    public List<Steward> getStewardList(Integer ref_id) {
+        List<Steward> listSteward=null;
+        //联查结果
+        List<Referrer> list = referrerMapper.getStewardList(ref_id);
+        for (Referrer referrer:list
+        ) {
+            listSteward=referrer.getSteward();
+        }
+        return listSteward;
+    }
+    /**
+     * 根据ref_id查询推荐实名管家信息
+     * @param ref_id
+     * @return
+     * yc'
+     */
+    @Override
+    public List<Steward> getStewardsmList(Integer ref_id) {
+        List<Steward> listSteward=null;
+        //联查结果
+        List<Referrer> list = referrerMapper.getStewardsmList(ref_id);
+        for (Referrer referrer:list
+        ) {
+            listSteward=referrer.getSteward();
+        }
+        return listSteward;
     }
 
 
