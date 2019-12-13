@@ -37,4 +37,9 @@
   <select id="selectByTagId" resultType="string" parameterType="int">
      select tag_name from tag where tag_id = #{tagid}
   </select>
+
+  <!--根据技能id查询技能名称 yc-->
+  <select id="selectTagName" resultType="string" parameterType="java.lang.Integer">
+     select tag_name from tag where tag_id = #{tagid}
+  </select>
 </mapper>

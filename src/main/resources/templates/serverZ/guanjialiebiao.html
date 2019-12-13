@@ -16,6 +16,7 @@
     <script th:src="@{static/js/jquery.js}"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="static/yuyueguanjia/css/yonghu.css" />
+    <script th:src="@{static/js/guanjialiebiaoId.js}"></script>
 </head>
 <body>
 <!-- 网站公共头部区域 -->
@@ -47,7 +48,7 @@
             <div class="row col-xs-13 logos">
                 <h3 class="glyphicon glyphicon-menu-left">推荐管家数<span th:text="${session.stewardcount}"></span>人</h3>
             </div>
-            <div class="row col-xs-12" th:each="StewardList:${session.StewardList}">
+            <div class="row col-xs-12" th:each="StewardList,iterStat:${session.StewardList}">
                 <br />
                 <br />
                 <div class="col-xs-3">
@@ -61,7 +62,9 @@
                 <div class="col-xs-9" >
                     <span class="gunajia" th:text="${StewardList.steName}+管家"></span>
                     <span class="jianshu" th:text="${StewardList.steCerstate}+证书"></span>
-                    <span class="jianshu" th:text="${StewardList.steContracttype}">个人管家</span>
+                    <span class="jianshu" th:if="${StewardList.steContracttype eq 1}">个人管家</span>
+                    <span class="jianshu" th:if="${StewardList.steContracttype  eq 2}">签约管家</span>
+
                     <br /><br />
                     <div class="jieshao">
                         <span th:text="${StewardList.steAddress}"></span>|<span th:text="${StewardList.steAge}+岁"></span>|从事月嫂<span th:text="${StewardList.steWorkyear}"></span>年|
@@ -69,12 +72,17 @@
                         <!--|服务<span>num</span>户-->
                         <br/>
                         服务态度:<span>num</span>
-                        专业技能:<span>num</span>
+                        专业技能:<span th:text="${iterStat.count}"></span>
                         职业素养:<span>num</span>
                     </div>
-                    <span class="btn btn-info">擅长面食</span>
-                    <span class="btn btn-warning">精通英语</span>
-                    <span class="btn btn-success">幼儿教育经验</span>
+                      <span  th:text="${StewardList.steTag}" class="steId"></span>
+
+                      <span class="cesla"  th:text="${iterStat.index}">
+
+                      </span>
+                    <!--<span class="btn btn-info">擅长面食</span>-->
+                    <!--<span class="btn btn-warning">精通英语</span>-->
+                    <!--<span class="btn btn-success">幼儿教育经验</span>-->
                 </div>
             </div>
             <!--<div class="row col-xs-12">-->

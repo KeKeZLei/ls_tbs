@@ -18,4 +18,11 @@ public interface TagMapper {
     Tag selectByTagName(String tagName);
     //根据标签编号查询名称
     String selectByTagId(int tagid);
+
+    /**
+     * 根据技能id查询技能名称 yc
+     * @param tag_id
+     * @return
+     */
+    String selectTagName(Integer tag_id);
 }
