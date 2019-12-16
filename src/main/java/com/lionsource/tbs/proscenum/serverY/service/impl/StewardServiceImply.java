@@ -18,4 +18,19 @@ public class StewardServiceImply implements StewardyServiceI {
     public List<Steward> selectAllfbxp(String ste_worktype,String ste_workform,String ste_contracttype,int ste_workyear,int ste_expsalary,String ste_native,String ste_tag) {
         return stewardMapper.selectAllfbxp(ste_worktype,ste_workform,ste_contracttype,ste_workyear,ste_expsalary,ste_native,ste_tag);
     }
+
+    @Override
+    public List<Steward> selectAlllx(Integer ste_contracttype, String ste_worktype) {
+        return stewardMapper.selectAlllx(ste_contracttype,ste_worktype);
+    }
+
+    @Override
+    public List<Steward> selectAlljy(Integer ste_workyear) {
+        return stewardMapper.selectAlljy(ste_workyear);
+    }
+
+    @Override
+    public List<Steward> selectAllgd(String ste_workform, String ste_age, String ste_native, String ste_tag) {
+        return stewardMapper.selectAllgd(ste_workform,ste_age,ste_native,ste_tag);
+    }
 }

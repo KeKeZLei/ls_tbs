@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,7 +29,7 @@ public class StewardController {
     @Autowired
     private MemberyServerI memberyServerI;
 
-    private String pdyzm="111111";
+    private String pdyzm;
 
     /**
      * 定制管家
@@ -108,9 +109,10 @@ public class StewardController {
                 List<Steward> list = serviceI.selectAllfbxp(ste_worktype,ste_workform,ste_contracttype,ste_workyears,ste_expsalarys,ste_native,ste_tag);
                 System.out.println(list);
                 HttpSession session = request.getSession();
-                session.setAttribute("fblist",list);
+                System.out.println("管家-----");
+                session.setAttribute("list",list);
                 out.print("定制成功！");
-                //model.addAttribute("list",list);
+
             }else{
                 out.print("定制失败！");
             }
@@ -147,9 +149,92 @@ public class StewardController {
         response.setContentType("text/html;charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
-        //sendsms sendsms=new sendsms();
-        //pdyzm=sendsms.duanxin(mem_tel);
+        sendsms sendsms=new sendsms();
+        pdyzm=sendsms.duanxin(mem_tel);
         out.print("验证码发送成功!");
     }
+
+    /**
+     * 类型
+     * 预约管家
+     */
+    @RequestMapping("/lx")
+    public void lx(HttpServletResponse response,HttpServletRequest request,String ste_contracttype,String ste_worktype) throws IOException {
+        //乱码处理
+        response.setContentType("text/html;charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
+
+        System.out.println("-----------------------------------进入类型");
+        //拼接职位类别：模糊查询
+        ste_worktype="%"+ste_worktype+"%";
+        System.out.println("管家签约形式(1=中介制,2=雇佣制)："+ste_contracttype);
+        System.out.println("职位类别："+ste_worktype);
+        Integer ste_contracttypes=Integer.parseInt(ste_contracttype);
+        List<Steward> list = serviceI.selectAlllx(ste_contracttypes, ste_worktype);
+        PrintWriter out = response.getWriter();
+        HttpSession session=request.getSession();
+        session.setAttribute("list",list);
+        for (Steward i:list
+             ) {
+            System.out.println(i);
+        }
+        out.print("选择成功！");
+
+        out.flush();
+        out.close();
+    }
+
+    /**
+     * 经验
+     * 预约管家
+     */
+    @RequestMapping("/jy")
+    public void lx(HttpServletResponse response,HttpServletRequest request,String ste_workyear) throws IOException {
+        System.out.println("-----------------------------------进入经验");
+        //乱码处理
+        response.setContentType("text/html;charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
+
+        System.out.println("工作年限:"+ste_workyear);
+        PrintWriter out = response.getWriter();
+        Integer ste_workyears=Integer.parseInt(ste_workyear);
+        if(ste_workyears==4){
+            ste_workyears=0;
+        }
+        List<Steward> stewards = serviceI.selectAlljy(ste_workyears);
+        HttpSession session=request.getSession();
+        session.setAttribute("list",stewards);
+        out.print("选择成功！");
+        out.flush();
+        out.close();
+    }
+
+    /**
+     * 更多
+     * 预约管家
+     */
+    @RequestMapping("/gd")
+    public void gd(HttpServletResponse response,HttpServletRequest request,String ste_workform,String ste_age,String ste_native,String ste_tag) throws IOException {
+        //乱码处理
+        response.setContentType("text/html;charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        System.out.println("-----------------------------------进入更多");
+        String ste_tags="%"+ste_tag+"%";
+        String ste_natives="%"+ste_native+"%";
+        System.out.println("工作形式:"+ste_workform);
+        System.out.println("年龄:"+ste_age);
+        System.out.println("籍贯:"+ste_natives);
+        System.out.println("个人标签："+ste_tags);
+        PrintWriter out = response.getWriter();
+        HttpSession session=request.getSession();
+        List<Steward> l = serviceI.selectAllgd  (ste_workform, ste_age, ste_natives, ste_tags);
+        session.setAttribute("list",l);
+        out.print("选择成功！");
+        out.flush();
+        out.close();
+    }
+
+
+
 }
 
