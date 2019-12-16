@@ -157,7 +157,7 @@
                                </div>
                                <div class="modal-footer">
                                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                                   <button type="button" class="btn btn-primary">确认</button>
+                                  <a href="#"> <button type="button" class="btn btn-primary" name="qd1">确认</button></a>
                                </div>
                            </div>
                        </div>
@@ -200,7 +200,7 @@
                                </div>
                                <div class="modal-footer">
                                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                                   <button type="button" class="btn btn-primary">确认</button>
+                                   <button type="button" class="btn btn-primary"name="qd2">确认</button>
                                </div>
                            </div>
                        </div>
@@ -245,20 +245,27 @@
                                            <h3><b>年龄要求</font></b></h3>
                                        </div>
                                        <div class="col-xs-4">
-                                           <h4><b><input name="age" type="radio" value="<35"/>&nbsp;&nbsp;35岁以下</b></h4>
+                                           <h4><b><input name="age" type="radio" value="35"/>&nbsp;&nbsp;35岁以下</b></h4>
                                        </div>
                                        <div class="col-xs-4">
-                                           <h4><b><input name="age" type="radio" value="36-40"/>&nbsp;&nbsp;36-40岁</b></h4>
+                                           <h4><b><input name="age" type="radio" value="40"/>&nbsp;&nbsp;36-40岁</b></h4>
                                        </div>
                                        <div class="col-xs-4">
-                                           <h4><b><input name="age" type="radio" value="41-45"/>&nbsp;&nbsp;41-45岁</b></h4>
+                                           <h4><b><input name="age" type="radio" value="45"/>&nbsp;&nbsp;41-45岁</b></h4>
                                        </div>
                                        <div class="col-xs-4">
-                                           <h4><b><input name="age" type="radio" value="46-50"/>&nbsp;&nbsp;46-50岁</b></h4>
+                                           <h4><b><input name="age" type="radio" value="50"/>&nbsp;&nbsp;46-50岁</b></h4>
                                        </div>
                                        <div class="col-xs-4">
-                                           <h4><b><input name="age" type="radio" value=">51"/>&nbsp;&nbsp;51岁以上</b></h4>
+                                           <h4><b><input name="age" type="radio" value="51"/>&nbsp;&nbsp;51岁以上</b></h4>
                                        </div>
+                                   </div>
+                                   <hr/>
+                                   <div class="col-xs-3">
+                                       籍贯要求
+                                   </div>
+                                   <div style="text-align: right;">
+                                       <input type="text" name="jiguan" placeholder="请输入籍贯" style="text-align: right;border: 0px;"/>
                                    </div>
                                    <hr/>
                                    <!--个人技能要求-->
@@ -275,7 +282,7 @@
                                </div>
                                <div class="modal-footer">
                                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                                   <button type="button" class="btn btn-primary">确认</button>
+                                   <button type="button" class="btn btn-primary" name="qd3">确认</button>
                                </div>
                            </div>
                        </div>
@@ -285,105 +292,128 @@
            </div>
        </div>
         <!--显示可用管家-->
-        <hr />
-        <div class="content">
-            <div class="row">
-                <div class="col-lg-2">
-                </div>
-                <div class="col-lg-2" style="text-align: right;">
-                    <div class="con_img" style="width: 170px;">
-                        <img class="image" th:src="@{/static/img/yitao/SharedScreenshot.jpg}"  id="scenic_img">
-                        <span class="ms"></span>
-                        <div class="toumingzi" style="text-align: center">
-                            <h2 id="scenic_title" ><font color="#FFFFFF">家政</font></h2>
-                        </div>
+        <div th:each="steward:${session.list}">
+            <hr />
+            <div class="content">
+                <div class="row">
+                    <div class="col-lg-2">
                     </div>
-                </div>
-                <br/>
-                <div class="col-lg-6">
-                    <div class="row">
-                        <div class="col-lg-2" style="text-align: center">
-                            <h4><b>王二麻管家</b></h4>
-                        </div>
-                        <div class="col-lg-9">
-                            <!--是否实名，是否有证书，是签约管家还是个人管家-->
-                            <div class="col-lg-3" >
-                                <div style="float: left;background-color: #EEEEEE; border-radius:15px;">
-                                    <h5>&nbsp;&nbsp;&nbsp;&nbsp;已实名&nbsp;&nbsp;&nbsp;&nbsp;</h5>
-                                </div>
-                            </div>
-                            <div class="col-lg-3" >
-                                <div style="float: left;background-color: #EEEEEE; border-radius:15px;">
-                                    <h5>&nbsp;&nbsp;&nbsp;&nbsp;有证书&nbsp;&nbsp;&nbsp;&nbsp;</h5>
-                                </div>
-                            </div>
-                            <div class="col-lg-3" >
-                                <div style="float: left;background-color: #EEEEEE; border-radius:15px;">
-                                    <h5>&nbsp;&nbsp;&nbsp;&nbsp;个人管家&nbsp;&nbsp;&nbsp;&nbsp;</h5>
-                                </div>
+                    <div class="col-lg-2" style="text-align: right;">
+                        <div class="con_img" style="width: 170px;">
+                            <img class="image" th:src="${steward.getSteChead()}"  id="scenic_img">
+                            <span class="ms"></span>
+                            <div class="toumingzi" style="text-align: center">
+                                <h2 id="scenic_title" ><font color="#FFFFFF">家政</font></h2>
                             </div>
                         </div>
                     </div>
-                    <hr/>
-                    <div class="row" style="text-align: center">
-                        <!--籍贯-->
-                        <div class="col-lg-2">
-                            <font color="#A3A3A3"><h4>湖南长沙</h4></font>
+                    <br/>
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <div class="col-lg-2" style="text-align: center">
+                                <h4><b><span th:text="${steward.steName}"></span>管家</b></h4>
+                            </div>-
+                            <div class="col-lg-9">
+                                <!--是否实名，是否有证书，是签约管家还是个人管家-->
+                               <!--是否已实名-->
+                                <div th:if="${steward.steRealnamestate} eq '已实名'">
+                                    <div class="col-lg-3" >
+                                        <div style="float: left;background-color: #EEEEEE; border-radius:15px;">
+                                            <h5>&nbsp;&nbsp;&nbsp;&nbsp;已实名&nbsp;&nbsp;&nbsp;&nbsp;</h5>
+                                        </div>
+                                    </div>
+                                </div> <div th:if="${steward.steRealnamestate} eq '待审核'">
+                                <div class="col-lg-3" >
+                                    <div style="float: left;background-color: #EEEEEE; border-radius:15px;">
+                                        <h5>&nbsp;&nbsp;&nbsp;&nbsp;待审核&nbsp;&nbsp;&nbsp;&nbsp;</h5>
+                                    </div>
+                                </div>
+                            </div>
+                                <div th:if="${steward.steRealnamestate} eq '未实名'">
+                                    <div class="col-lg-3" >
+                                        <div style="float: left;background-color: #EEEEEE; border-radius:15px;">
+                                            <h5>&nbsp;&nbsp;&nbsp;&nbsp;未实名&nbsp;&nbsp;&nbsp;&nbsp;</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--有无证书-->
+                                <div th:if="${steward.steCerstate} eq '有'">
+                                    <div class="col-lg-3" >
+                                        <div style="float: left;background-color: #EEEEEE; border-radius:15px;">
+                                            <h5>&nbsp;&nbsp;&nbsp;&nbsp;有证书&nbsp;&nbsp;&nbsp;&nbsp;</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div th:if="${steward.steCerstate} eq '无'">
+                                    <div class="col-lg-3" >
+                                        <div style="float: left;background-color: #EEEEEE; border-radius:15px;">
+                                            <h5>&nbsp;&nbsp;&nbsp;&nbsp;无证书&nbsp;&nbsp;&nbsp;&nbsp;</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--森马管家-->
+                                <div th:if="${steward.steContracttype} eq '2'">
+                                    <div class="col-lg-3" >
+                                        <div style="float: left;background-color: #EEEEEE; border-radius:15px;">
+                                            <h5>&nbsp;&nbsp;&nbsp;&nbsp;签约管家&nbsp;&nbsp;&nbsp;&nbsp;</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div th:if="${steward.steContracttype} eq '1'">
+                                    <div class="col-lg-3" >
+                                        <div style="float: left;background-color: #EEEEEE; border-radius:15px;">
+                                            <h5>&nbsp;&nbsp;&nbsp;&nbsp;个人管家&nbsp;&nbsp;&nbsp;&nbsp;</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <!--年龄-->
-                        <div class="col-lg-2">
-                            <font color="#A3A3A3"><h4>40岁</h4></font>
+                        <hr/>
+                        <div class="row" style="text-align: center">
+                            <!--籍贯-->
+                            <div class="col-lg-2">
+                                <font color="#A3A3A3"><h4><span th:text="${steward.steAddress}"></span></h4></font>
+                            </div>
+                            <!--年龄-->
+                            <div class="col-lg-2">
+                                <font color="#A3A3A3"><h4><span th:text="${steward.steAge}"></span>岁</h4></font>
+                            </div>
+                            <!--工作年限-->
+                            <div class="col-lg-2">
+                                <font color="#A3A3A3"><h4>从事月嫂<span th:text="${steward.steWorkyear}"></span>年</h4></font>
+                            </div>
+                            <!--服务总数-->
+                            <div class="col-lg-2">
+                                <font color="#A3A3A3"><h4>服务7户</h4></font>
+                            </div>
+                            <!--评价-->
+                            <div class="col-lg-2">
+                                <font color="#A3A3A3"><h4>评价0条</h4></font>
+                            </div>
                         </div>
-                        <!--工作年限-->
-                        <div class="col-lg-2">
-                            <font color="#A3A3A3"><h4>从事月嫂2年</h4></font>
-                        </div>
-                        <!--服务总数-->
-                        <div class="col-lg-2">
-                            <font color="#A3A3A3"><h4>服务7户</h4></font>
-                        </div>
-                        <!--评价-->
-                        <div class="col-lg-2">
-                            <font color="#A3A3A3"><h4>评价0条</h4></font>
+                        <hr/>
+                        <!--职员技能-->
+                        <div class="row" name="rows">
+                            <input type="text" th:name="${steward.steId}" th:value="${steward.steTag}">
+                            <div th:name="${steward.steId}"></div>
                         </div>
                     </div>
-                    <hr/>
-                    <!--职员技能-->
+                    <div class="col-lg-3">
+                    </div>
                     <div class="row" >
-                        <div class="col-lg-3" >
-                            <div style="float: left;background-color: #64B4F5; border-radius:15px; color: #FFFFFF">
-                                <h4>&nbsp;&nbsp;&nbsp;&nbsp;擅长面食&nbsp;&nbsp;&nbsp;&nbsp;</h4>
-                            </div>
+                        <div class="col-lg-4" >
+                            <br/>
+                            <font color="#A3A3A3"><h4>籍贯:<span th:text="${steward.steNative}" ></span></h4></font>
                         </div>
-                        <div class="col-lg-3" >
-                            <div style="float: left;background-color: #F8B551; border-radius:15px; color: #FFFFFF">
-                                <h4>&nbsp;&nbsp;&nbsp;&nbsp;精通英语&nbsp;&nbsp;&nbsp;&nbsp;</h4>
-                            </div>
-                        </div>
-                        <div class="col-lg-3" >
-                            <div style="float: left;background-color: #80C269; border-radius:15px; color: #FFFFFF">
-                                <h4>&nbsp;&nbsp;&nbsp;&nbsp;幼儿教育经验&nbsp;&nbsp;&nbsp;&nbsp;</h4>
-                            </div>
+                        <div class="col-lg-4">
+                            <br/>
+                            <a href="#"><font color="#A3A3A3"><h4><span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;&nbsp;预约面试</h4></font></a>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3">
-                </div>
-                <div class="row" >
-                    <div class="col-lg-4" >
-                        <br/>
-                        <font color="#A3A3A3"><h4>籍贯:安徽省连云乡市</h4></font>
-                    </div>
-                    <div class="col-lg-4">
-                        <br/>
-                        <a href="#"><font color="#A3A3A3"><h4><span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;&nbsp;预约面试</h4></font></a>
-                    </div>
-                </div>
+
             </div>
-
         </div>
-
-
     <!--尾部-->
     </div>
     <div class="p-footer">
@@ -496,5 +526,107 @@
             </div>
         </div>
     </div>
+    <script>
+        $(function () {
+            //职业技能
+            var b  = new Array("活泼开朗","热爱生活","精通英语","育儿教育","擅长面食","擅长湘菜","生活经验","老司机");
+            for(var i=0;i<100;i++){
+                if($("input[name="+i+"]").length>0){
+                    var str=$("input[name="+i+"]").val();
+                    $("input[name="+i+"]").hide();
+                     for (var j=1;j<b.length+1;j++){
+                         var sear=new RegExp(j);
+                         if(sear.test(str)) {
+                             ($("div[name="+i+"]")).append(" <div class=\"col-lg-2\">\n" +
+                                 "                                <div style=\"float: left;background-color: #64B4F5; border-radius:15px; color: #FFFFFF\">\n" +
+                                 "                                    <h4>&nbsp;&nbsp;"+b[j-1]+"&nbsp;&nbsp;</h4>\n" +
+                                 "                                </div>\n" +
+                                 "                            </div>")
+                         }
+                     }
+                }
+            }
+
+
+
+
+            // 类型
+            $("[name=qd1]").click(function () {
+                var arr = new Array();
+                $("[name=Stewardtype]:checked").each(function(i){
+                    arr[i] = $(this).val();
+                });
+                var vals = arr.join("%");
+                if($("[name=zhi]:checked").length <=0 || arr.length <=0){
+                  alert("请将数据填写完整！")
+                }else {
+                    $.ajax({
+                        type:"post",
+                        url:"lx",
+                        data:{
+                            ste_contracttype:$("[name=zhi]:checked").val(),//签约形式
+                            ste_worktype:vals,//管家类型
+                        },
+                        dataType:"text",
+                        success:function(e) {
+                            alert(e);
+                            window.location.href="tests";
+                        }
+                    })
+                }
+
+            })
+            // 经验
+            $("[name=qd2]").click(function () {
+               if($("[name=gzjy]:checked").length<=0){
+                   alert("请将数据填写完整！")
+               }else {
+                   $.ajax({
+                       type:"post",
+                       url:"jy",
+                       data:{
+                           ste_workyear:$("[name=gzjy]:checked").val(),//管家年限
+                       },
+                       dataType:"text",
+                       success:function(e) {
+                           alert(e);
+                           window.location.href="tests";
+                       }
+                   })
+               }
+
+            })
+            // 更多
+            $("[name=qd3]").click(function () {
+                var arrs = new Array();
+                $("[name=tag]:checked").each(function(i){
+                    arrs[i] = $(this).val();
+                });
+                var  stetag= arrs.join("%");
+                // 非空验证
+                if($("[name=hom]:checked").length<=0 ||$("[name=age]:checked")<=0 ||$("[name=jiguan]").val()==""){
+                    alert("请将数据填写完整！")
+                }else{
+                    $.ajax({
+                        type:"post",
+                        url:"gd",
+                        data:{
+                            ste_workform:$("[name=hom]:checked").val(),//工作形式
+                            ste_age:$("[name=age]:checked").val(),//年龄要求
+                            ste_native:$("[name=jiguan]").val(),//籍贯
+                            ste_tag:stetag//个人技能要求
+                        },
+                        dataType:"text",
+                        success:function(e) {
+                            alert(e)
+                            window.location.href="tests";
+                        }
+                    })
+                 }
+
+            })
+        })
+    </script>
+</header>
 </body>
 </html>

@@ -199,6 +199,7 @@
       ste_city = #{steCity,jdbcType=INTEGER}
     where ste_name = #{steName,jdbcType=VARCHAR} and  ste_tel = #{steTel,jdbcType=VARCHAR}
   </update>
+
   <select id="selectAllfbxp" resultMap="BaseResultMap" >
    select *  from steward where ste_worktype
 -- 管家类型
@@ -217,7 +218,7 @@
       and ste_workyear=#{ste_workyear}
     </if>
     <if test="ste_workyear == 0">
-      and ste_workyear >= #{ste_expsalary}
+      and ste_workyear >=4
     </if>
 --  期望薪资
       and ste_expsalary &lt;= #{ste_expsalary}
@@ -230,5 +231,53 @@
       <!--and ste_tag like #{ste_tag}-->
     <!--</if>-->
   </select>
+
+  <!--类型-->
+  <select id="selectAlllx" resultMap="BaseResultMap">
+     select *  from steward where
+    -- 签约形式
+    ste_contracttype=#{ste_contracttype}
+    -- 职业类别
+      and ste_worktype like #{ste_worktype}
+  </select>
+  <!--经验-->
+  <select id="selectAlljy" resultMap="BaseResultMap">
+  select *  from steward where
+  -- 工作经验
+    <if test="ste_workyear != 0">
+       ste_workyear=#{ste_workyear}
+    </if>
+    <if test="ste_workyear == 0">
+       ste_workyear >= 4
+    </if>
+  </select>
+  <!--更多-->
+  <select id="selectAllgd" resultMap="BaseResultMap">
+   select *  from steward where
+    -- 工作形式
+     ste_workform=#{ste_workform}
+    -- 年龄要求
+    <if test="ste_age==35">
+      and ste_age &lt; 35
+    </if>
+    <if test="ste_age==40">
+      and ste_age between 36 and 40
+    </if>
+    <if test="ste_age==45">
+      and ste_age between 41 and 45
+    </if>
+    <if test="ste_age==50">
+      and ste_age between 46 and 50
+    </if>
+    <if test="ste_age==51">
+      and ste_age > 51
+    </if>
+    -- 籍贯要求
+    and ste_native like #{ste_native}
+--     -- 个人技能要求
+    and ste_tag like #{ste_tag}
+  </select>
+
+
 
 </mapper>

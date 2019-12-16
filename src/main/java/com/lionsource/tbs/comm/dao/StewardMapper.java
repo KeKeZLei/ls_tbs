@@ -93,4 +93,25 @@ public interface StewardMapper {
      */
     int updateByNameTel(Steward steward);
 
+    /**
+     * 根据类型查询
+     * @param ste_contracttype 签约形式
+     * @param ste_worktype  职业类别
+     * @return
+     */
+    List<Steward> selectAlllx(@Param("ste_contracttype") Integer ste_contracttype,@Param("ste_worktype") String ste_worktype);
+
+    /**
+     * 根据经验查询
+     * @param ste_workyear 工作经验
+     * @return
+     */
+    List<Steward> selectAlljy(@Param("ste_workyear") Integer ste_workyear);
+
+    /**
+     * 根据更多查询
+     * @return
+     */
+    List<Steward> selectAllgd(@Param("ste_workform") String ste_workform,@Param("ste_age") String ste_age,@Param("ste_native") String ste_native,@Param("ste_tag") String ste_tag);
+
 }
