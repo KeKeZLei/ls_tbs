@@ -1,0 +1,275 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>新增地址</title>
+    <link th:href="@{/static/css/common.css}" rel="stylesheet" />
+    <link th:href="@{/static/css/register.css}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/style.css}">
+    <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <link rel="stylesheet" th:href="@{static/yuyueguanjia/css/yuyueguanjia.css}"/>
+    <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css}" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="shortcut icon" th:href="@{http://www.jishiguanjia.com/favicon.ico}">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" th:src="@{/static/js/app.js}"></script>
+    <!--必要样式-->
+    <link th:href="@{static/css/city-picker.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{static/css/bootstrap.css}" rel="stylesheet" type="text/css" />
+    <script th:src="@{static/js/jquery.js}"></script>
+    <script th:src="@{static/js/bootstrap.js}"></script>
+    <script th:src="@{static/js/city-picker.data.js}"></script>
+    <script th:src="@{static/js/city-picker.js}"></script>
+    <script th:src="@{static/js/main.js}"></script>
+</head>
+<body>
+<header>
+    <div class="p-header">
+        <div class="topCon">
+            <div class="menuBox">
+                <div class="wrap">
+                    <ul>
+                        <li class="on">
+                            <a href="../homePage">网站首页</a>
+                        </li>
+                        <li><a href="http://www.jishiguanjia.com/list.php?typeid=700#maodian">家庭服务</a></li>
+                        <li><a href="http://www.jishiguanjia.com/list.php?typeid=737#maodian">商业保洁</a></li>
+                        <li><a href="http://www.jishiguanjia.com/list.php?typeid=698#maodian">管家风采</a></li>
+                        <li><a href="http://www.jishiguanjia.com/list.php?typeid=699#maodian">及时百科</a></li>
+                        <li><a href="http://www.jishiguanjia.com/list.php?typeid=702#maodian">服务项目</a></li>
+                        <li><a href="http://www.jishiguanjia.com/list.php?typeid=697#maodian">关于我们</a></li>
+                        <li><a href="register">预约管家</a></li>
+                        <li><a href="server/login">我的</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container" style="width: 100%">
+        <div class="row">
+            <div class="col-lg-offset-2">
+                <br/> <br/>
+                <h3><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;&nbsp;<a href="#">新增地址</a></h3>
+                <br/> <br/>
+            </div>
+           <div class="row">
+               <div class="col-lg-2"></div>
+               <div class="col-lg-2" style="text-align: right">
+                   <h3>联系人：</h3>
+               </div>
+               <div class="col-lg-2">
+                  <h3>
+                      <div style="text-align: right;">
+                          <input type="text" name="name" placeholder="请编辑姓名" style="text-align: right;border: 0px;"/>
+                      </div>
+                  </h3>
+               </div>
+           </div>
+            <div class="row"><br/></div>
+            <div class="row">
+                <div class="col-lg-2"></div>
+                <div class="col-lg-2" style="text-align: right">
+                    <h3>电话：</h3>
+                </div>
+                <div class="col-lg-2">
+                    <h3>
+                        <div style="text-align: right;">
+                            <input type="text" name="dh" placeholder="请输入联系方式" style="text-align: right;border: 0px;"/>
+                        </div>
+                    </h3>
+                </div>
+            </div>
+            <div class="row"><br/></div>
+            <div class="row">
+                <div class="col-lg-2">
+                </div>
+                <div class="col-lg-2" style="text-align: right">
+                    <h3>所在地区：</h3>
+                </div>
+                <div class="col-lg-1"></div>
+                <div class="col-lg-3" >
+                    <div class="docs-methods">
+                        <form class="form-inline">
+                            <div id="distpicker">
+                                <div class="form-group">
+                                    <div style="position: relative;">
+                                        <input id="city-picker3" class="form-control" readonly type="text" value="湖南省/长沙市/岳麓区" data-toggle="city-picker">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-warning" id="reset" type="button">重置</button>
+                                    <button class="btn btn-danger" id="destroy" type="button">确定</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="row"><br/></div>
+            <div class="row">
+                <div class="col-lg-2"></div>
+                <div class="col-lg-2" style="text-align: right;">
+                    <h3>详细地址：</h3>
+                </div>
+                <div class="col-lg-2">
+                    <h3>
+                        <div style="text-align: right;">
+                            <input type="text" name="dz" placeholder="请填写正确的联系地址" style="text-align: right;border: 0px;"/>
+                        </div>
+                    </h3>
+                </div>
+            </div>
+            <div class="row"><br/><br/><br/><br/><br/><br/><br/><br/><br/></div>
+        </div>
+        <div class="row" style="text-align: center">
+            <br/>
+           <a href="#"> <button type="button" name="btn" class="btn btn-primary btn-lg" style="width: 500px">添加</button></a>
+            <br/> <br/>
+        </div>
+    </div>
+    <div class="p-footer">
+        <div class="content1">
+            <div class="wrap">
+                <div class="fItem1">
+                    <a href="http://www.jishiguanjia.com/index.php" class="logo">
+                        <img th:src="@{/static/images/p-header-logo.png}" alt="">
+                    </a>
+                    <div class="ewm">
+                        <img th:src="@{/static/images/ewm.jpg}" alt="">
+                        <span>微信公众号</span>
+                    </div>
+                    <div class="des" style="margin-top: 15px;">
+                        <p style="font-size: 14px;color: #333;line-height: 24px;">及时管家是属于<br>湖南品质生活服务有限公司旗下商标</p>
+                    </div>
+                </div>
+                <div class="fItem2">
+                    <h3>联系我们</h3>
+                    <div>
+                        <p>公司地址：湖南省长沙市岳麓区麓谷科技产业园A3栋七楼</p>
+                        <p>客服电话：400-6186-889</p>
+                        <p>官方微信公众号：jishiguanjia</p>
+                    </div>
+                    <div>
+                        <span>业务合作</span>
+                        <p>联系人：汤先生</p>
+                        <p>电话：15675831721</p>
+                    </div>
+                    <div>
+                        <span>新媒体及宣传合作</span>
+                        <p>联系人：钟先生</p>
+                        <p>电话：15084888427</p>
+                    </div>
+                    <div>
+                        <span>家政服务合作</span>
+                        <p>联系人：成女士</p>
+                        <p>电话：0731-89712116</p>
+                    </div>
+                    <div>
+                        <span>产品及渠道合作</span>
+                        <p>联系人：钟先生</p>
+                        <p>电话：15084888427</p>
+                    </div>
+                </div>
+                <div class="fItem3">
+                    <dl>
+                        <dt>关于我们</dt>
+                        <dd>
+                            <a href="http://www.jishiguanjia.com/list.php?typeid=705#maodian">公司简介</a>
+                        </dd>
+                        <dd>
+                            <a href="http://www.jishiguanjia.com/list.php?typeid=740#maodian">企业愿景</a>
+                        </dd>
+                        <dd>
+                            <a href="http://www.jishiguanjia.com/list.php?typeid=704#maodian">发展历程</a>
+                        </dd>
+                        <dd>
+                            <a href="http://www.jishiguanjia.com/list.php?typeid=706#maodian">企业文化</a>
+                        </dd>
+
+                    </dl>
+                    <dl>
+                        <dt>家庭服务</dt>
+                        <dd>
+                            <a href="http://www.jishiguanjia.com/list.php?typeid=718#maodian">清洁管家服务</a>
+                        </dd>
+                        <dd>
+                            <a href="http://www.jishiguanjia.com/list.php?typeid=719#maodian">日常清洁护理</a>
+                        </dd>
+                        <dd>
+                            <a href="http://www.jishiguanjia.com/list.php?typeid=720#maodian">清洗服务</a>
+                        </dd>
+                        <dd>
+                            <a href="http://www.jishiguanjia.com/list.php?typeid=721#maodian">生活管家</a>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>生活百科</dt>
+                        <dd>
+                        </dd><dd>
+                        <a href="http://www.jishiguanjia.com/list.php?typeid=708#maodian">保洁</a>
+                    </dd>
+                        <dd>
+                            <a href="http://www.jishiguanjia.com/list.php?typeid=709#maodian">保姆</a>
+                        </dd>
+                        <dd>
+                            <a href="http://www.jishiguanjia.com/list.php?typeid=711#maodian">家具护理</a>
+                        </dd>
+                        <dd>
+                            <a href="http://www.jishiguanjia.com/list.php?typeid=712#maodian">家政</a>
+                        </dd>
+                        <dd>
+                            <a href="http://www.jishiguanjia.com/list.php?typeid=714#maodian">生活贴士</a>
+                        </dd>
+                        <dd>
+                            <a href="http://www.jishiguanjia.com/list.php?typeid=715#maodian">新式家政</a>
+                        </dd>
+                        <dd>
+                            <a href="http://www.jishiguanjia.com/list.php?typeid=717#maodian">育儿百科</a>
+                        </dd>
+
+                    </dl>
+                </div>
+            </div>
+        </div>
+        <div class="content2">
+            <div class="wrap">
+                <p>@copyright  湖南品质生活服务有限公司　<a href="http://www.beian.miit.gov.cn/" target="_blank">湘ICP备17010467号-1</a></p>
+            </div>
+        </div>
+    </div>
+</header>
+<script>
+    $(function () {
+        $("[name=btn]").click(function () {
+            //非空验证
+            if($("[name=name]").val()=="" || $("[name=dh]").val()=="" || $("[name=dz]").val()==""){
+                alert("请将信息填写完整！")
+            }else {
+                $.ajax({
+                    type:"post",
+                    url:"addMs",
+                    data:{
+                        maContact:$("[name=name]").val(),
+                        maTel:$("[name=dh]").val(),
+                        maAddress:$("[name=dz]").val()
+                    },
+                    dataType:"text",
+                    success:function(e){
+                        alert(e)
+                        window.location.href="dizhi";
+                    }
+                })
+            }
+        })
+    })
+</script>
+</body>
+</html>

@@ -28,14 +28,10 @@
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.lionsource.tbs.comm.model.Memaddress" >
     update memaddress
-    set mem_id = #{memId,jdbcType=INTEGER},
-      ma_province = #{maProvince,jdbcType=INTEGER},
-      ma_city = #{maCity,jdbcType=INTEGER},
-      ma_county = #{maCounty,jdbcType=INTEGER},
+    set
       ma_address = #{maAddress,jdbcType=VARCHAR},
       ma_contact = #{maContact,jdbcType=VARCHAR},
-      ma_tel = #{maTel,jdbcType=VARCHAR},
-      ma_isdefault = #{maIsdefault,jdbcType=INTEGER}
+      ma_tel = #{maTel,jdbcType=VARCHAR}
     where ma_id = #{maId,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
