@@ -33,7 +33,7 @@ public class StewardController {
     @Autowired
     private MemaddressMapperYI mapperYI;
 
-    private String pdyzm;
+    private String pdyzm="111111";
 
     /**
      * 定制管家
@@ -115,8 +115,13 @@ public class StewardController {
                 HttpSession session = request.getSession();
                 System.out.println("管家-----");
                 session.setAttribute("list",list);
+                System.out.println("根据手机号码查询会员编号!");
+                //根据手机号码查询会员编号
+                List<Member> allMemnameTels = memberyServerI.getAllMemnameTel(mem_tel);
+                Integer memId = allMemnameTels.get(0).getMemId();
+                System.out.println("会员编号-------------------------------------："+memId);
+                session.setAttribute("memId",memId);
                 out.print("定制成功！");
-
             }else{
                 out.print("定制失败！");
             }
@@ -153,8 +158,8 @@ public class StewardController {
         response.setContentType("text/html;charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
-        sendsms sendsms=new sendsms();
-        pdyzm=sendsms.duanxin(mem_tel);
+//        sendsms sendsms=new sendsms();
+//        pdyzm=sendsms.duanxin(mem_tel);
         out.print("验证码发送成功!");
     }
 

@@ -1,6 +1,8 @@
 package com.lionsource.tbs.comm.dao;
 
 import com.lionsource.tbs.comm.model.Evaluate;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 public interface EvaluateMapper {
@@ -20,4 +22,5 @@ public interface EvaluateMapper {
      * @return
      */
     Evaluate getBySteid(int steid);
+
 }

@@ -5,6 +5,7 @@ import com.lionsource.tbs.comm.model.*;
 import com.lionsource.tbs.comm.utils.sendsms;
 import com.lionsource.tbs.proscenum.server.msg.RandomValidateCodeUtil;
 import com.lionsource.tbs.proscenum.server.service.*;
+import com.lionsource.tbs.proscenum.serverY.service.StewardyServiceI;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -53,6 +54,8 @@ public class ServerController {
     //雇佣关系
     @Autowired
     EmprelationService emprelationService;
+    @Autowired
+    StewardyServiceI serviceI;
 
 
 
@@ -190,8 +193,11 @@ public class ServerController {
             List<Member> stewardList = memberService.getMemtel(member);
             if(stewardList!=null) {
                 String memname = memberService.getMemname(member);
-                request.setAttribute("ste_name", memname);
-                return "serverZ/personalHomepage";
+                request.setAttribute("steName", memname);
+                List<Steward> lists = serviceI.selectAll();
+                session.setAttribute("list",lists);
+                session.setAttribute("memId",stewardList.get(0).getMemId());
+                return "redirect:../tests";
             }else {
                 request.setAttribute("tisi", "登录失败");
                 return "serverZ/login";
@@ -277,7 +283,11 @@ public class ServerController {
                 System.out.println("登录成功");
                 request.setAttribute("tisiLogin","登录成功");
                 request.setAttribute("ste_name",ste_name);
-                return "serverZ/personalHomepage";
+                List<Steward> lists = serviceI.selectAll();
+                session.setAttribute("list",lists);
+                session.setAttribute("memId",memberList.get(0).getMemId());
+                System.out.println("----------========="+memberList.get(0).getMemId());
+                return "redirect:../tests";
             }
         }else if(type.equals("推荐人登录")){
             //推荐人登录

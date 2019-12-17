@@ -33,4 +33,16 @@ public class StewardServiceImply implements StewardyServiceI {
     public List<Steward> selectAllgd(String ste_workform, String ste_age, String ste_native, String ste_tag) {
         return stewardMapper.selectAllgd(ste_workform,ste_age,ste_native,ste_tag);
     }
+
+    @Override
+    public Steward selectByPrimaryKey(Integer steId) {
+        return stewardMapper.selectByPrimaryKey(steId);
+    }
+
+    @Override
+    public List<Steward> selectAll() {
+        return stewardMapper.selectAll();
+    }
+
+
 }

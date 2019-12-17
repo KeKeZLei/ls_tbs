@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface StewardMapper {
+
     int deleteByPrimaryKey(Integer steId);
 
     int insert(Steward record);
