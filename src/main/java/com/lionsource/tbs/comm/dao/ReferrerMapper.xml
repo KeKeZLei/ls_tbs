@@ -226,4 +226,5 @@
   <select id="getStewardsmList" resultMap="BaseResultMap" parameterType="int">
       select * from referrer right join steward on referrer.ref_id=steward.ref_id where  referrer.ref_id=#{ref_id} and ste_realnamestate='已实名'
   </select>
+
 </mapper>
