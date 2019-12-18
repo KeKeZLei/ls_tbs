@@ -324,8 +324,9 @@ public class ServerController {
                 //根据ref_id查询推荐管家信息
                 List<Steward> StewardList= referrerService.getStewardList(id);
                 session.setAttribute("StewardList",StewardList);
+                List<Steward> StewardListsm=referrerService.getStewardsmList(id);
+                session.setAttribute("StewardListsm",StewardListsm);
                 System.err.println(StewardList);
-
                 //登录用户查询
                 request.setAttribute("referrers",list);
                 return "serverZ/tuijianrenduan";

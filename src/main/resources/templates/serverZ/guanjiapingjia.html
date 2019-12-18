@@ -15,7 +15,7 @@
     <link rel="stylesheet" th:href="@{static/css/j-forms.css}">
     <script th:src="@{static/js/jquery.js}"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="static/yuyueguanjia/css/yonghu.css" />
+    <link rel="stylesheet" href="static/yuyueguanjia/css/guanjiapingjia.css" />
     <script th:src="@{static/js/guanjialiebiaoId.js}"></script>
 </head>
 <body>
@@ -44,48 +44,40 @@
 
     <div class="tdbModule register">
         <!--<div class="registerTitle">管家列表</div>-->
-        <div class="container-fluid" >
-            <div class="row col-xs-13 logos">
-                <h3 class="glyphicon glyphicon-menu-left">推荐管家数<span th:text="${session.stewardcount}"></span>人</h3>
-            </div>
-            <div class="row col-xs-12" th:each="StewardList,iterStat:${session.StewardList}">
+        <div class="container-fluid">
+            <div class="row col-xs-12 col-xs-offset-0">
+                <div class="row col-xs-13 s">
+                    <h3 class="glyphicon glyphicon-menu-left">我的评价</h3>
+                </div>
                 <br />
-                <br />
-                <div class="col-xs-3">
-                    <div class="col-xs-12">
-                        <img th:src="@{${StewardList.steWhead}}" class="img-responsive" alt="家政">
-                        <!--<div class="col-xs-12 imglogo ">-->
-                            <!--家政-->
-                        <!--</div>-->
+                <div class="row col-xs-13 s">
+                    <span class="text-muted">管家服务时间:num</span>
+                </div>
+                <div class="row col-xs-2">
+                    <img src="static\yuyueguanjia\img\11.jpg" class="img-circle image" alt="家政">
+                </div>
+                <div class="row col-xs-7 col-xs-offset-1">
+                    <span class="ziti">name管家</span><span class="text-muted pull-right">评价时间:/</span>
+                    <br>
+                    <span class="text-muted">服务态度：num</span>
+                    <span class="text-muted">专业技能：num</span>
+                    <span class="text-muted">职业素养：num</span>
+                    <hr />
+                </div>
+                <div class="row col-xs-12">
+                    <div class="row col-xs-1"></div>
+                    <div class="row col-xs-2 bg"><span class="pull-left">家政</span></div>
+                    <div class="row col-xs-7 col-xs-offset-1 pingjia">
+                        <span >评价内容:</span>
+                        <span>暂无评价</span>
+                        <a href="#" class="pull-right">
+                            <span>去评价</span><span class="glyphicon glyphicon-menu-right"></span>
+                        </a>
                     </div>
                 </div>
-                <div class="col-xs-9" >
-                    <span class="gunajia" th:text="${StewardList.steName}+管家"></span>
-                    <span class="jianshu" th:text="${StewardList.steCerstate}+证书"></span>
-                    <span class="jianshu" th:if="${StewardList.steContracttype eq 1}">个人管家</span>
-                    <span class="jianshu" th:if="${StewardList.steContracttype  eq 2}">签约管家</span>
 
-                    <br /><br />
-                    <div class="jieshao">
-                        <span th:text="${StewardList.steAddress}"></span>|<span th:text="${StewardList.steAge}+岁"></span>|从事月嫂<span th:text="${StewardList.steWorkyear}"></span>年|
-                        <!--|评价<span>num</span>条-->
-                        <!--|服务<span>num</span>户-->
-                        <br/>
-                        服务态度:<span th:text="${StewardList.steAge}-15"></span>
-                        专业技能:<span th:text="${iterStat.count}"></span>
-                        职业素养:<span th:text="${StewardList.steAge}-18"></span>
-                    </div>
-                        <!--<span  th:text="${StewardList.steTag}" th:class="steId+${iterStat.index}"></span>-->
-                    <div class="row" name="rows">
-                        <input type="text" class="count" th:name="${StewardList.steId}" th:value="${StewardList.steTag}">
-                        <div th:name="${StewardList.steId}"></div>
-                    </div>
-                    <!--<span class="btn btn-info">擅长面食</span>-->
-                    <!--<span class="btn btn-warning">精通英语</span>-->
-                    <!--<span class="btn btn-success">幼儿教育经验</span>-->
-                </div>
             </div>
-
+        </div>
                 </div>
             </div>
         </div>
@@ -204,42 +196,8 @@
         </div>
     </div>
 </div>
-<script>
-    $(function () {
-
-        //职业技能
-        var b  = new Array("活泼开朗","热爱生活","精通英语","育儿教育","擅长面食","擅长湘菜","生活经验","老司机");
-        var yangshi=new Array("btn btn-info","btn btn-warning","btn btn-success");
-        var s=0;
-        for(var i=0;i < 100;i++){
-            if($("input[name="+i+"]").length>0){
-                var str=$("input[name="+i+"]").val();
-                $("input[name="+i+"]").hide();
-                for (var j=1;j<b.length+1;j++){
-                    var sear=new RegExp(j);
-                    if(sear.test(str)) {
-                            if(s>yangshi.length-1){
-                                s=0;
-                            }
-                            // var  count=$(".count").val();
-                            //
-                            // if(count[0]==","){
-                            //     // debugger;
-                            //     var countList=count.substr(1);
-                            //     var countname=countList.split(",").length;
-                            // }
-                            // ($(".counts+i")).text(countname);
-
-                            ($("div[name="+i+"]")).append("<span class='"+yangshi[s]+"'>"+b[j-1]+"</span>&nbsp&nbsp");
-
-                            s++;
-                    }
-                }
-            }
-        }
-    });
-</script>
 <script type="text/javascript"  src="static/yuyueguanjia/js/jquery-3.3.1.js"></script>
 <script type="text/javascript"  src="static/yuyueguanjia/js/bootstrap.min.js"></script>
+
 </body>
 </html>

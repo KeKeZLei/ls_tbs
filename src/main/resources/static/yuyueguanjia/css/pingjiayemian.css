@@ -1,0 +1,21 @@
+.body{
+	background-color: #F0F0F0;
+}
+.image{
+	width: 100%;
+	height: 100%;
+}
+.s{
+	background-color: #FBFBFC;
+}
+.sx{
+	/*border: 1px red solid;*/
+	height: 300px;
+	width: 100%;
+	background-color: #FBFBFC;
+	border: 0px;
+}
+.bot{
+	width: 100%;
+	height: 50px;
+}

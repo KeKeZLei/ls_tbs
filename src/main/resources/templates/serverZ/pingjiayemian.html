@@ -15,10 +15,14 @@
     <link rel="stylesheet" th:href="@{static/css/j-forms.css}">
     <script th:src="@{static/js/jquery.js}"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="static/yuyueguanjia/css/yonghu.css" />
+    <link rel="stylesheet" href="static/yuyueguanjia/css/pingjiayemian.css" />
     <script th:src="@{static/js/guanjialiebiaoId.js}"></script>
+    <style type="text/css">
+        img:hover{cursor: pointer;}
+    </style>
 </head>
-<body>
+<body class="body">
+
 <!-- 网站公共头部区域 -->
 <div class="p-header">
     <div class="menuBox heds">
@@ -44,48 +48,78 @@
 
     <div class="tdbModule register">
         <!--<div class="registerTitle">管家列表</div>-->
-        <div class="container-fluid" >
-            <div class="row col-xs-13 logos">
-                <h3 class="glyphicon glyphicon-menu-left">推荐管家数<span th:text="${session.stewardcount}"></span>人</h3>
-            </div>
-            <div class="row col-xs-12" th:each="StewardList,iterStat:${session.StewardList}">
+        <div class="container-fluid">
+            <div class="row col-xs-12 col-xs-offset-0">
+                <div class="row col-xs-13 s">
+                    <h3 class="glyphicon glyphicon-menu-left">填写评价</h3>
+                </div>
                 <br />
-                <br />
-                <div class="col-xs-3">
-                    <div class="col-xs-12">
-                        <img th:src="@{${StewardList.steWhead}}" class="img-responsive" alt="家政">
-                        <!--<div class="col-xs-12 imglogo ">-->
-                            <!--家政-->
-                        <!--</div>-->
+                <div class="col-xs-12 s">
+                    <div class="col-xs-2">
+                        <img src="static\yuyueguanjia\img\11.jpg" class="img-circle image" alt="家政">
+                    </div>
+                    <div class="col-xs-10">
+                        <br />
+                        <h4>管家姓名:num</h4>
+                        <h4>类型管家</h4>
                     </div>
                 </div>
-                <div class="col-xs-9" >
-                    <span class="gunajia" th:text="${StewardList.steName}+管家"></span>
-                    <span class="jianshu" th:text="${StewardList.steCerstate}+证书"></span>
-                    <span class="jianshu" th:if="${StewardList.steContracttype eq 1}">个人管家</span>
-                    <span class="jianshu" th:if="${StewardList.steContracttype  eq 2}">签约管家</span>
-
+                <div class="col-xs-12 ">
+                    <br />
+                </div>
+                <div class="col-xs-12 s">
+                    <div class="col-xs-12 ">
+                        <h4>管家评价</h4>
+                    </div>
+                    <div class="col-xs-12 ">
+                        <h4>服务态度
+                                <span class="glyphicon glyphicon-star-empty imgs"></span>
+                                <span class="glyphicon glyphicon-star-empty imgs"></span>
+                                <span class="glyphicon glyphicon-star-empty imgs"></span>
+                                <span class="glyphicon glyphicon-star-empty imgs"></span>
+                                <span class="glyphicon glyphicon-star-empty imgs"></span>
+                                <span class="counts">分</span>
+                        </h4>
+                    </div>
+                    <div class="col-xs-12 ">
+                        <h4>专业技能
+                                <span class="glyphicon glyphicon-star-empty img"></span>
+                                <span class="glyphicon glyphicon-star-empty img"></span>
+                                <span class="glyphicon glyphicon-star-empty img"></span>
+                                <span class="glyphicon glyphicon-star-empty img"></span>
+                                <span class="glyphicon glyphicon-star-empty img"></span>
+                                <span class="count">分</span>
+                        </h4>
+                    </div>
+                    <div class="col-xs-12 ">
+                        <h4>职业素养
+                            <span class="glyphicon glyphicon-star-empty img2"></span>
+                            <span class="glyphicon glyphicon-star-empty img2"></span>
+                            <span class="glyphicon glyphicon-star-empty img2"></span>
+                            <span class="glyphicon glyphicon-star-empty img2"></span>
+                            <span class="glyphicon glyphicon-star-empty img2"></span>
+                            <span class="count2">分</span>
+                        </h4>
+                    </div>
+                </div>
+                <div class="col-xs-12 ">
+                    <br />
+                </div>
+                <div class="col-xs-12 s">
+                    <textarea class="sx" placeholder="请填写您的评语，您的每一份建议都将让及时管家变得更好。"></textarea>
+                </div>
+                <div class="col-xs-12 ">
+                    <input type="checkbox" /> <span class="text-muted">同意客服回访</span>
                     <br /><br />
-                    <div class="jieshao">
-                        <span th:text="${StewardList.steAddress}"></span>|<span th:text="${StewardList.steAge}+岁"></span>|从事月嫂<span th:text="${StewardList.steWorkyear}"></span>年|
-                        <!--|评价<span>num</span>条-->
-                        <!--|服务<span>num</span>户-->
-                        <br/>
-                        服务态度:<span th:text="${StewardList.steAge}-15"></span>
-                        专业技能:<span th:text="${iterStat.count}"></span>
-                        职业素养:<span th:text="${StewardList.steAge}-18"></span>
-                    </div>
-                        <!--<span  th:text="${StewardList.steTag}" th:class="steId+${iterStat.index}"></span>-->
-                    <div class="row" name="rows">
-                        <input type="text" class="count" th:name="${StewardList.steId}" th:value="${StewardList.steTag}">
-                        <div th:name="${StewardList.steId}"></div>
-                    </div>
-                    <!--<span class="btn btn-info">擅长面食</span>-->
-                    <!--<span class="btn btn-warning">精通英语</span>-->
-                    <!--<span class="btn btn-success">幼儿教育经验</span>-->
+                </div>
+                <div class="col-xs-12 ">
+                    <button class="btn btn-success bot">匿名评价</button>
+                </div>
+                <div class="col-xs-12 ">
+                    <br />
                 </div>
             </div>
-
+        </div>
                 </div>
             </div>
         </div>
@@ -204,42 +238,45 @@
         </div>
     </div>
 </div>
-<script>
-    $(function () {
-
-        //职业技能
-        var b  = new Array("活泼开朗","热爱生活","精通英语","育儿教育","擅长面食","擅长湘菜","生活经验","老司机");
-        var yangshi=new Array("btn btn-info","btn btn-warning","btn btn-success");
-        var s=0;
-        for(var i=0;i < 100;i++){
-            if($("input[name="+i+"]").length>0){
-                var str=$("input[name="+i+"]").val();
-                $("input[name="+i+"]").hide();
-                for (var j=1;j<b.length+1;j++){
-                    var sear=new RegExp(j);
-                    if(sear.test(str)) {
-                            if(s>yangshi.length-1){
-                                s=0;
-                            }
-                            // var  count=$(".count").val();
-                            //
-                            // if(count[0]==","){
-                            //     // debugger;
-                            //     var countList=count.substr(1);
-                            //     var countname=countList.split(",").length;
-                            // }
-                            // ($(".counts+i")).text(countname);
-
-                            ($("div[name="+i+"]")).append("<span class='"+yangshi[s]+"'>"+b[j-1]+"</span>&nbsp&nbsp");
-
-                            s++;
-                    }
-                }
-            }
-        }
-    });
-</script>
 <script type="text/javascript"  src="static/yuyueguanjia/js/jquery-3.3.1.js"></script>
 <script type="text/javascript"  src="static/yuyueguanjia/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    $('.img').each(function(index){
+        var star='glyphicon glyphicon-star-empty img';	//普通灰色星星图片的存储路径
+        var starRed='glyphicon glyphicon-star img';		//红色星星图片存储路径
+        var prompt=[1,2,3,4,5];	//评价提示语
+        this.id=index;		//遍历img元素，设置单独的id
+        $(this).on("mouseover click",function(){	//设置鼠标滑动和点击都会触发事件
+            $('.img').attr('class',star);//当“回滚”、“改变主意”时，先复位所有图片为木有打星的图片颜色
+            $(this).attr('class',starRed);		//设置鼠标当前所在图片为打星颜色图
+            $(this).prevAll().attr('class',starRed);	//设置鼠标当前的前面星星图片为打星颜色图
+            $(this).siblings('.count').text(prompt[this.id]+"分");		//根据id的索引值作为数组的索引值
+        });
+    });
+    $('.imgs').each(function(index){
+        var star='glyphicon glyphicon-star-empty imgs';	//普通灰色星星图片的存储路径
+        var starRed='glyphicon glyphicon-star imgs';		//红色星星图片存储路径
+        var prompt=[1,2,3,4,5];	//评价提示语
+        this.id=index;		//遍历img元素，设置单独的id
+        $(this).on("mouseover click",function(){	//设置鼠标滑动和点击都会触发事件
+            $('.imgs').attr('class',star);//当“回滚”、“改变主意”时，先复位所有图片为木有打星的图片颜色
+            $(this).attr('class',starRed);		//设置鼠标当前所在图片为打星颜色图
+            $(this).prevAll().attr('class',starRed);	//设置鼠标当前的前面星星图片为打星颜色图
+            $(this).siblings('.counts').text(prompt[this.id]+"分");		//根据id的索引值作为数组的索引值
+        });
+    });
+    $('.img2').each(function(index){
+        var star='glyphicon glyphicon-star-empty img2';	//普通灰色星星图片的存储路径
+        var starRed='glyphicon glyphicon-star img2';		//红色星星图片存储路径
+        var prompt=[1,2,3,4,5];	//评价提示语
+        this.id=index;		//遍历img元素，设置单独的id
+        $(this).on("mouseover click",function(){	//设置鼠标滑动和点击都会触发事件
+            $('.img2').attr('class',star);//当“回滚”、“改变主意”时，先复位所有图片为木有打星的图片颜色
+            $(this).attr('class',starRed);		//设置鼠标当前所在图片为打星颜色图
+            $(this).prevAll().attr('class',starRed);	//设置鼠标当前的前面星星图片为打星颜色图
+            $(this).siblings('.count2').text(prompt[this.id]+"分");		//根据id的索引值作为数组的索引值
+        });
+    });
+</script>
 </body>
 </html>
