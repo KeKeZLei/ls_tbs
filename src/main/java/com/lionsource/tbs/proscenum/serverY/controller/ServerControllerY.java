@@ -1,9 +1,13 @@
 package com.lionsource.tbs.proscenum.serverY.controller;
 
+import com.lionsource.tbs.comm.dao.ManagerMapper;
+import com.lionsource.tbs.comm.dao.MemaddressMapper;
+import com.lionsource.tbs.comm.model.Memaddress;
 import com.lionsource.tbs.comm.model.Stewardtype;
 import com.lionsource.tbs.comm.model.Tag;
 import com.lionsource.tbs.proscenum.server.service.StewardtypeService;
 import com.lionsource.tbs.proscenum.server.service.impl.TagServiceimpl;
+import com.lionsource.tbs.proscenum.serverY.service.MemaddressMapperYI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +25,8 @@ public class ServerControllerY {
     private StewardtypeService stewardtypeService;
     @Autowired
     private TagServiceimpl tagServiceimpl;
+    @Autowired
+    private MemaddressMapperYI mapperYI;
     /**
      * 显示所有职业
      * @param request
@@ -45,5 +51,19 @@ public class ServerControllerY {
         model.addAttribute("tagslist",tagslist);
         System.out.println(tagslist);
         return "serverZ/test";
+    }
+
+    @RequestMapping("/updateBy")
+    public String updateByPrimaryKey(Model model,String maId){
+        System.out.println("------------------"+maId);
+        Memaddress memaddress = mapperYI.selectByPrimaryKey(Integer.parseInt(maId));
+        System.out.println(memaddress);
+        model.addAttribute("list",memaddress);
+        return "serverZ/yit/updateM";
+    }
+
+    @RequestMapping("/addM")
+    public String insert(){
+        return "serverZ/yit/addM";
     }
 }

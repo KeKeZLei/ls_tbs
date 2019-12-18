@@ -32,4 +32,10 @@ public interface StewardyServiceI {
      * @return
      */
     List<Steward> selectAllgd( String ste_workform, String ste_age, String ste_native, String ste_tag);
+
+    //根据管家类型编号查询管家
+    Steward selectByPrimaryKey(Integer steId);
+
+    List<Steward> selectAll();
+
 }

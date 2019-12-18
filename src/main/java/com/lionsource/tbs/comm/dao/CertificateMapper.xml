@@ -39,4 +39,8 @@
     select cer_id, ste_id, cer_name, cer_img, cer_auditstate, cer_disreason
     from certificate
   </select>
+  <select id="selectsteid" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select cer_id, ste_id, cer_name, cer_img, cer_auditstate, cer_disreason
+    from certificate where ste_id=#{ste_id}
+  </select>
 </mapper>

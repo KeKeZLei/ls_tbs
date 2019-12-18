@@ -1,10 +1,12 @@
 package com.lionsource.tbs.proscenum.serverY.controller;
 
 import com.lionsource.tbs.comm.dao.MemberMapper;
+import com.lionsource.tbs.comm.model.Memaddress;
 import com.lionsource.tbs.comm.model.Member;
 import com.lionsource.tbs.comm.model.Steward;
 import com.lionsource.tbs.comm.utils.sendsms;
 import com.lionsource.tbs.proscenum.server.service.MemberService;
+import com.lionsource.tbs.proscenum.serverY.service.MemaddressMapperYI;
 import com.lionsource.tbs.proscenum.serverY.service.MemberyServerI;
 import com.lionsource.tbs.proscenum.serverY.service.StewardyServiceI;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +30,10 @@ public class StewardController {
     private StewardyServiceI serviceI;
     @Autowired
     private MemberyServerI memberyServerI;
+    @Autowired
+    private MemaddressMapperYI mapperYI;
 
-    private String pdyzm;
+    private String pdyzm="111111";
 
     /**
      * 定制管家
@@ -111,8 +115,13 @@ public class StewardController {
                 HttpSession session = request.getSession();
                 System.out.println("管家-----");
                 session.setAttribute("list",list);
+                System.out.println("根据手机号码查询会员编号!");
+                //根据手机号码查询会员编号
+                List<Member> allMemnameTels = memberyServerI.getAllMemnameTel(mem_tel);
+                Integer memId = allMemnameTels.get(0).getMemId();
+                System.out.println("会员编号-------------------------------------："+memId);
+                session.setAttribute("memId",memId);
                 out.print("定制成功！");
-
             }else{
                 out.print("定制失败！");
             }
@@ -149,8 +158,8 @@ public class StewardController {
         response.setContentType("text/html;charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
-        sendsms sendsms=new sendsms();
-        pdyzm=sendsms.duanxin(mem_tel);
+//        sendsms sendsms=new sendsms();
+//        pdyzm=sendsms.duanxin(mem_tel);
         out.print("验证码发送成功!");
     }
 
@@ -234,7 +243,94 @@ public class StewardController {
         out.close();
     }
 
+    /**
+     * 我的地址
+     * @return
+     */
+    @RequestMapping("/dizhi")
+    public String dizhi(Model model){
+        List<Memaddress> list = mapperYI.selectAll();
+        model.addAttribute("list",list);
+        for (Memaddress i:list
+             ) {
+            System.out.println(i);
+        }
+        return "serverZ/yit/dizhi";
+    }
 
+    /**
+     *删除地址
+     * @return
+     */
+    @RequestMapping("/deleteBy")
+    public String deleteByPrimaryKey(String maId){
+        Integer maIds=Integer.parseInt(maId);
+        System.out.println("---------------------------"+maIds);
+        mapperYI.deleteByPrimaryKey(maIds);
+        return "redirect:dizhi";
+    }
+
+    /**
+     * 修改地址
+     * @return
+     */
+    @RequestMapping("/updateBys")
+    public void updateByPrimaryKey(HttpServletResponse response,String meId,String maContact,String maTel,String maAddress) throws IOException {
+        //乱码处理
+        response.setContentType("text/html;charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        PrintWriter out = response.getWriter();
+        System.out.println("编号："+meId);
+        System.out.println("联系人姓名："+maContact);
+        System.out.println("电话："+maTel);
+        System.out.println("详细地址："+maAddress);
+
+        Memaddress memaddress=new Memaddress();
+        memaddress.setMaId(Integer.parseInt(meId));
+        memaddress.setMaContact(maContact);
+        memaddress.setMaTel(maTel);
+        memaddress.setMaAddress(maAddress);
+
+        int insert = mapperYI.updateByPrimaryKey(memaddress);
+        if(insert>0){
+            out.print("修改成功!");
+        }else {
+            out.print("修改失败!");
+        }
+        out.flush();
+        out.close();
+    }
+
+    /**
+     * 新增地址
+     * @return
+     */
+    @RequestMapping("/addMs")
+    public void insert(HttpServletResponse response,String maContact,String maTel,String maAddress) throws IOException {
+        //乱码处理
+        response.setContentType("text/html;charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        PrintWriter out = response.getWriter();
+
+        System.out.println("联系人姓名："+maContact);
+        System.out.println("电话："+maTel);
+        System.out.println("详细地址："+maAddress);
+
+        Memaddress memaddress=new Memaddress();
+        memaddress.setMaContact(maContact);
+        memaddress.setMaTel(maTel);
+        memaddress.setMaAddress(maAddress);
+
+        int insert = mapperYI.insert(memaddress);
+        if(insert>0){
+            out.print("添加成功!");
+        }else {
+            out.print("添加失败!");
+        }
+
+        out.flush();
+        out.close();
+    }
 
 }
 

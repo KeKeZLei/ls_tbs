@@ -44,9 +44,6 @@
             </div>
         </div>
     </div>
-        <script>
-
-        </script>
         <style>
             /*div{*/
                 /*border: 1px red solid;*/
@@ -380,7 +377,7 @@
                             </div>
                             <!--工作年限-->
                             <div class="col-lg-2">
-                                <font color="#A3A3A3"><h4>从事月嫂<span th:text="${steward.steWorkyear}"></span>年</h4></font>
+                                <font color="#A3A3A3"><h4>经验：<span th:text="${steward.steWorkyear}"></span>年</h4></font>
                             </div>
                             <!--服务总数-->
                             <div class="col-lg-2">
@@ -407,11 +404,10 @@
                         </div>
                         <div class="col-lg-4">
                             <br/>
-                            <a href="#"><font color="#A3A3A3"><h4><span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;&nbsp;预约面试</h4></font></a>
+                            <a th:href="@{/getId(memId=${session.memId},steId=${steward.steId})}"><font color="#A3A3A3"><h4><span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;&nbsp;预约面试</h4></font></a>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     <!--尾部-->
