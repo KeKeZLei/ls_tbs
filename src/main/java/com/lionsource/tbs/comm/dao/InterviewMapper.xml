@@ -41,4 +41,9 @@
     select inter_id, mem_id, inter_service, inter_address, inter_time, inter_state, inter_steward
     from interview
   </select>
+  <select id="selectmemId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select inter_id, mem_id, inter_service, inter_address, inter_time, inter_state, inter_steward
+    from interview where mem_id=#{mem_id}
+  </select>
+
 </mapper>

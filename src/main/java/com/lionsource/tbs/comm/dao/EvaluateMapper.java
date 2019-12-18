@@ -23,4 +23,11 @@ public interface EvaluateMapper {
      */
     Evaluate getBySteid(int steid);
 
+    /**
+     * 根据管家编号查询所有评价
+     * @param steid
+     * @return
+     */
+    List<Evaluate> selectEvaluate(@Param("set_id") Integer steid);
+
 }

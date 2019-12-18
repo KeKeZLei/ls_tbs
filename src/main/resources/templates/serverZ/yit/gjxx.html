@@ -22,25 +22,26 @@
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript" th:src="@{/static/js/app.js}"></script>
 </head>
+<style></style>
 <body>
 <header>
     <div class="p-header">
         <div class="topCon">
             <div class="menuBox">
                 <div class="wrap">
-                    <ul>
-                        <li class="on">
-                            <a href="../homePage">网站首页</a>
-                        </li>
-                        <li><a href="http://www.jishiguanjia.com/list.php?typeid=700#maodian">家庭服务</a></li>
-                        <li><a href="http://www.jishiguanjia.com/list.php?typeid=737#maodian">商业保洁</a></li>
-                        <li><a href="http://www.jishiguanjia.com/list.php?typeid=698#maodian">管家风采</a></li>
-                        <li><a href="http://www.jishiguanjia.com/list.php?typeid=699#maodian">及时百科</a></li>
-                        <li><a href="http://www.jishiguanjia.com/list.php?typeid=702#maodian">服务项目</a></li>
-                        <li><a href="http://www.jishiguanjia.com/list.php?typeid=697#maodian">关于我们</a></li>
-                        <li><a href="register">预约管家</a></li>
-                        <li><a href="server/login">我的</a></li>
-                    </ul>
+                    <div class="wrap">
+                        <ul>
+                            <li class="on">
+                                <a href="../homePage">网站首页</a>
+                            </li>
+                            <li><a href="../ls_tbs/fbxp">发布需求</a></li>
+                            <li><a href="../ls_tbs/tests">定制管家</a></li>
+                            <li><a th:href="@{'/msxx?memId='+${session.memId}}">面试记录</a></li>
+                            <li><a th:href="@{'/xxxx?memId='+${session.memId}}">消息列表</a></li>
+                            <li><a href="http://www.jishiguanjia.com/list.php?typeid=697#maodian">关于我们</a></li>
+                            <li><a href="server/login">我的</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -58,22 +59,13 @@
             </div>
         </div>
         <div class="row" align="center">
-           <div th:if="${steward.steCerstate eq '有'}">
-               <div th:each="certificate:${certificate}">
-                   <div class="col-lg-3">
-                       <div>
-                           <img th:src="@{static/img/yitao/SharedScreenshot.jpg}" width="150px" ty>
-                       </div>
-                       <div>
-                           <h4 style="color:#0d95dd "> <span th:text="${certificate.cerName}+'证书'"></span></h4>
-                       </div>
-                   </div>
+            <div th:if="${list ne null}">
+               <div th:each="Certificate:${list}">
+                    <div class="col-lg-4">
+                        <img name="imgcer" th:src="${Certificate.cerImg}" style="z-index: 0" height="250px">
+                        <h3><span th:text="${Certificate.cerName}+'证书'"></span></h3>
+                    </div>
                </div>
-           </div>
-            <div th:if="${steward.steCerstate eq '无'}">
-                <div class="col-lg-12">
-                    <h3>无证书</h3>
-                </div>
             </div>
         </div>
         <div class="row" style="box-shadow: darkgrey 10px 10px 30px 5px ;">
@@ -85,225 +77,347 @@
                   </div>
                   <div class="col-lg-9">
                       <br/>
-                     <div class="row col-lg-12" align="center">
-                         <!--是否已实名-->
-                         <div th:if="${steward.steRealnamestate} eq '已实名'">
-                             <div class="col-lg-3" >
-                                 <div style="float: left;background-color: #EEEEEE; border-radius:15px;">
-                                     <h5>&nbsp;&nbsp;&nbsp;&nbsp;已实名&nbsp;&nbsp;&nbsp;&nbsp;</h5>
-                                 </div>
-                             </div>
-                         </div> <div th:if="${steward.steRealnamestate} eq '待审核'">
-                         <div class="col-lg-3" >
-                             <div style="float: left;background-color: #EEEEEE; border-radius:15px;">
-                                 <h5>&nbsp;&nbsp;&nbsp;&nbsp;待审核&nbsp;&nbsp;&nbsp;&nbsp;</h5>
-                             </div>
-                         </div>
-                     </div>
-                         <div th:if="${steward.steRealnamestate} eq '未实名'">
-                             <div class="col-lg-3" >
-                                 <div style="float: left;background-color: #EEEEEE; border-radius:15px;">
-                                     <h5>&nbsp;&nbsp;&nbsp;&nbsp;未实名&nbsp;&nbsp;&nbsp;&nbsp;</h5>
-                                 </div>
-                             </div>
-                         </div>
-                         <!--有无证书-->
-                         <div th:if="${steward.steCerstate} eq '有'">
-                             <div class="col-lg-3" >
-                                 <div style="float: left;background-color: #EEEEEE; border-radius:15px;">
-                                     <h5>&nbsp;&nbsp;&nbsp;&nbsp;有证书&nbsp;&nbsp;&nbsp;&nbsp;</h5>
-                                 </div>
-                             </div>
-                         </div>
-                         <div th:if="${steward.steCerstate} eq '无'">
-                             <div class="col-lg-3" >
-                                 <div style="float: left;background-color: #EEEEEE; border-radius:15px;">
-                                     <h5>&nbsp;&nbsp;&nbsp;&nbsp;无证书&nbsp;&nbsp;&nbsp;&nbsp;</h5>
-                                 </div>
-                             </div>
-                         </div>
-                         <!--管家-->
-                         <div th:if="${steward.steContracttype} eq '2'">
-                             <div class="col-lg-3" >
-                                 <div style="float: left;background-color: #EEEEEE; border-radius:15px;">
-                                     <h5>&nbsp;&nbsp;&nbsp;&nbsp;签约管家&nbsp;&nbsp;&nbsp;&nbsp;</h5>
-                                 </div>
-                             </div>
-                         </div>
-                         <div th:if="${steward.steContracttype} eq '1'">
-                             <div class="col-lg-3" >
-                                 <div style="float: left;background-color: #EEEEEE; border-radius:15px;">
-                                     <h5>&nbsp;&nbsp;&nbsp;&nbsp;个人管家&nbsp;&nbsp;&nbsp;&nbsp;</h5>
-                                 </div>
-                             </div>
-                         </div>
-                     </div>
-                      <div class="row col-lg-12"><br/></div>
+                      <div class="row col-lg-12">
+                          <div th:if="${steward.steRealnamestate} eq '已实名'">
+                              <div class="col-lg-3" >
+                                  <div style="float: left;background-color: #EEEEEE; border-radius:15px;">
+                                      <h5>&nbsp;&nbsp;&nbsp;&nbsp;已实名&nbsp;&nbsp;&nbsp;&nbsp;</h5>
+                                  </div>
+                              </div>
+                          </div> <div th:if="${steward.steRealnamestate} eq '待审核'">
+                          <div class="col-lg-3" >
+                              <div style="float: left;background-color: #EEEEEE; border-radius:15px;">
+                                  <h5>&nbsp;&nbsp;&nbsp;&nbsp;待审核&nbsp;&nbsp;&nbsp;&nbsp;</h5>
+                              </div>
+                          </div>
+                      </div>
+                          <div th:if="${steward.steRealnamestate} eq '未实名'">
+                              <div class="col-lg-3" >
+                                  <div style="float: left;background-color: #EEEEEE; border-radius:15px;">
+                                      <h5>&nbsp;&nbsp;&nbsp;&nbsp;未实名&nbsp;&nbsp;&nbsp;&nbsp;</h5>
+                                  </div>
+                              </div>
+                          </div>
+                          <!--有无证书-->
+                          <div th:if="${steward.steCerstate} eq '有'">
+                              <div class="col-lg-3" >
+                                  <div style="float: left;background-color: #EEEEEE; border-radius:15px;">
+                                      <h5>&nbsp;&nbsp;&nbsp;&nbsp;有证书&nbsp;&nbsp;&nbsp;&nbsp;</h5>
+                                  </div>
+                              </div>
+                          </div>
+                          <div th:if="${steward.steCerstate} eq '无'">
+                              <div class="col-lg-3" >
+                                  <div style="float: left;background-color: #EEEEEE; border-radius:15px;">
+                                      <h5>&nbsp;&nbsp;&nbsp;&nbsp;无证书&nbsp;&nbsp;&nbsp;&nbsp;</h5>
+                                  </div>
+                              </div>
+                          </div>
+                          <!--森马管家-->
+                          <div th:if="${steward.steContracttype} eq '2'">
+                              <div class="col-lg-3" >
+                                  <div style="float: left;background-color: #EEEEEE; border-radius:15px;">
+                                      <h5>&nbsp;&nbsp;&nbsp;&nbsp;签约管家&nbsp;&nbsp;&nbsp;&nbsp;</h5>
+                                  </div>
+                              </div>
+                          </div>
+                          <div th:if="${steward.steContracttype} eq '1'">
+                              <div class="col-lg-3" >
+                                  <div style="float: left;background-color: #EEEEEE; border-radius:15px;">
+                                      <h5>&nbsp;&nbsp;&nbsp;&nbsp;个人管家&nbsp;&nbsp;&nbsp;&nbsp;</h5>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="row col-lg-12">
+                          <hr/>
+                      </div>
                       <div class="row">
-                          <div class="col-lg-4">
-                              <font color="#A3A3A3"><h4>籍贯：<span th:text="${steward.steAddress}"></span></h4></font>
+                          <div  class="col-lg-3">
+                              <font color="#A3A3A3"><h4><span th:text="${steward.steAddress}"></span></h4></font>
                           </div>
-                          <div class="col-lg-4">
-                              <font color="#A3A3A3"><h4>年龄：<span th:text="${steward.steAge}"></span>岁</h4></font>
+                          <div  class="col-lg-3">
+                              <font color="#A3A3A3"><h4><span th:text="${steward.steAge}"></span>岁</h4></font>
                           </div>
-                          <div class="col-lg-4">
+                          <div  class="col-lg-3">
                               <font color="#A3A3A3"><h4>经验：<span th:text="${steward.steWorkyear}"></span>年</h4></font>
                           </div>
                       </div>
                   </div>
               </div>
-                <!--&lt;!&ndash;服务态度&ndash;&gt;-->
-                <!--<div class="row">-->
-                  <!--<div class="col-lg-1"></div>-->
-                  <!--<div class="col-lg-10">-->
-                      <!--<h3 th:if="${evaluate.evaService eq null}">-->
-                          <!--服务态度：-->
-                          <!--<span class="glyphicon glyphicon-star" ></span>-->
-                          <!--<span class="glyphicon glyphicon-star" ></span>&nbsp;&nbsp;&nbsp;-->
-                          <!--<span class="glyphicon glyphicon-star" ></span>&nbsp;&nbsp;&nbsp;-->
-                          <!--<span class="glyphicon glyphicon-star" ></span>&nbsp;&nbsp;&nbsp;-->
-                          <!--<span class="glyphicon glyphicon-star" ></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0 分-->
-                      <!--</h3>-->
-                     <!--<h3 th:if="${evaluate.evaService eq 1}">-->
-                         <!--服务态度：-->
-                         <!--<span class="glyphicon glyphicon-star" style="color: red"></span>-->
-                         <!--<span class="glyphicon glyphicon-star" ></span>&nbsp;&nbsp;&nbsp;-->
-                         <!--<span class="glyphicon glyphicon-star" ></span>&nbsp;&nbsp;&nbsp;-->
-                         <!--<span class="glyphicon glyphicon-star" ></span>&nbsp;&nbsp;&nbsp;-->
-                         <!--<span class="glyphicon glyphicon-star" ></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1 分-->
-                     <!--</h3>-->
-                      <!--<h3 th:if="${evaluate.evaService eq 2}">-->
-                          <!--服务态度：-->
-                          <!--<span class="glyphicon glyphicon-star" style="color: red"></span>&nbsp;&nbsp;&nbsp;-->
-                          <!--<span class="glyphicon glyphicon-star" style="color: red"></span>&nbsp;&nbsp;&nbsp;-->
-                          <!--<span class="glyphicon glyphicon-star" ></span>&nbsp;&nbsp;&nbsp;-->
-                          <!--<span class="glyphicon glyphicon-star" ></span>&nbsp;&nbsp;&nbsp;-->
-                          <!--<span class="glyphicon glyphicon-star" ></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2 分-->
-                      <!--</h3>-->
-                      <!--<h3 th:if="${evaluate.evaService eq 3}">-->
-                          <!--服务态度：-->
-                          <!--<span class="glyphicon glyphicon-star" style="color: red"></span>&nbsp;&nbsp;&nbsp;-->
-                          <!--<span class="glyphicon glyphicon-star" style="color: red"></span>&nbsp;&nbsp;&nbsp;-->
-                          <!--<span class="glyphicon glyphicon-star" style="color: red"></span>&nbsp;&nbsp;&nbsp;-->
-                          <!--<span class="glyphicon glyphicon-star" ></span>&nbsp;&nbsp;&nbsp;-->
-                          <!--<span class="glyphicon glyphicon-star" ></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3 分-->
-                      <!--</h3>-->
-                      <!--<h3 th:if="${evaluate.evaService eq 4}">-->
-                          <!--服务态度：-->
-                          <!--<span class="glyphicon glyphicon-star" style="color: red"></span>&nbsp;&nbsp;&nbsp;-->
-                          <!--<span class="glyphicon glyphicon-star" style="color: red"></span>&nbsp;&nbsp;&nbsp;-->
-                          <!--<span class="glyphicon glyphicon-star" style="color: red"></span>&nbsp;&nbsp;&nbsp;-->
-                          <!--<span class="glyphicon glyphicon-star" style="color: red"></span>&nbsp;&nbsp;&nbsp;-->
-                          <!--<span class="glyphicon glyphicon-star" ></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4 分-->
-                      <!--</h3>-->
-                      <!--<h3 th:if="${evaluate.evaService eq 5}">-->
-                          <!--服务态度：-->
-                          <!--<span class="glyphicon glyphicon-star" style="color: red"></span>&nbsp;&nbsp;&nbsp;-->
-                          <!--<span class="glyphicon glyphicon-star" style="color: red"></span>&nbsp;&nbsp;&nbsp;-->
-                          <!--<span class="glyphicon glyphicon-star" style="color: red"></span>&nbsp;&nbsp;&nbsp;-->
-                          <!--<span class="glyphicon glyphicon-star" style="color: red"></span>&nbsp;&nbsp;&nbsp;-->
-                          <!--<span class="glyphicon glyphicon-star" style="color: red"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5 分-->
-                      <!--</h3>-->
-                  <!--</div>-->
-              <!--</div>-->
-                <!--&lt;!&ndash;专业技能&ndash;&gt;-->
-                <!--<div class="row">-->
-                    <!--<div class="col-lg-1"></div>-->
-                    <!--<div class="col-lg-10">-->
-                        <!--<h3 th:if="${evaluate.evaSkill eq 1}">-->
-                            <!--专业技能：-->
-                            <!--<span class="glyphicon glyphicon-star" style="color: red"></span>-->
-                            <!--<span class="glyphicon glyphicon-star" ></span>&nbsp;&nbsp;&nbsp;-->
-                            <!--<span class="glyphicon glyphicon-star" ></span>&nbsp;&nbsp;&nbsp;-->
-                            <!--<span class="glyphicon glyphicon-star" ></span>&nbsp;&nbsp;&nbsp;-->
-                            <!--<span class="glyphicon glyphicon-star" ></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1 分-->
-                        <!--</h3>-->
-                        <!--<h3 th:if="${evaluate.evaSkill eq 2}">-->
-                            <!--专业技能：-->
-                            <!--<span class="glyphicon glyphicon-star" style="color: red"></span>&nbsp;&nbsp;&nbsp;-->
-                            <!--<span class="glyphicon glyphicon-star" style="color: red"></span>&nbsp;&nbsp;&nbsp;-->
-                            <!--<span class="glyphicon glyphicon-star" ></span>&nbsp;&nbsp;&nbsp;-->
-                            <!--<span class="glyphicon glyphicon-star" ></span>&nbsp;&nbsp;&nbsp;-->
-                            <!--<span class="glyphicon glyphicon-star" ></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2 分-->
-                        <!--</h3>-->
-                        <!--<h3 th:if="${evaluate.evaSkill eq 3}">-->
-                            <!--专业技能：-->
-                            <!--<span class="glyphicon glyphicon-star" style="color: red"></span>&nbsp;&nbsp;&nbsp;-->
-                            <!--<span class="glyphicon glyphicon-star" style="color: red"></span>&nbsp;&nbsp;&nbsp;-->
-                            <!--<span class="glyphicon glyphicon-star" style="color: red"></span>&nbsp;&nbsp;&nbsp;-->
-                            <!--<span class="glyphicon glyphicon-star" ></span>&nbsp;&nbsp;&nbsp;-->
-                            <!--<span class="glyphicon glyphicon-star" ></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3 分-->
-                        <!--</h3>-->
-                        <!--<h3 th:if="${evaluate.evaSkill eq 4}">-->
-                            <!--专业技能：-->
-                            <!--<span class="glyphicon glyphicon-star" style="color: red"></span>&nbsp;&nbsp;&nbsp;-->
-                            <!--<span class="glyphicon glyphicon-star" style="color: red"></span>&nbsp;&nbsp;&nbsp;-->
-                            <!--<span class="glyphicon glyphicon-star" style="color: red"></span>&nbsp;&nbsp;&nbsp;-->
-                            <!--<span class="glyphicon glyphicon-star" style="color: red"></span>&nbsp;&nbsp;&nbsp;-->
-                            <!--<span class="glyphicon glyphicon-star" ></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4 分-->
-                        <!--</h3>-->
-                        <!--<h3 th:if="${evaluate.evaSkill eq 5}">-->
-                            <!--专业技能：-->
-                            <!--<span class="glyphicon glyphicon-star" style="color: red"></span>&nbsp;&nbsp;&nbsp;-->
-                            <!--<span class="glyphicon glyphicon-star" style="color: red"></span>&nbsp;&nbsp;&nbsp;-->
-                            <!--<span class="glyphicon glyphicon-star" style="color: red"></span>&nbsp;&nbsp;&nbsp;-->
-                            <!--<span class="glyphicon glyphicon-star" style="color: red"></span>&nbsp;&nbsp;&nbsp;-->
-                            <!--<span class="glyphicon glyphicon-star" style="color: red"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5 分-->
-                        <!--</h3>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--&lt;!&ndash;职业素样&ndash;&gt;-->
-                <!--<div class="row">-->
-                    <!--<div class="col-lg-1"></div>-->
-                    <!--<div class="col-lg-10">-->
-                        <!--<h3 th:if="${evaluate.evaProquality eq 1}">-->
-                            <!--职业素样：-->
-                            <!--<span class="glyphicon glyphicon-star" style="color: red"></span>-->
-                            <!--<span class="glyphicon glyphicon-star" ></span>&nbsp;&nbsp;&nbsp;-->
-                            <!--<span class="glyphicon glyphicon-star" ></span>&nbsp;&nbsp;&nbsp;-->
-                            <!--<span class="glyphicon glyphicon-star" ></span>&nbsp;&nbsp;&nbsp;-->
-                            <!--<span class="glyphicon glyphicon-star" ></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1 分-->
-                        <!--</h3>-->
-                        <!--<h3 th:if="${evaluate.evaProquality eq 2}">-->
-                            <!--职业素样：-->
-                            <!--<span class="glyphicon glyphicon-star" style="color: red"></span>&nbsp;&nbsp;&nbsp;-->
-                            <!--<span class="glyphicon glyphicon-star" style="color: red"></span>&nbsp;&nbsp;&nbsp;-->
-                            <!--<span class="glyphicon glyphicon-star" ></span>&nbsp;&nbsp;&nbsp;-->
-                            <!--<span class="glyphicon glyphicon-star" ></span>&nbsp;&nbsp;&nbsp;-->
-                            <!--<span class="glyphicon glyphicon-star" ></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2 分-->
-                        <!--</h3>-->
-                        <!--<h3 th:if="${evaluate.evaProquality eq 3}">-->
-                            <!--职业素样：-->
-                            <!--<span class="glyphicon glyphicon-star" style="color: red"></span>&nbsp;&nbsp;&nbsp;-->
-                            <!--<span class="glyphicon glyphicon-star" style="color: red"></span>&nbsp;&nbsp;&nbsp;-->
-                            <!--<span class="glyphicon glyphicon-star" style="color: red"></span>&nbsp;&nbsp;&nbsp;-->
-                            <!--<span class="glyphicon glyphicon-star" ></span>&nbsp;&nbsp;&nbsp;-->
-                            <!--<span class="glyphicon glyphicon-star" ></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3 分-->
-                        <!--</h3>-->
-                        <!--<h3 th:if="${evaluate.evaProquality eq 4}">-->
-                            <!--职业素样：-->
-                            <!--<span class="glyphicon glyphicon-star" style="color: red"></span>&nbsp;&nbsp;&nbsp;-->
-                            <!--<span class="glyphicon glyphicon-star" style="color: red"></span>&nbsp;&nbsp;&nbsp;-->
-                            <!--<span class="glyphicon glyphicon-star" style="color: red"></span>&nbsp;&nbsp;&nbsp;-->
-                            <!--<span class="glyphicon glyphicon-star" style="color: red"></span>&nbsp;&nbsp;&nbsp;-->
-                            <!--<span class="glyphicon glyphicon-star" ></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4 分-->
-                        <!--</h3>-->
-                        <!--<h3 th:if="${evaluate.evaProquality eq 5}">-->
-                            <!--职业素样：-->
-                            <!--<span class="glyphicon glyphicon-star" style="color: red"></span>&nbsp;&nbsp;&nbsp;-->
-                            <!--<span class="glyphicon glyphicon-star" style="color: red"></span>&nbsp;&nbsp;&nbsp;-->
-                            <!--<span class="glyphicon glyphicon-star" style="color: red"></span>&nbsp;&nbsp;&nbsp;-->
-                            <!--<span class="glyphicon glyphicon-star" style="color: red"></span>&nbsp;&nbsp;&nbsp;-->
-                            <!--<span class="glyphicon glyphicon-star" style="color: red"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5 分-->
-                        <!--</h3>-->
-                    <!--</div>-->
-                <!--</div>-->
-
+              <div class="row">
+                 <div class="col-lg-1">
+                 </div>
+                  <div class="col-lg-10">
+                      <div class="row">
+                          <div th:if="${fwtds eq null}">
+                              <div class="col-lg-12">
+                                  <h3>
+                                      服务态度：
+                                      <span class="	glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0 分
+                                  </h3>
+                              </div>
+                          </div>
+                          <div th:if="${fwtds eq 1}">
+                              <div class="col-lg-12">
+                                  <h3>
+                                      服务态度：
+                                      <span class="	glyphicon glyphicon-star" style="color: red;"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1 分
+                                  </h3>
+                              </div>
+                          </div>
+                          <div th:if="${fwtds eq 2}">
+                              <div class="col-lg-12">
+                                  <h3>
+                                      服务态度：
+                                      <span class="	glyphicon glyphicon-star" style="color: red;"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star" style="color: red;"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1 分
+                                  </h3>
+                              </div>
+                          </div>
+                          <div th:if="${fwtds eq 3}">
+                              <div class="col-lg-12">
+                                  <h3>
+                                      服务态度：
+                                      <span class="	glyphicon glyphicon-star"style="color: red;"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star"style="color: red;"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star"style="color: red;"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1 分
+                                  </h3>
+                              </div>
+                          </div>
+                          <div th:if="${fwtds eq 4}">
+                              <div class="col-lg-12">
+                                  <h3>
+                                      服务态度：
+                                      <span class="	glyphicon glyphicon-star" style="color: red;"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star" style="color: red;"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star"style="color: red;"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star"style="color: red;"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4 分
+                                  </h3>
+                              </div>
+                          </div>
+                          <div th:if="${fwtds eq 5}">
+                          <div class="col-lg-12">
+                                  <h3>
+                                      服务态度：
+                                      <span class="	glyphicon glyphicon-star"style="color: red;"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star"style="color: red;"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star"style="color: red;"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star"style="color: red;"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star"style="color: red;"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5 分
+                                  </h3>
+                              </div>
+                          </div>
+                          <div th:if="${zyjns eq null}">
+                              <div class="col-lg-12">
+                                  <h3>
+                                      专业技能：
+                                      <span class="	glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0 分
+                                  </h3>
+                              </div>
+                          </div>
+                          <div th:if="${zyjns eq 1}">
+                              <div class="col-lg-12">
+                                  <h3>
+                                      专业技能：
+                                      <span class="	glyphicon glyphicon-star" style="color: red;"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1 分
+                                  </h3>
+                              </div>
+                          </div>
+                          <div th:if="${zyjns eq 2}">
+                              <div class="col-lg-12">
+                                  <h3>
+                                      专业技能：
+                                      <span class="	glyphicon glyphicon-star" style="color: red;"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star" style="color: red;"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1 分
+                                  </h3>
+                              </div>
+                          </div>
+                          <div th:if="${zyjns eq 3}">
+                              <div class="col-lg-12">
+                                  <h3>
+                                      专业技能：
+                                      <span class="	glyphicon glyphicon-star"style="color: red;"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star"style="color: red;"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star"style="color: red;"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1 分
+                                  </h3>
+                              </div>
+                          </div>
+                          <div th:if="${zyjns eq 4}">
+                              <div class="col-lg-12">
+                                  <h3>
+                                      专业技能：
+                                      <span class="	glyphicon glyphicon-star" style="color: red;"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star" style="color: red;"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star"style="color: red;"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star"style="color: red;"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4 分
+                                  </h3>
+                              </div>
+                          </div>
+                          <div th:if="${zyjns eq 5}">
+                              <div class="col-lg-12">
+                                  <h3>
+                                      专业技能：
+                                      <span class="	glyphicon glyphicon-star"style="color: red;"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star"style="color: red;"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star"style="color: red;"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star"style="color: red;"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star"style="color: red;"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5 分
+                                  </h3>
+                              </div>
+                          </div>
+                          <div th:if="${zysys eq null}">
+                              <div class="col-lg-12">
+                                  <h3>
+                                      职业素养：
+                                      <span class="	glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0 分
+                                  </h3>
+                              </div>
+                          </div>
+                          <div th:if="${zysys eq 1}">
+                              <div class="col-lg-12">
+                                  <h3>
+                                      职业素养：
+                                      <span class="	glyphicon glyphicon-star" style="color: red;"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1 分
+                                  </h3>
+                              </div>
+                          </div>
+                          <div th:if="${zysys eq 2}">
+                              <div class="col-lg-12">
+                                  <h3>
+                                      职业素养：
+                                      <span class="	glyphicon glyphicon-star" style="color: red;"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star" style="color: red;"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1 分
+                                  </h3>
+                              </div>
+                          </div>
+                          <div th:if="${zysys eq 3}">
+                              <div class="col-lg-12">
+                                  <h3>
+                                      职业素养：
+                                      <span class="	glyphicon glyphicon-star"style="color: red;"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star"style="color: red;"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star"style="color: red;"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1 分
+                                  </h3>
+                              </div>
+                          </div>
+                          <div th:if="${zysys eq 4}">
+                              <div class="col-lg-12">
+                                  <h3>
+                                      职业素养：
+                                      <span class="	glyphicon glyphicon-star" style="color: red;"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star" style="color: red;"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star"style="color: red;"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star"style="color: red;"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4 分
+                                  </h3>
+                              </div>
+                          </div>
+                          <div th:if="${zysys eq 5}">
+                              <div class="col-lg-12">
+                                  <h3>
+                                      职业素养：
+                                      <span class="	glyphicon glyphicon-star"style="color: red;"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star"style="color: red;"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star"style="color: red;"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star"style="color: red;"></span>&nbsp;&nbsp;&nbsp;
+                                      <span class="	glyphicon glyphicon-star"style="color: red;"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5 分
+                                  </h3>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="row col-lg-12">
+                          <h3><span th:if="${pjcs eq null}" th:text="'服务 0 户 | 评论 0 条'"></span>
+                              <span th:if="${pjcs ne null}" th:text="'服务 '+${pjcs}+' 户 |  评论 '+${pjcs}+' 条'"></span>
+                          </h3>
+                      </div>
+                      <!--职员技能-->
+                      <div class="row" name="zyjn">
+                          <input type="text" th:name="${steward.steId}" th:value="${steward.steSkill}">
+                      </div>
+                      <!--个人标签-->
+                      <div class="row" name="rows">
+                             <input type="text" th:name="${steward.steId}" th value="${steward.steTag}">
+                             <div th:name="${steward.steId}"></div>
+                      </div>
+                      <div class="row col-lg-12">
+                          <br/>
+                          <h3>个人介绍 | <span th:text="${steward.steNative}"></span></h3>
+                          <br />
+                          <h3 style="color:#D8D8D8">我是一个勤劳善良，为人正直的好管家~</h3>
+                      </div>
+                  </div>
+              </div>
             </div>
             <div class="col-lg-3" >
-                -------------------
+                <br/> <br/> <br/>
+                <img class="image" th:src="${steward.getSteChead()}" height="260px" id="scenic_img"><br/>
+                <div class="col-lg-12" >
+                    <br/>
+                     <div style="float: left;background-color: #D8D8D8; border-radius:15px; ">
+                         <h4 align="center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><span th:text="${steward.steWorkstate}"></span></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h4>
+                      </div>
+                      </div>
             </div>
             <div class="row col-lg-12"><br/><br/></div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12" align="center">
+                <br/><br/>
+                <input  name="memId" type="text" th:value="${session.memId}">
+                <input  name="steId" type="text" th:value="${steward.steId}">
+                <a  name="ac" href="#" style=" text-decoration: none"><div style="width: 500px; background-color: #1E7AF7; border-radius:15px; color: #FFFFFF">
+                    <h4 align="center">
+                        <br/> <br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>预约面试</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <br/> <br/> <br/>
+                    </h4>
+                </div>
+                </a>
+                <br/><br/>
+            </div>
+            </div>
         </div>
     </div>
     <div class="p-footer">
@@ -422,5 +536,74 @@
         /*border: red 1px solid;*/
     /*}*/
 </STYLE>
+<script>
+    $(function () {
+        $("[name=memId]").hide();
+        $("[name=steId]").hide();
+        //预约面似
+        $("[name=ac]").click(function () {
+            $.ajax({
+                type: "post",
+                url: "tjmstz",
+                data: {
+                    memId:$("[name=memId]").val(),
+                    steId:$("[name=steId]").val()
+                },
+                dataType: "text",
+                success: function (e) {
+                    alert(e)
+                }
+            })
+
+        })
+
+        // 图片放大效果
+        $("[name=imgcer]").mouseover(function () {
+            $(this).css("height","500px");
+            $(this).parent().css("z-index","10");
+        })
+
+        $("[name=imgcer]").mouseout(function () {
+            $(this).css("height","250px")
+            $(this).parent().css("z-index","0");
+        })
+        //技能
+        var a = new Array("钢琴8级", "营养师三级", "英语六级", "育婴师", "月嫂", "俄语6级", "芭蕾舞老师");
+        for (var i = 0; i < 100; i++) {
+            if ($("input[name=" + i + "]").length > 0) {
+                var str = $("input[name=" + i + "]").val();
+                $("input[name=" + i + "]").hide();
+                for (var j = 1; j < a.length + 1; j++) {
+                    var sear = new RegExp(j);
+                    if (sear.test(str)) {
+                        ($("div[name=" + i + "]")).append(" <div class=\"col-lg-3\">\n" +
+                            "                                <div style=\"float: left;background-color: red; border-radius:15px; color: #FFFFFF\">\n" +
+                            "                                    <h4>&nbsp;&nbsp;" + a[j - 1] + "&nbsp;&nbsp;</h4>\n" +
+                            "                                </div>\n" +
+                            "                            </div>")
+                    }
+                }
+            }
+        }
+        //个人标签
+        var b = new Array("活泼开朗", "热爱生活", "精通英语", "育儿教育", "擅长面食", "擅长湘菜", "生活经验", "老司机");
+        for (var i = 0; i < 100; i++) {
+            if ($("input[name=" + i + "]").length > 0) {
+                var str = $("input[name=" + i + "]").val();
+                $("input[name=" + i + "]").hide();
+                for (var j = 1; j < b.length + 1; j++) {
+                    var sear = new RegExp(j);
+                    if (sear.test(str)) {
+                        ($("div[name=" + i + "]")).append(" <div class=\"col-lg-3\">\n" +
+                            "                                <div style=\"float: left;background-color: #64B4F5; border-radius:15px; color: #FFFFFF\">\n" +
+                            "                                    <h4>&nbsp;&nbsp;" + b[j - 1] + "&nbsp;&nbsp;</h4>\n" +
+                            "                                </div>\n" +
+                            "                            </div>")
+                    }
+                }
+            }
+        }
+    })
+</script>
 </body>
 </html>

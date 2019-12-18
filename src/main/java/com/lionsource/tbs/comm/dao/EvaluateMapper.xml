@@ -61,4 +61,8 @@
   <select id="getBySteid" resultMap="BaseResultMap" parameterType="int">
      select * from evaluate where ste_id = #{steid}
   </select>
+  <!--根据管家编号查询评价信息-->
+  <select id="selectEvaluate" resultMap="BaseResultMap" parameterType="int">
+     select * from evaluate where ste_id = #{set_id}
+  </select>
 </mapper>

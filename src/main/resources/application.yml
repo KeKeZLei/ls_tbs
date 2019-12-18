@@ -85,3 +85,4 @@ spring:
   #国际化资源
   messages:
     basename: i18n.message
+

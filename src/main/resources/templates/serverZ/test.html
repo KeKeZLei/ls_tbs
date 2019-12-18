@@ -21,7 +21,9 @@
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript" th:src="@{/static/js/app.js}"></script>
+
 </head>
+
 <body>
 <header>
     <div class="p-header">
@@ -32,13 +34,11 @@
                     <li class="on">
                         <a href="../homePage">网站首页</a>
                     </li>
-                    <li><a href="http://www.jishiguanjia.com/list.php?typeid=700#maodian">家庭服务</a></li>
-                    <li><a href="http://www.jishiguanjia.com/list.php?typeid=737#maodian">商业保洁</a></li>
-                    <li><a href="http://www.jishiguanjia.com/list.php?typeid=698#maodian">管家风采</a></li>
-                    <li><a href="http://www.jishiguanjia.com/list.php?typeid=699#maodian">及时百科</a></li>
-                    <li><a href="http://www.jishiguanjia.com/list.php?typeid=702#maodian">服务项目</a></li>
+                    <li><a href="../ls_tbs/fbxp">发布需求</a></li>
+                    <li><a href="../ls_tbs/tests">定制管家</a></li>
+                    <li><a th:href="@{'/msxx?memId='+${session.memId}}">面试记录</a></li>
+                    <li><a th:href="@{'/xxxx?memId='+${session.memId}}">消息列表</a></li>
                     <li><a href="http://www.jishiguanjia.com/list.php?typeid=697#maodian">关于我们</a></li>
-                    <li><a href="register">预约管家</a></li>
                     <li><a href="server/login">我的</a></li>
                 </ul>
             </div>
@@ -542,8 +542,6 @@
                      }
                 }
             }
-
-
 
 
             // 类型
