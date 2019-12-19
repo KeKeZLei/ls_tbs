@@ -47,6 +47,8 @@
                         <li><a th:href="@{'/dizhi?memId='+${session.memId}}">我的地址</a></li>
                         <li><a href="http://www.jishiguanjia.com/list.php?typeid=697#maodian">关于我们</a></li>
                         <li><a href="server/login">我的</a></li>
+                        <li th:if="${session.memId eq null}"></li>
+                        <li th:if="${session.memId ne null}"><a href="../ls_tbs/exit">退出</a></li>
                     </ul>
                 </div>
             </div>
