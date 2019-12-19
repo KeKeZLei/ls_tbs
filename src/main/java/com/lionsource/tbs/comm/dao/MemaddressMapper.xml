@@ -14,7 +14,7 @@
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from memaddress
-    where ma_id = #{maId,jdbcType=INTEGER}
+    where ma_id = #{ma_id} and mem_id=#{mem_id}
   </delete>
   <insert id="insert" parameterType="com.lionsource.tbs.comm.model.Memaddress" >
     insert into memaddress (ma_id, mem_id, ma_province, 
@@ -31,7 +31,8 @@
     set
       ma_address = #{maAddress,jdbcType=VARCHAR},
       ma_contact = #{maContact,jdbcType=VARCHAR},
-      ma_tel = #{maTel,jdbcType=VARCHAR}
+      ma_tel = #{maTel,jdbcType=VARCHAR},
+      ma_isdefault=#{maIsdefault,jdbcType=VARCHAR}
     where ma_id = #{maId,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -44,5 +45,20 @@
     select ma_id, mem_id, ma_province, ma_city, ma_county, ma_address, ma_contact, ma_tel, 
     ma_isdefault
     from memaddress
+  </select>
+  <select id="selectmemId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select ma_id, mem_id, ma_province, ma_city, ma_county, ma_address, ma_contact, ma_tel,
+    ma_isdefault
+    from memaddress where mem_id=#{mem_id}
+  </select>
+  <select id="selectmaIsdefault" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select ma_id, mem_id, ma_province, ma_city, ma_county, ma_address, ma_contact, ma_tel,
+    ma_isdefault
+    from memaddress where mem_id=#{mem_id} and ma_isdefault=1
+  </select>
+  <select id="selectmaIsdefaultmaid" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select ma_id, mem_id, ma_province, ma_city, ma_county, ma_address, ma_contact, ma_tel,
+    ma_isdefault
+    from memaddress where ma_id=#{ma_id} and ma_isdefault=1
   </select>
 </mapper>

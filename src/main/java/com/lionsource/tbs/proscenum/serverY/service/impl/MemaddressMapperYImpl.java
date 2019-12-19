@@ -18,8 +18,13 @@ public class MemaddressMapperYImpl implements MemaddressMapperYI {
     }
 
     @Override
-    public int deleteByPrimaryKey(Integer manaId) {
-        return mapper.deleteByPrimaryKey(manaId);
+    public List<Memaddress> selectmemId(Integer memId) {
+        return mapper.selectmemId(memId);
+    }
+
+    @Override
+    public int deleteByPrimaryKey(Integer manaId,Integer meId) {
+        return mapper.deleteByPrimaryKey(manaId,meId);
     }
 
     @Override
@@ -35,5 +40,15 @@ public class MemaddressMapperYImpl implements MemaddressMapperYI {
     @Override
     public Memaddress selectByPrimaryKey(Integer maId) {
         return mapper.selectByPrimaryKey(maId);
+    }
+
+    @Override
+    public List<Memaddress> selectmaIsdefault(Integer memId) {
+        return mapper.selectmaIsdefault(memId);
+    }
+
+    @Override
+    public List<Memaddress> selectmaIsdefaultmaid(Integer maId) {
+        return mapper.selectmaIsdefaultmaid(maId);
     }
 }

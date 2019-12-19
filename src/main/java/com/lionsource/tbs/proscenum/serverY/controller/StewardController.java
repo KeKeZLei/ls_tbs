@@ -248,8 +248,9 @@ public class StewardController {
      * @return
      */
     @RequestMapping("/dizhi")
-    public String dizhi(Model model){
-        List<Memaddress> list = mapperYI.selectAll();
+    public String dizhi(Model model,String memId){
+        System.out.println("会员编号:"+memId);
+        List<Memaddress> list = mapperYI.selectmemId(Integer.parseInt(memId));
         model.addAttribute("list",list);
         for (Memaddress i:list
              ) {
@@ -263,10 +264,16 @@ public class StewardController {
      * @return
      */
     @RequestMapping("/deleteBy")
-    public String deleteByPrimaryKey(String maId){
+    public String deleteByPrimaryKey(Model model,String maId,String memId){
         Integer maIds=Integer.parseInt(maId);
-        System.out.println("---------------------------"+maIds);
-        mapperYI.deleteByPrimaryKey(maIds);
+        System.out.println("---------------------------"+maIds+"/"+memId);
+        int i = mapperYI.deleteByPrimaryKey(maIds, Integer.parseInt(memId));
+        model.addAttribute("memId",memId);
+        if(i<0){
+            System.out.println("删除失败");
+        }else {
+            System.out.println("删除成功");
+        }
         return "redirect:dizhi";
     }
 
@@ -275,22 +282,44 @@ public class StewardController {
      * @return
      */
     @RequestMapping("/updateBys")
-    public void updateByPrimaryKey(HttpServletResponse response,String meId,String maContact,String maTel,String maAddress) throws IOException {
+    public void updateByPrimaryKey(Model model,HttpServletResponse response,String maIsdefault,String maId,String memId,String maContact,String maTel,String maAddress) throws IOException {
         //乱码处理
         response.setContentType("text/html;charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
+
         PrintWriter out = response.getWriter();
-        System.out.println("编号："+meId);
-        System.out.println("联系人姓名："+maContact);
-        System.out.println("电话："+maTel);
-        System.out.println("详细地址："+maAddress);
-
+        System.out.println("会员编号："+memId);
+        System.out.println("编号："+maId);
+        System.out.println("是否默认："+maIsdefault);
         Memaddress memaddress=new Memaddress();
-        memaddress.setMaId(Integer.parseInt(meId));
-        memaddress.setMaContact(maContact);
-        memaddress.setMaTel(maTel);
-        memaddress.setMaAddress(maAddress);
-
+        //修改的是否是默认地址
+        List<Memaddress> list = mapperYI.selectmaIsdefaultmaid(Integer.parseInt(maId));
+        List<Memaddress> lists = mapperYI.selectmaIsdefault(Integer.parseInt(memId));
+        System.out.println("list.size:"+list.size());
+        if(list.size()>0){
+            System.out.println("是默认地址,可修改默认值");
+            memaddress.setMaId(Integer.parseInt(maId));
+            memaddress.setMaContact(maContact);
+            memaddress.setMaTel(maTel);
+            memaddress.setMaAddress(maAddress);
+            memaddress.setMaIsdefault(Integer.parseInt(maIsdefault));
+        }else {
+            //判断默认地址是否已存在
+            if(lists.size()>0){
+                System.out.println("默认地址已存在修改默认值失败,可以修改其他值");
+                memaddress.setMaId(Integer.parseInt(maId));
+                memaddress.setMaContact(maContact);
+                memaddress.setMaTel(maTel);
+                memaddress.setMaAddress(maAddress);
+            }else {
+                System.out.println("没有默认地址,可以修改默认值,和其他值");
+                memaddress.setMaId(Integer.parseInt(maId));
+                memaddress.setMaContact(maContact);
+                memaddress.setMaTel(maTel);
+                memaddress.setMaAddress(maAddress);
+                memaddress.setMaIsdefault(Integer.parseInt(maIsdefault));
+            }
+        }
         int insert = mapperYI.updateByPrimaryKey(memaddress);
         if(insert>0){
             out.print("修改成功!");
@@ -306,20 +335,33 @@ public class StewardController {
      * @return
      */
     @RequestMapping("/addMs")
-    public void insert(HttpServletResponse response,String maContact,String maTel,String maAddress) throws IOException {
+    public void insert(HttpServletResponse response,String maContact,String maTel,String maAddress,String memId) throws IOException {
         //乱码处理
         response.setContentType("text/html;charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
 
+        System.out.println("添加的会员编号："+memId);
         System.out.println("联系人姓名："+maContact);
         System.out.println("电话："+maTel);
         System.out.println("详细地址："+maAddress);
-
+        List<Memaddress> list = mapperYI.selectmemId(Integer.parseInt(memId));
         Memaddress memaddress=new Memaddress();
-        memaddress.setMaContact(maContact);
-        memaddress.setMaTel(maTel);
-        memaddress.setMaAddress(maAddress);
+        //没有地址时自动设默认值
+        System.out.println("list.size():"+list.size());
+        if(list.size()<=0){
+            memaddress.setMaContact(maContact);
+            memaddress.setMaTel(maTel);
+            memaddress.setMaAddress(maAddress);
+            memaddress.setMemId(Integer.parseInt(memId));
+            memaddress.setMaIsdefault(1);
+        }else {
+            memaddress.setMaContact(maContact);
+            memaddress.setMaTel(maTel);
+            memaddress.setMaAddress(maAddress);
+            memaddress.setMemId(Integer.parseInt(memId));
+            memaddress.setMaIsdefault(0);
+        }
 
         int insert = mapperYI.insert(memaddress);
         if(insert>0){
@@ -332,5 +374,13 @@ public class StewardController {
         out.close();
     }
 
+    //用户退出
+    @RequestMapping("/exit")
+    public String exit(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        session.getAttribute("memId");
+        session.invalidate();
+        return "redirect:server/login";
+    }
 }
 

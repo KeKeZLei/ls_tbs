@@ -40,13 +40,12 @@
                         <li class="on">
                             <a href="../homePage">网站首页</a>
                         </li>
-                        <li><a href="http://www.jishiguanjia.com/list.php?typeid=700#maodian">家庭服务</a></li>
-                        <li><a href="http://www.jishiguanjia.com/list.php?typeid=737#maodian">商业保洁</a></li>
-                        <li><a href="http://www.jishiguanjia.com/list.php?typeid=698#maodian">管家风采</a></li>
-                        <li><a href="http://www.jishiguanjia.com/list.php?typeid=699#maodian">及时百科</a></li>
-                        <li><a href="http://www.jishiguanjia.com/list.php?typeid=702#maodian">服务项目</a></li>
+                        <li><a href="../ls_tbs/fbxp">发布需求</a></li>
+                        <li><a href="../ls_tbs/tests">定制管家</a></li>
+                        <li><a th:href="@{'/msxx?memId='+${session.memId}}">面试记录</a></li>
+                        <li><a th:href="@{'/xxxx?memId='+${session.memId}}">消息列表</a></li>
+                        <li><a th:href="@{'/dizhi?memId='+${session.memId}}">我的地址</a></li>
                         <li><a href="http://www.jishiguanjia.com/list.php?typeid=697#maodian">关于我们</a></li>
-                        <li><a href="register">预约管家</a></li>
                         <li><a href="server/login">我的</a></li>
                     </ul>
                 </div>
@@ -118,16 +117,35 @@
                 <div class="col-lg-2"></div>
                 <div class="col-lg-2" style="text-align: right;">
                     <h3>详细地址：</h3>
+            </div>
+            <div class="col-lg-2">
+                <h3>
+                    <div style="text-align: right;">
+                        <input type="text" name="dz"  th:value="${list.maAddress}" placeholder="请填写正确的联系地址" style="text-align: right;border: 0px;"/>
+                    </div>
+                </h3>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-2"></div>
+                <div class="col-lg-2" style="text-align: right">
+                    <h3>默认地址:</h3>
                 </div>
                 <div class="col-lg-2">
                     <h3>
-                        <div style="text-align: right;">
-                            <input type="text" name="dz"  th:value="${list.maAddress}" placeholder="请填写正确的联系地址" style="text-align: right;border: 0px;"/>
-                        </div>
+                        <label  class="btn btn-info">
+                            <input  type="radio" name="options"  value="1"> 是
+                        </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </h3>
+                </div>
+                <div class="col-lg-2">
+                    <h3>
+                        <label  class="btn btn-info">
+                            <input  type="radio" name="options"  value="0"> 否
+                        </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     </h3>
                 </div>
             </div>
-            <div class="row"><br/><br/><br/><br/><br/><br/><br/><br/><br/></div>
         </div>
         <div class="row" style="text-align: center">
             <br/>
@@ -135,7 +153,8 @@
             <br/> <br/>
         </div>
     </div>
-    <input name="memId" th:value="${list.maId}">
+    <input name="memId" th:value="${session.memId}">
+    <input name="maId" th:value="${list.maId}">
     <div class="p-footer">
         <div class="content1">
             <div class="wrap">
@@ -249,25 +268,28 @@
 </header>
 <script>
     $(function () {
-        $("[name=memId]").hide();
+        //$("[name=maId]").hide();
         $("[name=btn]").click(function () {
             //非空验证
             if($("[name=name]").val()=="" || $("[name=dh]").val()=="" || $("[name=dz]").val()==""){
                 alert("请将信息填写完整！")
             }else {
+                var memid=$("[name=memId]").val()
                 $.ajax({
                     type:"post",
                     url:"updateBys ",
                     data:{
-                        meId:$("[name=memId]").val(),
+                        memId:memid,
+                        maId:$("[name=maId]").val(),
                         maContact:$("[name=name]").val(),
                         maTel:$("[name=dh]").val(),
-                        maAddress:$("[name=dz]").val()
+                        maAddress:$("[name=dz]").val(),
+                        maIsdefault:$("[name=options]:checked").val()
                     },
                     dataType:"text",
                     success:function(e){
                         alert(e)
-                        window.location.href="dizhi";
+                        window.location.href="dizhi?memId="+memid;
                     }
                 })
             }

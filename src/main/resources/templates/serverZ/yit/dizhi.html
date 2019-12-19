@@ -32,13 +32,12 @@
                         <li class="on">
                             <a href="../homePage">网站首页</a>
                         </li>
-                        <li><a href="http://www.jishiguanjia.com/list.php?typeid=700#maodian">家庭服务</a></li>
-                        <li><a href="http://www.jishiguanjia.com/list.php?typeid=737#maodian">商业保洁</a></li>
-                        <li><a href="http://www.jishiguanjia.com/list.php?typeid=698#maodian">管家风采</a></li>
-                        <li><a href="http://www.jishiguanjia.com/list.php?typeid=699#maodian">及时百科</a></li>
-                        <li><a href="http://www.jishiguanjia.com/list.php?typeid=702#maodian">服务项目</a></li>
+                        <li><a href="../ls_tbs/fbxp">发布需求</a></li>
+                        <li><a href="../ls_tbs/tests">定制管家</a></li>
+                        <li><a th:href="@{'/msxx?memId='+${session.memId}}">面试记录</a></li>
+                        <li><a th:href="@{'/xxxx?memId='+${session.memId}}">消息列表</a></li>
+                        <li><a th:href="@{'/dizhi?memId='+${session.memId}}">我的地址</a></li>
                         <li><a href="http://www.jishiguanjia.com/list.php?typeid=697#maodian">关于我们</a></li>
-                        <li><a href="register">预约管家</a></li>
                         <li><a href="server/login">我的</a></li>
                     </ul>
                 </div>
@@ -57,7 +56,9 @@
                <div class="col-lg-2"></div>
                <div class="col-lg-6">
                    <br/>
-                   <h3>地址：<span th:text="${memaddress.maAddress}"></span></h3><br/>
+                   <h3><span style="color: red" th:if="${memaddress.maIsdefault ne 1 }"></span>
+                       <span style="color: red" th:if="${memaddress.maIsdefault eq 1 }" th:text="默认"></span>
+                       地址：<span th:text="${memaddress.maAddress}"></span></h3><br/>
                    <h3 style="color: #C2C2C2">联系人：<span th:text="${memaddress.maContact}"></span>
                        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;联系电话：<span th:text="${memaddress.maTel}"></span>
                    </h3>
@@ -67,7 +68,7 @@
                   <div style="position: absolute;top:50px">
                       <a th:href="@{'/updateBy?maId='+${memaddress.maId}}"><span class="glyphicon glyphicon-edit"  style="font-size:70px;"></span></a>
                       &nbsp;&nbsp;&nbsp;
-                      <a th:href="@{'/deleteBy?maId='+${memaddress.maId}}"><span class="glyphicon glyphicon-trash" style="font-size:70px;color: red"></span></a>
+                      <a th:href="@{/deleteBy(maId=${memaddress.maId},memId=${session.memId})}"><span class="glyphicon glyphicon-trash" style="font-size:70px;color: red"></span></a>
                   </div>
                </div>
            </div>
