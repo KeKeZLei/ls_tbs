@@ -14,6 +14,73 @@
     <result column="eva_createtime" property="evaCreatetime" jdbcType="TIMESTAMP" />
     <result column="eva_time" property="evaTime" jdbcType="DATE" />
     <result column="eva_evastate" property="evaEvastate" jdbcType="INTEGER" />
+    <!--配置一对多-->
+    <collection property="member" ofType="com.lionsource.tbs.comm.model.Member">
+      <id column="mem_id" property="memId" jdbcType="INTEGER" />
+      <result column="ref_id" property="refId" jdbcType="INTEGER" />
+      <result column="mem_openid" property="memOpenid" jdbcType="VARCHAR" />
+      <result column="mem_head" property="memHead" jdbcType="VARCHAR" />
+      <result column="mem_name" property="memName" jdbcType="VARCHAR" />
+      <result column="mem_tel" property="memTel" jdbcType="VARCHAR" />
+      <result column="mem_idcardnum" property="memIdcardnum" jdbcType="VARCHAR" />
+      <result column="mem_idcardfront" property="memIdcardfront" jdbcType="VARCHAR" />
+      <result column="mem_idcardreverse" property="memIdcardreverse" jdbcType="VARCHAR" />
+      <result column="mem_idcardreason" property="memIdcardreason" jdbcType="VARCHAR" />
+      <result column="mem_sex" property="memSex" jdbcType="INTEGER" />
+      <result column="mem_call" property="memCall" jdbcType="VARCHAR" />
+      <result column="mem_realnamestate" property="memRealnamestate" jdbcType="VARCHAR" />
+      <result column="mem_vipstate" property="memVipstate" jdbcType="INTEGER" />
+      <result column="mem_vipterm" property="memVipterm" jdbcType="DATE" />
+      <result column="mem_employment" property="memEmployment" jdbcType="VARCHAR" />
+      <result column="mem_workform" property="memWorkform" jdbcType="VARCHAR" />
+      <result column="mem_contracttype" property="memContracttype" jdbcType="INTEGER" />
+      <result column="mem_workyear" property="memWorkyear" jdbcType="INTEGER" />
+      <result column="mem_agerange" property="memAgerange" jdbcType="VARCHAR" />
+      <result column="mem_nativedemand" property="memNativedemand" jdbcType="VARCHAR" />
+      <result column="mem_worktime" property="memWorktime" jdbcType="VARCHAR" />
+      <result column="mem_servicetime" property="memServicetime" jdbcType="INTEGER" />
+      <result column="mem_expectpay" property="memExpectpay" jdbcType="INTEGER" />
+      <result column="mem_otherdemand" property="memOtherdemand" jdbcType="VARCHAR" />
+      <result column="mem_createtime" property="memCreatetime" jdbcType="TIMESTAMP" />
+      <result column="mem_state" property="memState" jdbcType="INTEGER" />
+      <result column="mem_nickname" property="memNickname" jdbcType="LONGVARCHAR" />
+      <result column="mem_stewardtype" property="memStewardtype" jdbcType="LONGVARCHAR" />
+      <result column="mem_skilldemand" property="memSkilldemand" jdbcType="VARCHAR" />
+    </collection>
+    <!--配置一对多-->
+    <collection property="steward" ofType="com.lionsource.tbs.comm.model.Steward">
+      <id column="ste_id" property="steId" jdbcType="INTEGER" />
+      <result column="ref_id" property="refId" jdbcType="INTEGER" />
+      <result column="ste_openid" property="steOpenid" jdbcType="VARCHAR" />
+      <result column="ste_whead" property="steWhead" jdbcType="VARCHAR" />
+      <result column="ste_chead" property="steChead" jdbcType="VARCHAR" />
+      <result column="ste_name" property="steName" jdbcType="VARCHAR" />
+      <result column="ste_tel" property="steTel" jdbcType="VARCHAR" />
+      <result column="ste_idcardnum" property="steIdcardnum" jdbcType="VARCHAR" />
+      <result column="ste_idcardfront" property="steIdcardfront" jdbcType="VARCHAR" />
+      <result column="ste_idcardreverse" property="steIdcardreverse" jdbcType="VARCHAR" />
+      <result column="ste_idcardreason" property="steIdcardreason" jdbcType="VARCHAR" />
+      <result column="ste_sex" property="steSex" jdbcType="INTEGER" />
+      <result column="ste_age" property="steAge" jdbcType="INTEGER" />
+      <result column="ste_native" property="steNative" jdbcType="VARCHAR" />
+      <result column="ste_address" property="steAddress" jdbcType="VARCHAR" />
+      <result column="ste_workstate" property="steWorkstate" jdbcType="VARCHAR" />
+      <result column="ste_realnamestate" property="steRealnamestate" jdbcType="VARCHAR" />
+      <result column="ste_contracttype" property="steContracttype" jdbcType="INTEGER" />
+      <result column="ste_workyear" property="steWorkyear" jdbcType="INTEGER" />
+      <result column="ste_expsalary" property="steExpsalary" jdbcType="INTEGER" />
+      <result column="ste_workform" property="steWorkform" jdbcType="VARCHAR" />
+      <result column="ste_cerstate" property="steCerstate" jdbcType="VARCHAR" />
+      <result column="ste_createtime" property="steCreatetime" jdbcType="TIMESTAMP" />
+      <result column="ste_state" property="steState" jdbcType="INTEGER" />
+      <result column="ste_province" property="steProvince" jdbcType="INTEGER" />
+      <result column="ste_city" property="steCity" jdbcType="INTEGER" />
+      <result column="ste_nickname" property="steNickname" jdbcType="LONGVARCHAR" />
+      <result column="ste_worktype" property="steWorktype" jdbcType="LONGVARCHAR" />
+      <result column="ste_skill" property="steSkill" jdbcType="VARCHAR" />
+      <result column="ste_tag" property="steTag" jdbcType="VARCHAR" />
+      <result column="ste_describe" property="steDescribe" jdbcType="LONGVARCHAR" />
+    </collection>
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from evaluate
@@ -61,4 +128,28 @@
   <select id="getBySteid" resultMap="BaseResultMap" parameterType="int">
      select * from evaluate where ste_id = #{steid}
   </select>
+   <!--根据评价用户编号查询用户信息 yc-->
+  <select id="getByMemid" resultMap="BaseResultMap" parameterType="int">
+        select * from evaluate left join member on member.mem_id=evaluate.mem_id where evaluate.mem_id=#{mem_id} ;
+  </select>
+  <!--根据评价管家编号查询管家信息 yc-->
+  <select id="getBySteids" resultMap="BaseResultMap" parameterType="int">
+        select * from evaluate left join steward on steward.ste_id=evaluate.ste_id where evaluate.ste_id=#{ste_id} ;
+  </select>
+   <!--评价管家 yc-->
+  <update id="getEvaluateAdd" parameterType="com.lionsource.tbs.comm.model.Evaluate" >
+    update evaluate
+    set mem_id = #{memId,jdbcType=INTEGER},
+      ste_id = #{steId,jdbcType=INTEGER},
+      eva_service = #{evaService,jdbcType=INTEGER},
+      eva_skill = #{evaSkill,jdbcType=INTEGER},
+      eva_proquality = #{evaProquality,jdbcType=INTEGER},
+      eva_comment = #{evaComment,jdbcType=LONGVARCHAR},
+      eva_agreestate = #{evaAgreestate,jdbcType=INTEGER},
+      eva_state = #{evaState,jdbcType=INTEGER},
+      eva_createtime = #{evaCreatetime,jdbcType=TIMESTAMP},
+      eva_time = #{evaTime,jdbcType=DATE},
+      eva_evastate = #{evaEvastate,jdbcType=INTEGER}
+    where eva_id = #{evaId,jdbcType=INTEGER}
+  </update>
 </mapper>

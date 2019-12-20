@@ -5,6 +5,7 @@ import com.lionsource.tbs.comm.model.*;
 import com.lionsource.tbs.comm.utils.sendsms;
 import com.lionsource.tbs.proscenum.server.msg.RandomValidateCodeUtil;
 import com.lionsource.tbs.proscenum.server.service.*;
+import com.lionsource.tbs.proscenum.serverD.service.EvaluateServices;
 import com.lionsource.tbs.proscenum.serverY.service.StewardyServiceI;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -56,7 +58,9 @@ public class ServerController {
     EmprelationService emprelationService;
     @Autowired
     StewardyServiceI serviceI;
-
+    //评价yc
+    @Autowired
+    private EvaluateServices evaluateServices;
 
 
     /**
@@ -194,6 +198,42 @@ public class ServerController {
             if(stewardList!=null) {
                 String memname = memberService.getMemname(member);
                 request.setAttribute("steName", memname);
+                int memid=0;
+                for (Member ls:stewardList
+                     ) {
+                    memid=ls.getMemId();
+                }
+                System.err.println("memid:"+memid);
+
+                //根据评价用户编号查询用户信息
+                List<Evaluate> memberLists=evaluateServices.getByMemid(memid);
+                DateFormat df=new SimpleDateFormat("yyyy-MM-dd hh-mm-ss");
+                for(int i=0;i<memberLists.size();i++){
+                    Date a= memberLists.get(i).getEvaCreatetime();
+                    Date b=memberLists.get(i).getEvaTime();
+                    memberLists.get(i).setEvaCreatetimes( df.format(a));
+                    memberLists.get(i).setEvaTimes(df.format(b));
+                }
+                session.setAttribute("memberLists",memberLists);
+                System.err.println(memberLists);
+                int ids=0;
+                int steid=0;
+                int evaid=0;
+                for (Evaluate ls:memberLists
+                ) {
+                    ids=ls.getSteId();
+                    steid=ls.getSteId();
+                    evaid=ls.getEvaId();
+                }
+                session.setAttribute("steid",steid);
+                session.setAttribute("evaid",evaid);
+                //根据评价用户编号查询用户信息
+                List<Evaluate> memberList=evaluateServices.getByMemid(memid);
+                session.setAttribute("memberLists",memberList);
+                //根据评价管家编号查询用户信息
+                List<Steward> stewardLists=evaluateServices.getBySteids(memid);
+                session.setAttribute("stewardLists",stewardLists);
+
                 List<Steward> lists = serviceI.selectAll();
                 session.setAttribute("list",lists);
                 session.setAttribute("memId",stewardList.get(0).getMemId());
@@ -261,6 +301,17 @@ public class ServerController {
         }
         return "serverZ/login";
     }
+    @RequestMapping("/getEvalyateAdd")
+    public String  getEvalyateAdd(@RequestParam("evaid")int evaid,@RequestParam("memid")int memid,@RequestParam("steid")int steid,@RequestParam("evaComment")String evaComment,@RequestParam("evaAgreestate")int evaAgreestate,@RequestParam("evaProquality") int evaProquality,@RequestParam("evaSkill") int evaSkill,@RequestParam("evaService") int evaService){
+        Date date=new Date();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String time = df.format(date);
+        //添加
+        Evaluate evaluate=new Evaluate(evaid,memid,steid,evaService,evaSkill,evaProquality,evaComment,evaAgreestate,1,time,time,1);
+        int count =evaluateServices.getEvaluateAdd(evaluate);
+
+        return "serverZ/guanjiapingjia";
+    }
     /**
      *通过用户名和手机号进行登录
      * @return
@@ -281,6 +332,41 @@ public class ServerController {
                 return "serverZ/login";
             }else{
                 System.out.println("登录成功");
+                int memid=0;
+                for (Member ls:memberList
+                ) {
+                    memid=ls.getMemId();
+                }
+
+                session.setAttribute("memid",memid);
+                System.err.println("memid:"+memid);
+                //根据评价用户编号查询用户信息
+                List<Evaluate> memberLists=evaluateServices.getByMemid(memid);
+                DateFormat df=new SimpleDateFormat("yyyy-MM-dd hh-mm-ss");
+                for(int i=0;i<memberLists.size();i++){
+                    Date a= memberLists.get(i).getEvaCreatetime();
+                    Date b=memberLists.get(i).getEvaTime();
+                    memberLists.get(i).setEvaCreatetimes( df.format(a));
+                    memberLists.get(i).setEvaTimes(df.format(b));
+                }
+                session.setAttribute("memberLists",memberLists);
+                System.err.println(memberLists);
+                int ids=0;
+                int steid=0;
+                int evaid=0;
+                for (Evaluate ls:memberLists
+                     ) {
+                    ids=ls.getSteId();
+                    steid=ls.getSteId();
+                    evaid=ls.getEvaId();
+                }
+                session.setAttribute("steid",steid);
+                session.setAttribute("evaid",evaid);
+                //根据评价管家编号查询用户信息
+                List<Steward> stewardLists=evaluateServices.getBySteids(ids);
+                System.err.println("评价管家"+stewardLists);
+                session.setAttribute("stewardLists",stewardLists);
+
                 request.setAttribute("tisiLogin","登录成功");
                 request.setAttribute("ste_name",ste_name);
                 List<Steward> lists = serviceI.selectAll();
