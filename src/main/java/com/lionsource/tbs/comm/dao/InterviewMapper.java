@@ -1,6 +1,8 @@
 package com.lionsource.tbs.comm.dao;
 
 import com.lionsource.tbs.comm.model.Interview;
+import org.springframework.data.repository.query.Param;
+
 import java.util.List;
 
 public interface InterviewMapper {
@@ -13,4 +15,6 @@ public interface InterviewMapper {
     List<Interview> selectAll();
 
     int updateByPrimaryKey(Interview record);
+
+    List<Interview> selectmemId(@Param("mem_id")Integer memId);
 }

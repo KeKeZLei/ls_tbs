@@ -23,4 +23,6 @@ public interface CertificateMapper {
      * @return
      */
     List<Certificate> selectsteid(@Param("ste_id") Integer steId);
+
+
 }

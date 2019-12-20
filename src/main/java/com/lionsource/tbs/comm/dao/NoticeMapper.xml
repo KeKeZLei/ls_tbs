@@ -43,4 +43,7 @@
     select not_id, not_type, not_title, not_createtime, ref_id, mem_id, ste_id, not_content
     from notice
   </select>
+  <select id="selectmemId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select * from notice where mem_id=#{mem_id}
+  </select>
 </mapper>

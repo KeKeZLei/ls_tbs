@@ -12,11 +12,18 @@ public interface MemaddressMapperYI {
     List<Memaddress> selectAll();
 
     /**
+     *
+     * @param memId
+     * @return
+     */
+    List<Memaddress> selectmemId(Integer memId);
+
+    /**
      * 根据id删除地址
      * @param manaId
      * @return
      */
-    int deleteByPrimaryKey(Integer manaId);
+    int deleteByPrimaryKey(Integer manaId,Integer meId);
 
     /**
      * 添加地址
@@ -38,4 +45,8 @@ public interface MemaddressMapperYI {
      * @return
      */
     Memaddress selectByPrimaryKey(Integer maId);
+
+    List<Memaddress> selectmaIsdefault(Integer memId);
+
+    List<Memaddress> selectmaIsdefaultmaid(Integer maId);
 }

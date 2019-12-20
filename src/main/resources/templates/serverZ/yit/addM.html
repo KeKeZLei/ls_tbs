@@ -40,14 +40,15 @@
                         <li class="on">
                             <a href="../homePage">网站首页</a>
                         </li>
-                        <li><a href="http://www.jishiguanjia.com/list.php?typeid=700#maodian">家庭服务</a></li>
-                        <li><a href="http://www.jishiguanjia.com/list.php?typeid=737#maodian">商业保洁</a></li>
-                        <li><a href="http://www.jishiguanjia.com/list.php?typeid=698#maodian">管家风采</a></li>
-                        <li><a href="http://www.jishiguanjia.com/list.php?typeid=699#maodian">及时百科</a></li>
-                        <li><a href="http://www.jishiguanjia.com/list.php?typeid=702#maodian">服务项目</a></li>
+                        <li><a href="../ls_tbs/fbxp">发布需求</a></li>
+                        <li><a href="../ls_tbs/tests">定制管家</a></li>
+                        <li><a th:href="@{'/msxx?memId='+${session.memId}}">面试记录</a></li>
+                        <li><a th:href="@{'/xxxx?memId='+${session.memId}}">消息列表</a></li>
+                        <li><a th:href="@{'/dizhi?memId='+${session.memId}}">我的地址</a></li>
                         <li><a href="http://www.jishiguanjia.com/list.php?typeid=697#maodian">关于我们</a></li>
-                        <li><a href="register">预约管家</a></li>
                         <li><a href="server/login">我的</a></li>
+                        <li th:if="${session.memId eq null}"></li>
+                        <li th:if="${session.memId ne null}"><a href="../ls_tbs/exit">退出</a></li>
                     </ul>
                 </div>
             </div>
@@ -129,6 +130,7 @@
             </div>
             <div class="row"><br/><br/><br/><br/><br/><br/><br/><br/><br/></div>
         </div>
+        <input type="text" th:value="${session.memId}" name="memId">
         <div class="row" style="text-align: center">
             <br/>
            <a href="#"> <button type="button" name="btn" class="btn btn-primary btn-lg" style="width: 500px">添加</button></a>
@@ -248,23 +250,26 @@
 </header>
 <script>
     $(function () {
+        $("[name=memId]").hide();
         $("[name=btn]").click(function () {
             //非空验证
             if($("[name=name]").val()=="" || $("[name=dh]").val()=="" || $("[name=dz]").val()==""){
                 alert("请将信息填写完整！")
             }else {
+                var memId=$("[name=memId]").val();
                 $.ajax({
                     type:"post",
                     url:"addMs",
                     data:{
                         maContact:$("[name=name]").val(),
                         maTel:$("[name=dh]").val(),
-                        maAddress:$("[name=dz]").val()
+                        maAddress:$("[name=dz]").val(),
+                        memId:memId
                     },
                     dataType:"text",
                     success:function(e){
                         alert(e)
-                        window.location.href="dizhi";
+                        window.location.href="dizhi?memId="+memId;
                     }
                 })
             }
