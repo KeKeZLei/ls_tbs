@@ -35,7 +35,7 @@ public class EvaluateServiceImpls implements EvaluateServices {
         List<Steward> stewardList=null;
         List<Evaluate> list = evaluateMapper.getBySteids(steids);
         for (Evaluate  ls:list
-             ) {
+        ) {
             stewardList=ls.getSteward();
         }
         return stewardList;

@@ -58,6 +58,7 @@ public class ServerController {
     EmprelationService emprelationService;
     @Autowired
     StewardyServiceI serviceI;
+
     //评价yc
     @Autowired
     private EvaluateServices evaluateServices;
@@ -200,7 +201,7 @@ public class ServerController {
                 request.setAttribute("steName", memname);
                 int memid=0;
                 for (Member ls:stewardList
-                     ) {
+                ) {
                     memid=ls.getMemId();
                 }
                 System.err.println("memid:"+memid);
@@ -249,7 +250,7 @@ public class ServerController {
             if(refnameReftel!=null){
                 String referrerRefname = referrerService.getReferrerRefname(referrer);
                 request.setAttribute("ste_name",referrerRefname);
-                 String ste_tels= ste_tel;
+                String ste_tels= ste_tel;
                 //根据id查询用户相关信息
                 List<Referrer> list=  referrerService.getReferrers(ste_tels);
 
@@ -355,7 +356,7 @@ public class ServerController {
                 int steid=0;
                 int evaid=0;
                 for (Evaluate ls:memberLists
-                     ) {
+                ) {
                     ids=ls.getSteId();
                     steid=ls.getSteId();
                     evaid=ls.getEvaId();
@@ -394,7 +395,7 @@ public class ServerController {
 //                System.out.println(list);
                 int id=0;
                 for (Referrer ls:list) {
-                     id=ls.getRefId();
+                    id=ls.getRefId();
 //                    System.out.println(id);
                 }
                 //查询推荐用户数
@@ -469,14 +470,14 @@ public class ServerController {
             request.setAttribute("msg","验证码错误");
             return "serverZ/register";
         } else if(request.getParameter("ref_id")==""){
-             steward=new Steward(0, null,null ,null,null,ste_name,ste_tel,null,
+            steward=new Steward(0, null,null ,null,null,ste_name,ste_tel,null,
                     null,null,null,ste_sex,ste_age,ste_native,ste_address,
                     null,"未实名",1,ste_workyear,money,null,
                     "无", steCreatetime, 1,ste_province,
                     ste_city, null,ste_worktype,null,ste_tag,ste_describe);
         }else{
-           int ref_id = Integer.parseInt(request.getParameter("ref_id"));
-             steward=new Steward(0, ref_id,null ,null,null,ste_name,ste_tel,null,
+            int ref_id = Integer.parseInt(request.getParameter("ref_id"));
+            steward=new Steward(0, ref_id,null ,null,null,ste_name,ste_tel,null,
                     null,null,null,ste_sex,ste_age,ste_native,ste_address,
                     null,"未实名",1,ste_workyear,money,null,
                     "无", steCreatetime, 1,ste_province,
@@ -573,7 +574,7 @@ public class ServerController {
              * 在页面不用显示我的雇主
              */
             if(empId==0){
-               MepId=0;
+                MepId=0;
             }else{
                 memList = memberService.selectAllByMemId(empId);
                 System.out.println("memList"+memList);
@@ -638,3 +639,4 @@ public class ServerController {
     }
 
 }
+

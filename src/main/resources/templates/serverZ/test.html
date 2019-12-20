@@ -26,27 +26,29 @@
 <header>
     <div class="p-header">
         <div class="topCon">
-        <div class="menuBox">
-            <div class="wrap">
-                <ul>
-                    <li class="on">
-                        <a href="../homePage">网站首页</a>
-                    </li>
-                    <li><a href="http://www.jishiguanjia.com/list.php?typeid=700#maodian">家庭服务</a></li>
-                    <li><a href="http://www.jishiguanjia.com/list.php?typeid=737#maodian">商业保洁</a></li>
-                    <li><a href="http://www.jishiguanjia.com/list.php?typeid=698#maodian">管家风采</a></li>
-                    <li><a href="http://www.jishiguanjia.com/list.php?typeid=699#maodian">及时百科</a></li>
-                    <li><a href="http://www.jishiguanjia.com/list.php?typeid=702#maodian">服务项目</a></li>
-                    <li><a href="http://www.jishiguanjia.com/list.php?typeid=697#maodian">关于我们</a></li>
-                    <li><a href="register">预约管家</a></li>
-                    <li><a href="server/login">我的</a></li>
-                </ul>
+            <div class="menuBox">
+                <div class="wrap">
+                    <ul>
+                        <li class="on">
+                            <a href="../homePage">网站首页</a>
+                        </li>
+                        <li><a href="http://www.jishiguanjia.com/list.php?typeid=700#maodian">家庭服务</a></li>
+                        <li><a href="http://www.jishiguanjia.com/list.php?typeid=737#maodian">商业保洁</a></li>
+                        <li><a href="http://www.jishiguanjia.com/list.php?typeid=698#maodian">管家风采</a></li>
+                        <li><a href="http://www.jishiguanjia.com/list.php?typeid=699#maodian">及时百科</a></li>
+                        <li><a href="http://www.jishiguanjia.com/list.php?typeid=702#maodian">服务项目</a></li>
+                        <li><a href="http://www.jishiguanjia.com/list.php?typeid=697#maodian">关于我们</a></li>
+                        <li><a href="guanjiapingjia">评价管家</a></li>
+                        <li><a href="register">预约管家</a></li>
+                        <li><a href="server/login">我的</a></li>
+                        <li><a name="memid" hidden="hidden" th:text="${session.memid}"></a></li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
         <style>
             /*div{*/
-                /*border: 1px red solid;*/
+            /*border: 1px red solid;*/
             /*}*/
             /*chrckbox美化 复选按钮*/
             input.cbox {
@@ -94,200 +96,200 @@
                 height:auto;
             }
         </style>
-    <!--中部-->
-       <div class="content">
-           <div class="row">
-               <div class="col-lg-2">
-               </div>
-               <div class="col-lg-offset-1">
-                   <h3><span class="glyphicon glyphicon-chevron-left"></span> 预约管家</h3>
-               </div>
-           </div>
-           <div class="row" style="text-align: center;background-color: #F4F4F4">
-               <!--类型-->
-               <div class="col-lg-4">
-                   <br/>
-                   <button class="btn " name="btn" data-toggle="modal" data-target="#myModal">
-                       类型
-                       <span name="shang" class="glyphicon glyphicon-chevron-down"></span>
-                   </button>
-                   <!-- 模态框（Modal） -->
-                   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                       <div class="modal-dialog">
-                           <div class="modal-content">
-                               <div class="modal-header">
-                                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                   <h4 class="modal-title" id="myModalLabel">类型</h4>
-                               </div>
-                               <div class="modal-body"style="text-align: left">
-                                   <div class="row" >
-                                       <div class="col-xs-12">
-                                           <h3><b>签约形式？</b></h3>
-                                       </div>
-                                       <div class="col-xs-12">
-                                           <h4><b><input name="zhi" type="radio" value="1"/>&nbsp;&nbsp;中介制</b></h4>
-                                          <div style="background-color:#F5F5F5 ">
-                                              VIP用户全年找管家的服务，保证找到好的管家为止，
-                                              劳务关系为你和管家直接产生。
-                                          </div>
-                                       </div>
-                                       <div class="col-xs-12">
-                                           <h4><b><input name="zhi" type="radio" value="2"/>&nbsp;&nbsp;雇佣制</b></h4>
-                                           <div style="background-color:#F5F5F5 ">
-                                                  管家全部为与公司签约管家，由公司管理负责定期培训，社会保障，安全保障，购买服务保险，
-                                                  雇佣是签署三方协议。每月支付服务费给我司，由我司负责发放管家佣金。雇佣制首次支付服务费是可抵
-                                                  扣vip费用等额的费用
-                                           </div>
-                                       </div>
-                                   </div>
-                                   <hr/>
-                                   <div class="row">
-                                       <div class="col-xs-12">
-                                           <h3><b>管家类型<font color="#ABABAB">(可多选)</font></b></h3>
-                                       </div>
-                                       <div th:each="Stewardtype:${zylist}">
-                                           <div class="col-xs-4" id="fruit">
-                                              <h4><b><input type="checkbox"class="cbox" name="Stewardtype" th:value="${Stewardtype.stId}"/>&nbsp;&nbsp;<span th:text="${Stewardtype.stName}"></span></b></h4>
-                                           </div>
-                                       </div>
-                                   </div>
-                               </div>
-                               <div class="modal-footer">
-                                   <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                                  <a href="#"> <button type="button" class="btn btn-primary" name="qd1">确认</button></a>
-                               </div>
-                           </div>
-                       </div>
-                   </div>
-                   <br/><br/>
-               </div>
-               <!--经验-->
-               <div class="col-lg-4">
-                   <br/>
-                   <button class="btn " name="btn" data-toggle="modal" data-target="#myModa2">
-                       经验
-                       <span name="shang" class="glyphicon glyphicon-chevron-down"></span>
-                   </button>
-                   <!-- 模态框（Modal） -->
-                   <div class="modal fade" id="myModa2" tabindex="-1" role="dialog" aria-labelledby="myModalLabe2" aria-hidden="true">
-                       <div class="modal-dialog">
-                           <div class="modal-content">
-                               <div class="modal-header">
-                                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                   <h4 class="modal-title" id="myModalLabe2">经验</h4>
-                               </div>
-                               <div class="modal-body"style="text-align: left">
-                                   <div class="row">
-                                       <div class="col-xs-12">
-                                           <h3><b>您需要管家有多少工作经验？</font></b></h3>
-                                       </div>
-                                       <div class="col-xs-4">
-                                           <h4><b><input name="gzjy" type="radio" value="1"/>&nbsp;&nbsp;1年</b></h4>
-                                       </div>
-                                       <div class="col-xs-4">
-                                           <h4><b> <input name="gzjy" type="radio" value="2"/>&nbsp;&nbsp;2年</b></h4>
-                                       </div>
-                                       <div class="col-xs-4">
+        <!--中部-->
+        <div class="content">
+            <div class="row">
+                <div class="col-lg-2">
+                </div>
+                <div class="col-lg-offset-1">
+                    <h3><span class="glyphicon glyphicon-chevron-left"></span> 预约管家</h3>
+                </div>
+            </div>
+            <div class="row" style="text-align: center;background-color: #F4F4F4">
+                <!--类型-->
+                <div class="col-lg-4">
+                    <br/>
+                    <button class="btn " name="btn" data-toggle="modal" data-target="#myModal">
+                        类型
+                        <span name="shang" class="glyphicon glyphicon-chevron-down"></span>
+                    </button>
+                    <!-- 模态框（Modal） -->
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title" id="myModalLabel">类型</h4>
+                                </div>
+                                <div class="modal-body"style="text-align: left">
+                                    <div class="row" >
+                                        <div class="col-xs-12">
+                                            <h3><b>签约形式？</b></h3>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <h4><b><input name="zhi" type="radio" value="1"/>&nbsp;&nbsp;中介制</b></h4>
+                                            <div style="background-color:#F5F5F5 ">
+                                                VIP用户全年找管家的服务，保证找到好的管家为止，
+                                                劳务关系为你和管家直接产生。
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <h4><b><input name="zhi" type="radio" value="2"/>&nbsp;&nbsp;雇佣制</b></h4>
+                                            <div style="background-color:#F5F5F5 ">
+                                                管家全部为与公司签约管家，由公司管理负责定期培训，社会保障，安全保障，购买服务保险，
+                                                雇佣是签署三方协议。每月支付服务费给我司，由我司负责发放管家佣金。雇佣制首次支付服务费是可抵
+                                                扣vip费用等额的费用
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr/>
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <h3><b>管家类型<font color="#ABABAB">(可多选)</font></b></h3>
+                                        </div>
+                                        <div th:each="Stewardtype:${zylist}">
+                                            <div class="col-xs-4" id="fruit">
+                                                <h4><b><input type="checkbox"class="cbox" name="Stewardtype" th:value="${Stewardtype.stId}"/>&nbsp;&nbsp;<span th:text="${Stewardtype.stName}"></span></b></h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                    <a href="#"> <button type="button" class="btn btn-primary" name="qd1">确认</button></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br/><br/>
+                </div>
+                <!--经验-->
+                <div class="col-lg-4">
+                    <br/>
+                    <button class="btn " name="btn" data-toggle="modal" data-target="#myModa2">
+                        经验
+                        <span name="shang" class="glyphicon glyphicon-chevron-down"></span>
+                    </button>
+                    <!-- 模态框（Modal） -->
+                    <div class="modal fade" id="myModa2" tabindex="-1" role="dialog" aria-labelledby="myModalLabe2" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title" id="myModalLabe2">经验</h4>
+                                </div>
+                                <div class="modal-body"style="text-align: left">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <h3><b>您需要管家有多少工作经验？</font></b></h3>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <h4><b><input name="gzjy" type="radio" value="1"/>&nbsp;&nbsp;1年</b></h4>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <h4><b> <input name="gzjy" type="radio" value="2"/>&nbsp;&nbsp;2年</b></h4>
+                                        </div>
+                                        <div class="col-xs-4">
                                             <h4><b> <input name="gzjy" type="radio" value="3"/>&nbsp;&nbsp;3年</b></h4>
-                                       </div>
-                                       <div class="col-xs-3">
-                                           <h4><b> <input name="gzjy" type="radio" value="4"/>&nbsp;&nbsp;3年以上</b></h4>
-                                       </div>
-                                   </div>
-                               </div>
-                               <div class="modal-footer">
-                                   <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                                   <button type="button" class="btn btn-primary"name="qd2">确认</button>
-                               </div>
-                           </div>
-                       </div>
-                   </div>
-                   <br/><br/>
-               </div>
-               <!--更多-->
-               <div class="col-lg-4">
-                   <br/>
-                   <button class="btn " name="btn" data-toggle="modal" data-target="#myModa3">
-                       更多
-                       <span name="shang" class="glyphicon glyphicon-chevron-down"></span>
-                   </button>
-                   <!-- 模态框（Modal） -->
-                   <div class="modal fade" id="myModa3" tabindex="-1" role="dialog" aria-labelledby="myModalLabe2" aria-hidden="true">
-                       <div class="modal-dialog">
-                           <div class="modal-content">
-                               <div class="modal-header">
-                                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                   <h4 class="modal-title" id="myModalLabe3">更多</h4>
-                               </div>
-                               <div class="modal-body"style="text-align: left">
-                                   <!--工作形式-->
-                                   <div class="row">
-                                       <div class="col-xs-12">
-                                           <h3><b>工作形式</font></b></h3>
-                                       </div>
-                                       <div class="col-xs-3">
-                                           <h4><b><input name="hom" type="radio" value="住家"/>&nbsp;&nbsp;住家</b></h4>
-                                       </div>
-                                       <div class="col-xs-3">
-                                           <h4><b><input name="hom" type="radio" value="白班"/>&nbsp;&nbsp;白班</b></h4>
-                                       </div>
-                                       <div class="col-xs-3">
-                                           <h4><b><input name="hom" type="radio" value="钟点"/>&nbsp;&nbsp;钟点</b></h4>
-                                       </div>
-                                   </div>
-                                   <hr/>
-                                   <!--年龄要求-->
-                                   <div class="row">
-                                       <div class="col-xs-12">
-                                           <h3><b>年龄要求</font></b></h3>
-                                       </div>
-                                       <div class="col-xs-4">
-                                           <h4><b><input name="age" type="radio" value="35"/>&nbsp;&nbsp;35岁以下</b></h4>
-                                       </div>
-                                       <div class="col-xs-4">
-                                           <h4><b><input name="age" type="radio" value="40"/>&nbsp;&nbsp;36-40岁</b></h4>
-                                       </div>
-                                       <div class="col-xs-4">
-                                           <h4><b><input name="age" type="radio" value="45"/>&nbsp;&nbsp;41-45岁</b></h4>
-                                       </div>
-                                       <div class="col-xs-4">
-                                           <h4><b><input name="age" type="radio" value="50"/>&nbsp;&nbsp;46-50岁</b></h4>
-                                       </div>
-                                       <div class="col-xs-4">
-                                           <h4><b><input name="age" type="radio" value="51"/>&nbsp;&nbsp;51岁以上</b></h4>
-                                       </div>
-                                   </div>
-                                   <hr/>
-                                   <div class="col-xs-3">
-                                       籍贯要求
-                                   </div>
-                                   <div style="text-align: right;">
-                                       <input type="text" name="jiguan" placeholder="请输入籍贯" style="text-align: right;border: 0px;"/>
-                                   </div>
-                                   <hr/>
-                                   <!--个人技能要求-->
-                                   <div class="row">
-                                       <div class="col-xs-12">
-                                           <h3><b>详细服务需求？<font color="#ABABAB">(可多选)</font></b></h3>
-                                       </div>
-                                       <div th:each="Tag:${tagslist}">
-                                           <div class="col-xs-5" id="fruits">
-                                               <h4><b><input type="checkbox"class="cbox" name="tag" th:value="${Tag.tagId}"/>&nbsp;&nbsp;<span th:text="${Tag.tagName}"></span></b></h4>
-                                           </div>
-                                       </div>
-                                   </div>
-                               </div>
-                               <div class="modal-footer">
-                                   <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                                   <button type="button" class="btn btn-primary" name="qd3">确认</button>
-                               </div>
-                           </div>
-                       </div>
-                   </div>
-                   <br/><br/>
-               </div>
-           </div>
-       </div>
+                                        </div>
+                                        <div class="col-xs-3">
+                                            <h4><b> <input name="gzjy" type="radio" value="4"/>&nbsp;&nbsp;3年以上</b></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                    <button type="button" class="btn btn-primary"name="qd2">确认</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br/><br/>
+                </div>
+                <!--更多-->
+                <div class="col-lg-4">
+                    <br/>
+                    <button class="btn " name="btn" data-toggle="modal" data-target="#myModa3">
+                        更多
+                        <span name="shang" class="glyphicon glyphicon-chevron-down"></span>
+                    </button>
+                    <!-- 模态框（Modal） -->
+                    <div class="modal fade" id="myModa3" tabindex="-1" role="dialog" aria-labelledby="myModalLabe2" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title" id="myModalLabe3">更多</h4>
+                                </div>
+                                <div class="modal-body"style="text-align: left">
+                                    <!--工作形式-->
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <h3><b>工作形式</font></b></h3>
+                                        </div>
+                                        <div class="col-xs-3">
+                                            <h4><b><input name="hom" type="radio" value="住家"/>&nbsp;&nbsp;住家</b></h4>
+                                        </div>
+                                        <div class="col-xs-3">
+                                            <h4><b><input name="hom" type="radio" value="白班"/>&nbsp;&nbsp;白班</b></h4>
+                                        </div>
+                                        <div class="col-xs-3">
+                                            <h4><b><input name="hom" type="radio" value="钟点"/>&nbsp;&nbsp;钟点</b></h4>
+                                        </div>
+                                    </div>
+                                    <hr/>
+                                    <!--年龄要求-->
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <h3><b>年龄要求</font></b></h3>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <h4><b><input name="age" type="radio" value="35"/>&nbsp;&nbsp;35岁以下</b></h4>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <h4><b><input name="age" type="radio" value="40"/>&nbsp;&nbsp;36-40岁</b></h4>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <h4><b><input name="age" type="radio" value="45"/>&nbsp;&nbsp;41-45岁</b></h4>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <h4><b><input name="age" type="radio" value="50"/>&nbsp;&nbsp;46-50岁</b></h4>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <h4><b><input name="age" type="radio" value="51"/>&nbsp;&nbsp;51岁以上</b></h4>
+                                        </div>
+                                    </div>
+                                    <hr/>
+                                    <div class="col-xs-3">
+                                        籍贯要求
+                                    </div>
+                                    <div style="text-align: right;">
+                                        <input type="text" name="jiguan" placeholder="请输入籍贯" style="text-align: right;border: 0px;"/>
+                                    </div>
+                                    <hr/>
+                                    <!--个人技能要求-->
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <h3><b>详细服务需求？<font color="#ABABAB">(可多选)</font></b></h3>
+                                        </div>
+                                        <div th:each="Tag:${tagslist}">
+                                            <div class="col-xs-5" id="fruits">
+                                                <h4><b><input type="checkbox"class="cbox" name="tag" th:value="${Tag.tagId}"/>&nbsp;&nbsp;<span th:text="${Tag.tagName}"></span></b></h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                    <button type="button" class="btn btn-primary" name="qd3">确认</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br/><br/>
+                </div>
+            </div>
+        </div>
         <!--显示可用管家-->
         <div th:each="steward:${session.list}">
             <hr />
@@ -312,7 +314,7 @@
                             </div>-
                             <div class="col-lg-9">
                                 <!--是否实名，是否有证书，是签约管家还是个人管家-->
-                               <!--是否已实名-->
+                                <!--是否已实名-->
                                 <div th:if="${steward.steRealnamestate} eq '已实名'">
                                     <div class="col-lg-3" >
                                         <div style="float: left;background-color: #EEEEEE; border-radius:15px;">
@@ -410,7 +412,7 @@
                 </div>
             </div>
         </div>
-    <!--尾部-->
+        <!--尾部-->
     </div>
     <div class="p-footer">
         <div class="content1">
@@ -530,16 +532,16 @@
                 if($("input[name="+i+"]").length>0){
                     var str=$("input[name="+i+"]").val();
                     $("input[name="+i+"]").hide();
-                     for (var j=1;j<b.length+1;j++){
-                         var sear=new RegExp(j);
-                         if(sear.test(str)) {
-                             ($("div[name="+i+"]")).append(" <div class=\"col-lg-2\">\n" +
-                                 "                                <div style=\"float: left;background-color: #64B4F5; border-radius:15px; color: #FFFFFF\">\n" +
-                                 "                                    <h4>&nbsp;&nbsp;"+b[j-1]+"&nbsp;&nbsp;</h4>\n" +
-                                 "                                </div>\n" +
-                                 "                            </div>")
-                         }
-                     }
+                    for (var j=1;j<b.length+1;j++){
+                        var sear=new RegExp(j);
+                        if(sear.test(str)) {
+                            ($("div[name="+i+"]")).append(" <div class=\"col-lg-2\">\n" +
+                                "                                <div style=\"float: left;background-color: #64B4F5; border-radius:15px; color: #FFFFFF\">\n" +
+                                "                                    <h4>&nbsp;&nbsp;"+b[j-1]+"&nbsp;&nbsp;</h4>\n" +
+                                "                                </div>\n" +
+                                "                            </div>")
+                        }
+                    }
                 }
             }
 
@@ -554,7 +556,7 @@
                 });
                 var vals = arr.join("%");
                 if($("[name=zhi]:checked").length <=0 || arr.length <=0){
-                  alert("请将数据填写完整！")
+                    alert("请将数据填写完整！")
                 }else {
                     $.ajax({
                         type:"post",
@@ -574,22 +576,22 @@
             })
             // 经验
             $("[name=qd2]").click(function () {
-               if($("[name=gzjy]:checked").length<=0){
-                   alert("请将数据填写完整！")
-               }else {
-                   $.ajax({
-                       type:"post",
-                       url:"jy",
-                       data:{
-                           ste_workyear:$("[name=gzjy]:checked").val(),//管家年限
-                       },
-                       dataType:"text",
-                       success:function(e) {
-                           alert(e);
-                           window.location.href="tests";
-                       }
-                   })
-               }
+                if($("[name=gzjy]:checked").length<=0){
+                    alert("请将数据填写完整！")
+                }else {
+                    $.ajax({
+                        type:"post",
+                        url:"jy",
+                        data:{
+                            ste_workyear:$("[name=gzjy]:checked").val(),//管家年限
+                        },
+                        dataType:"text",
+                        success:function(e) {
+                            alert(e);
+                            window.location.href="tests";
+                        }
+                    })
+                }
 
             })
             // 更多
@@ -618,7 +620,7 @@
                             window.location.href="tests";
                         }
                     })
-                 }
+                }
 
             })
         })
@@ -626,3 +628,4 @@
 </header>
 </body>
 </html>
+
