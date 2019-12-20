@@ -48,87 +48,76 @@
 
     <div class="tdbModule register">
         <!--<div class="registerTitle">管家列表</div>-->
-        <div class="container-fluid">
-            <div class="container-fluid" th:each="steward:${session.stewardLists}">
-                <div class="row col-xs-12 col-xs-offset-0">
-                    <div class="row col-xs-13 s">
-                        <h3 class="glyphicon glyphicon-menu-left">填写评价</h3>
+        <div class="container-fluid" th:each="steward:${session.stewardLists}">
+            <div class="row col-xs-12 col-xs-offset-0">
+                <div class="row col-xs-13 s">
+                    <h3 class="glyphicon glyphicon-menu-left">填写评价</h3>
+                </div>
+                <br />
+                <div class="col-xs-12 s">
+                    <div class="col-xs-2">
+                        <img th:src="@{'static/images/'+${steward.steChead}}" class="img-circle image" alt="家政">
                     </div>
+                    <div class="col-xs-10" >
+                        <br />
+                        <h4>管家姓名:<span th:text="${steward.steName}"></span></h4>
+                        <!--<h4>类型管家</h4>-->
+                    </div>
+                </div>
+                <div class="col-xs-12 ">
                     <br />
-                    <div class="col-xs-12 s">
-                        <div class="col-xs-2">
-                            <img src="static\yuyueguanjia\img\11.jpg" class="img-circle image" alt="家政">
-                            <img th:src="@{'static/images/'+${steward.steChead}}" class="img-circle image" alt="家政">
+                </div>
+                <div class="col-xs-12 s">
+                    <div class="col-xs-12 ">
+                        <h4>管家评价</h4>
+                    </div>
+                    <form action="getEvalyateAdd" method="post">
+                        <input name="memid" th:value="${session.memid}"></input>
+                        <input name="steid" th:value="${session.steid}"></input>
+                        <input name="evaid" th:value="${session.evaid}"></input>
+                        <div class="col-xs-12 ">
+                            <h4>服务态度
+                                <span class="glyphicon glyphicon-star-empty imgs"></span>
+                                <span class="glyphicon glyphicon-star-empty imgs"></span>
+                                <span class="glyphicon glyphicon-star-empty imgs"></span>
+                                <span class="glyphicon glyphicon-star-empty imgs"></span>
+                                <span class="glyphicon glyphicon-star-empty imgs"></span>
+                                <span class="counts"></span>
+                                <input  name="evaService" id="evaService"/>
+                                <span>分</span>
+                            </h4>
                         </div>
-                        <div class="col-xs-10">
-                            <div class="col-xs-10" >
-                                <br />
-                                <h4>管家姓名:num</h4>
-                                <h4>类型管家</h4>
-                                <h4>管家姓名:<span th:text="${steward.steName}"></span></h4>
-                                <!--<h4>类型管家</h4>-->
-                            </div>
+                        <div class="col-xs-12 ">
+                            <h4>专业技能
+                                <span class="glyphicon glyphicon-star-empty img"></span>
+                                <span class="glyphicon glyphicon-star-empty img"></span>
+                                <span class="glyphicon glyphicon-star-empty img"></span>
+                                <span class="glyphicon glyphicon-star-empty img"></span>
+                                <span class="glyphicon glyphicon-star-empty img"></span>
+                                <span class="count"></span>
+                                <input  name="evaSkill" id="evaSkill"/>
+                                <span>分</span>
+                            </h4>
+                        </div>
+                        <div class="col-xs-12 ">
+                            <h4>职业素养
+                                <span class="glyphicon glyphicon-star-empty img2"></span>
+                                <span class="glyphicon glyphicon-star-empty img2"></span>
+                                <span class="glyphicon glyphicon-star-empty img2"></span>
+                                <span class="glyphicon glyphicon-star-empty img2"></span>
+                                <span class="glyphicon glyphicon-star-empty img2"></span>
+                                <span class="count2"></span>
+                                <input  name="evaProquality" id="evaProquality"/>
+                                <span>分</span>
+                            </h4>
                         </div>
                         <div class="col-xs-12 ">
                             <br />
                         </div>
                         <div class="col-xs-12 s">
-                            <div class="col-xs-12 ">
-                                <h4>管家评价</h4>
-                            </div>
-                            <form action="getEvalyateAdd" method="post">
-                                <input name="memid" th:value="${session.memid}"></input>
-                                <input name="steid" th:value="${session.steid}"></input>
-                                <input name="evaid" th:value="${session.evaid}"></input>
-                                <div class="col-xs-12 ">
-                                    <h4>服务态度
-                                        <span class="glyphicon glyphicon-star-empty imgs"></span>
-                                        <span class="glyphicon glyphicon-star-empty imgs"></span>
-                                        <span class="glyphicon glyphicon-star-empty imgs"></span>
-                                        <span class="glyphicon glyphicon-star-empty imgs"></span>
-                                        <span class="glyphicon glyphicon-star-empty imgs"></span>
-                                        <span class="counts">分</span>
-                                        <span class="counts"></span>
-                                        <input  name="evaService" id="evaService"/>
-                                        <span>分</span>
-                                    </h4>
-                                </div>
-                                <div class="col-xs-12 ">
-                                    <h4>专业技能
-                                        <span class="glyphicon glyphicon-star-empty img"></span>
-                                        <span class="glyphicon glyphicon-star-empty img"></span>
-                                        <span class="glyphicon glyphicon-star-empty img"></span>
-                                        <span class="glyphicon glyphicon-star-empty img"></span>
-                                        <span class="glyphicon glyphicon-star-empty img"></span>
-                                        <span class="count">分</span>
-                                        <span class="count"></span>
-                                        <input  name="evaSkill" id="evaSkill"/>
-                                        <span>分</span>
-                                    </h4>
-                                </div>
-                                <div class="col-xs-12 ">
-                                    <h4>职业素养
-                                        <span class="glyphicon glyphicon-star-empty img2"></span>
-                                        <span class="glyphicon glyphicon-star-empty img2"></span>
-                                        <span class="glyphicon glyphicon-star-empty img2"></span>
-                                        <span class="glyphicon glyphicon-star-empty img2"></span>
-                                        <span class="glyphicon glyphicon-star-empty img2"></span>
-                                        <span class="count2">分</span>
-                                        <span class="count2"></span>
-                                        <input  name="evaProquality" id="evaProquality"/>
-                                        <span>分</span>
-                                    </h4>
-                                </div>
-                        </div>
-                        <div class="col-xs-12 ">
-                            <br />
-                        </div>
-                        <div class="col-xs-12 s">
-                            <textarea class="sx" placeholder="请填写您的评语，您的每一份建议都将让及时管家变得更好。"></textarea>
                             <textarea name="evaComment" class="sx" placeholder="请填写您的评语，您的每一份建议都将让及时管家变得更好。"></textarea>
                         </div>
                         <div class="col-xs-12 ">
-                            <input type="checkbox" /> <span class="text-muted">同意客服回访</span>
                             <input name="evaAgreestates" type="checkbox" id="evaAgreestate"  onclick="f()" />
                             <input name="evaAgreestate"  id="evaAgreestates"/>
 
@@ -136,19 +125,18 @@
                             <br /><br />
                         </div>
                         <div class="col-xs-12 ">
-                            <button class="btn btn-success bot">匿名评价</button>
                             <button type="submit" class="btn btn-success bot">匿名评价</button>
                         </div>
 
-                        </form>
-                        <div class="col-xs-12 ">
-                            <br />
-                        </div>
+                    </form>
+                    <div class="col-xs-12 ">
+                        <br />
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 </div>
 
@@ -290,7 +278,6 @@
             $('.img').attr('class',star);//当“回滚”、“改变主意”时，先复位所有图片为木有打星的图片颜色
             $(this).attr('class',starRed);		//设置鼠标当前所在图片为打星颜色图
             $(this).prevAll().attr('class',starRed);	//设置鼠标当前的前面星星图片为打星颜色图
-            $(this).siblings('.count').text(prompt[this.id]+"分");		//根据id的索引值作为数组的索引值
             $('.count').attr('name','evaService');
             $(this).siblings('.count').text(prompt[this.id]);		//根据id的索引值作为数组的索引值
             document.getElementById("evaSkill").value=prompt[this.id];
@@ -305,7 +292,6 @@
             $('.imgs').attr('class',star);//当“回滚”、“改变主意”时，先复位所有图片为木有打星的图片颜色
             $(this).attr('class',starRed);		//设置鼠标当前所在图片为打星颜色图
             $(this).prevAll().attr('class',starRed);	//设置鼠标当前的前面星星图片为打星颜色图
-            $(this).siblings('.counts').text(prompt[this.id]+"分");		//根据id的索引值作为数组的索引值
             $('.counts').attr('name','evaSkill');
             $(this).siblings('.counts').text(prompt[this.id]);		//根据id的索引值作为数组的索引值
             document.getElementById("evaService").value=prompt[this.id];
@@ -320,7 +306,6 @@
             $('.img2').attr('class',star);//当“回滚”、“改变主意”时，先复位所有图片为木有打星的图片颜色
             $(this).attr('class',starRed);		//设置鼠标当前所在图片为打星颜色图
             $(this).prevAll().attr('class',starRed);	//设置鼠标当前的前面星星图片为打星颜色图
-            $(this).siblings('.count2').text(prompt[this.id]+"分");		//根据id的索引值作为数组的索引值
             $('.count2').attr('name','evaProquality');
             $(this).siblings('.count2').text(prompt[this.id]);		//根据id的索引值作为数组的索引值
             document.getElementById("evaProquality").value=prompt[this.id];
@@ -329,4 +314,3 @@
 </script>
 </body>
 </html>
-

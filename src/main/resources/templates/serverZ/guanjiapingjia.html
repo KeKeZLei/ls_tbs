@@ -18,7 +18,6 @@
     <link rel="stylesheet" href="static/yuyueguanjia/css/guanjiapingjia.css" />
     <script th:src="@{static/js/guanjialiebiaoId.js}"></script>
 </head>
-<body>
 <body >
 <!-- 网站公共头部区域 -->
 <div class="p-header">
@@ -43,67 +42,55 @@
 <!--注册-->
 <div class="wrap ">
 
-    <div class="tdbModule register">
-        <div class="tdbModule register"  th:each="steward:${session.stewardLists}">
-            <!--<div class="registerTitle">管家列表</div>-->
-            <div class="container-fluid">
-                <div class="row col-xs-12 col-xs-offset-0">
-                    <!--<span th:text="${session.memid}" name="memid"></span>-->
-                    <div class="container-fluid" th:each="memberLists:${session.memberLists}">
-                        <div class="row col-xs-12 col-xs-offset-0" >
-                            <div class="row col-xs-13 s">
-                                <h3 class="glyphicon glyphicon-menu-left">我的评价</h3>
-                            </div>
-                            <br />
-                            <div class="row col-xs-13 s">
-                                <span class="text-muted">管家服务时间:num</span>
-                                <span class="text-muted">管家服务时间: <span th:text="${memberLists.evaCreatetimes}"></span></span>
+    <div class="tdbModule register"  th:each="steward:${session.stewardLists}">
+        <!--<div class="registerTitle">管家列表</div>-->
+        <!--<span th:text="${session.memid}" name="memid"></span>-->
+        <div class="container-fluid" th:each="memberLists:${session.memberLists}">
+            <div class="row col-xs-12 col-xs-offset-0" >
+                <div class="row col-xs-13 s">
+                    <h3 class="glyphicon glyphicon-menu-left">我的评价</h3>
+                </div>
+                <br />
+                <div class="row col-xs-13 s">
+                    <span class="text-muted">管家服务时间: <span th:text="${memberLists.evaCreatetimes}"></span></span>
 
-                            </div>
-                            <div class="row col-xs-2">
-                                <img src="static\yuyueguanjia\img\11.jpg" class="img-circle image" alt="家政">
-                                <img th:src="@{'static/images/'+${steward.steChead}}" class="img-circle image" alt="家政">
-                            </div>
-                            <div class="row col-xs-7 col-xs-offset-1">
-                                <span class="ziti">name管家</span><span class="text-muted pull-right">评价时间:/</span>
-                                <span class="ziti" ><span th:text="${steward.steName}">+
+                </div>
+                <div class="row col-xs-2">
+                    <img th:src="@{'static/images/'+${steward.steChead}}" class="img-circle image" alt="家政">
+                </div>
+                <div class="row col-xs-7 col-xs-offset-1">
+                    <span class="ziti" ><span th:text="${steward.steName}">
                     </span>管家</span><span class="text-muted pull-right">评价时间: <span th:text="${memberLists.evaTimes}"></span></span>
-                                <br>
-                                <span class="text-muted">服务态度：num</span>
-                                <span class="text-muted">专业技能：num</span>
-                                <span class="text-muted">职业素养：num</span>
-                                <span class="text-muted">服务态度：</span>
-                                <span th:text="${memberLists.evaService}"></span>
-                                <span class="text-muted">专业技能：</span>
-                                <span th:text="${memberLists.evaSkill}"></span>
-                                <span class="text-muted">职业素养：</span>
-                                <span th:text="${memberLists.evaProquality}"></span>
-                                <hr />
-                            </div>
-                            <div class="row col-xs-12">
-                                <div class="row col-xs-1"></div>
-                                <div class="row col-xs-2 bg"><span class="pull-left">家政</span></div>
-                                <div class="row col-xs-2 bg"><span class="pull-left"></span></div>
-                                <div class="row col-xs-7 col-xs-offset-1 pingjia">
-                                    <span >评价内容:</span>
-                                    <span>暂无评价</span>
-                                    <a href="#" class="pull-right">
-                                        <span th:if="${#strings.isEmpty(memberLists.evaComment)}" >暂无评价</span>
-                                        <span th:if="${not #strings.isEmpty(memberLists.evaComment)}" th:text="${memberLists.evaComment}"></span>
+                    <br>
+                    <span class="text-muted">服务态度：</span>
+                    <span th:text="${memberLists.evaService}"></span>
+                    <span class="text-muted">专业技能：</span>
+                    <span th:text="${memberLists.evaSkill}"></span>
+                    <span class="text-muted">职业素养：</span>
+                    <span th:text="${memberLists.evaProquality}"></span>
+                    <hr />
+                </div>
+                <div class="row col-xs-12">
+                    <div class="row col-xs-1"></div>
+                    <div class="row col-xs-2 bg"><span class="pull-left"></span></div>
+                    <div class="row col-xs-7 col-xs-offset-1 pingjia">
+                        <span >评价内容:</span>
+                        <span th:if="${#strings.isEmpty(memberLists.evaComment)}" >暂无评价</span>
+                        <span th:if="${not #strings.isEmpty(memberLists.evaComment)}" th:text="${memberLists.evaComment}"></span>
 
-                                        <a href="pingjiayemian" class="pull-right" th:if="${memberLists.evaEvastate} eq 0"  >
-                                            <span>去评价</span><span class="glyphicon glyphicon-menu-right"></span>
-                                        </a>
-                                        <span hidden="hidden"  th:if="${memberLists.evaEvastate} eq 1"></span>
-                                </div>
-                            </div>
-
-                        </div>
+                        <a href="pingjiayemian" class="pull-right" th:if="${memberLists.evaEvastate} eq 0"  >
+                            <span>去评价</span><span class="glyphicon glyphicon-menu-right"></span>
+                        </a>
+                        <span hidden="hidden"  th:if="${memberLists.evaEvastate} eq 1"></span>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
+</div>
+</div>
+</div>
 </div>
 
 </div>
@@ -223,4 +210,3 @@
 
 </body>
 </html>
-
